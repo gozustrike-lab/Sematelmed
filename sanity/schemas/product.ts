@@ -73,19 +73,35 @@ export default defineType({
           type: "block",
           styles: [
             { title: "Normal", value: "normal" },
-            { title: "Negrita", value: "strong" },
-            { title: "Cursiva", value: "em" },
+            { title: "Título H3", value: "h3" },
+            { title: "Cita", value: "blockquote" },
           ],
           marks: {
             decorators: [
               { title: "Negrita", value: "strong" },
               { title: "Cursiva", value: "em" },
               { title: "Subrayado", value: "underline" },
+              { title: "Tachado", value: "strike-through" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                type: "object",
+                title: "Enlace",
+                fields: [
+                  {
+                    name: "href",
+                    type: "url",
+                    title: "URL",
+                  },
+                ],
+              },
             ],
           },
-        },
-        {
-          type: "list",
+          list: [
+            { title: "Viñetas", value: "bullet" },
+            { title: "Numerada", value: "number" },
+          ],
         },
       ],
       validation: (Rule) => Rule.required(),
