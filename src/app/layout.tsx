@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FluidBackground } from "@/components/FluidBackground";
+import { SanityLive } from "@/sanity/live";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -117,6 +118,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Toaster />
+        {/* SanityLive: habilita Live Preview + Draft Mode revalidation */}
+        <SanityLive />
       </body>
     </html>
   );

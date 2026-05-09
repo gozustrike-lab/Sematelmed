@@ -1,12 +1,33 @@
 // ============================================================
 // SEMATELMED — Tienda (Server Component)
 // Consume productos de Sanity.io con fallback a datos estáticos
+// Soporta Draft Mode para Live Preview desde Sanity Studio
 // ============================================================
 
 import { Suspense } from "react";
-import { getAllProducts, type SanityProduct } from "@/lib/sanity.client";
+import { sanityFetch } from "@/sanity/live";
+import { type SanityProduct } from "@/lib/sanity.client";
 import { PRODUCTS, type Product } from "@/constants/data";
 import { TiendaContent } from "./tienda-content";
+
+// ── GROQ Query ──
+const ALL_PRODUCTS_QUERY = `
+  *[_type == "product"] | order(order asc) {
+    _id,
+    _createdAt,
+    _updatedAt,
+    name,
+    "slug": slug.current,
+    image,
+    category,
+    description,
+    price,
+    specs,
+    stock,
+    featured,
+    order
+  }
+`;
 
 // ── Loader skeleton ──
 function TiendaLoader() {
@@ -46,10 +67,18 @@ function fallbackToSanityFormat(products: Product[]): SanityProduct[] {
   }));
 }
 
-// ── Fetch de productos desde Sanity (Server Component) ──
-async function getProducts(): Promise<{ products: SanityProduct[]; source: "sanity" | "fallback" }> {
+// ── Fetch de productos desde Sanity con Live Preview (Server Component) ──
+// sanityFetch detecta automáticamente si está en Draft Mode y usa
+// perspective: 'previewDrafts' o 'published' según corresponda
+async function getProducts(): Promise<{
+  products: SanityProduct[];
+  source: "sanity" | "fallback";
+}> {
   try {
-    const sanityProducts = await getAllProducts();
+    // sanityFetch retorna { data, sourceMap, tags }
+    const { data: sanityProducts } = await sanityFetch<SanityProduct[]>({
+      query: ALL_PRODUCTS_QUERY,
+    });
 
     // Si Sanity tiene productos, los usamos
     if (sanityProducts && sanityProducts.length > 0) {
