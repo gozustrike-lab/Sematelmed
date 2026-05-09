@@ -49,3 +49,23 @@ Stage Summary:
 - Open Graph metadata configured with professional titles and descriptions
 - Mobile button spacing improved with full-width buttons on small screens
 - Changes deployed to https://github.com/gozustrike-lab/Sematelmed
+---
+Task ID: 1
+Agent: Main Agent
+Task: Hero Full Bleed + Navbar transparente/sólida + Scroll Indicator
+
+Work Log:
+- Read all current source files: Navbar.tsx, HeroSlider.tsx, layout.tsx, globals.css, page.tsx, Footer.tsx
+- Updated Navbar.tsx: changed scrolled background from white to bg-[#202C40]/95, unified all text to white (both states dark), active indicator to brand-orange
+- Updated HeroSlider.tsx: centered content (text-center, max-w-4xl, justify-center, mx-auto on subtitle, justify-center on buttons), increased pb-32 for scroll indicator space
+- Added Scroll Indicator component: mouse icon with animated dot (Framer Motion bounce y:[0,8,0] + opacity:[1,0.3,1]), z-[15], bottom-6, onClick smooth scroll to #seccion-servicios with fallback
+- Added id="seccion-servicios" to ServicesSection in page.tsx
+- Verified layout.tsx has no padding on main (flex-1 only) - no interference
+- Verified Footer Fast Page Pro credit intact (lines 204-217)
+- Build successful (0 errors), pushed as commit f055bb4
+
+Stage Summary:
+- Navbar: transparent → solid #202C40 on scroll (>80px), all white text, brand-orange active indicator
+- Hero: Full Bleed 100dvh, perfectly centered content, mouse scroll indicator with bounce animation
+- Scroll indicator: appears after 1.5s delay, smooth scrolls to Services section
+- 3 files modified: src/components/Navbar.tsx, src/components/HeroSlider.tsx, src/app/page.tsx
