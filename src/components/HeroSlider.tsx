@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { COMPANY, SOCIAL_LINKS, getWhatsAppURL } from "@/constants/data";
+import { COMPANY, getWhatsAppURL } from "@/constants/data";
 
 // ── Tipado de cada slide ──
 interface Slide {
@@ -22,7 +22,7 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     id: 1,
-    // Telecomunicaciones — fibra óptica / redes
+    // Telecomunicaciones — fibra óptica / redes / data center
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80&auto=format&fit=crop",
     title: "Conectividad que Transforma",
     subtitle: "Líderes en Fibra Óptica y Redes de alta velocidad en Ilo.",
@@ -30,8 +30,8 @@ const SLIDES: Slide[] = [
   },
   {
     id: 2,
-    // Equipos médicos — tecnología sanitaria
-    image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1920&q=80&auto=format&fit=crop",
+    // Equipos médicos — monitor de signos vitales / tecnología (SIN pastillas)
+    image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1920&q=80&auto=format&fit=crop",
     title: "Tecnología para la Salud",
     subtitle: "Mantenimiento y equipamiento médico con precisión garantizada.",
     badge: "Equipos Médicos",
