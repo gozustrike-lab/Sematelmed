@@ -217,7 +217,7 @@ export default function TiendaPage() {
                   setSearchQuery("");
                   setActiveCategory("all");
                 }}
-                className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark transition-colors duration-200"
+                className="text-sm font-semibold text-brand-blue hover:text-brand-dark transition-colors duration-200"
               >
                 Limpiar filtros
               </button>
@@ -256,7 +256,7 @@ export default function TiendaPage() {
                     >
                       <Card className="group h-full border border-border/50 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white rounded-2xl overflow-hidden flex flex-col">
                         {/* Top colored bar */}
-                        <div className="h-1.5 bg-gradient-to-r from-brand-blue to-brand-blue-light group-hover:from-brand-orange group-hover:to-brand-orange-light transition-all duration-500" />
+                        <div className="h-1.5 bg-[#4726BF] group-hover:bg-brand-orange transition-all duration-500" />
                         <CardContent className="p-5 flex flex-col flex-1">
                           <div className="flex items-start justify-between gap-2 mb-3">
                             <Badge
@@ -280,7 +280,7 @@ export default function TiendaPage() {
                           </div>
 
                           {/* Product icon */}
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-3 group-hover:from-brand-blue group-hover:to-brand-blue-light transition-all duration-500">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-3 group-hover:bg-[#4726BF] transition-all duration-500">
                             <Icon className="w-6 h-6 text-brand-blue group-hover:text-white transition-colors duration-500" />
                           </div>
 
@@ -345,7 +345,7 @@ export default function TiendaPage() {
                   setSearchQuery("");
                   setActiveCategory("all");
                 }}
-                className="text-sm font-semibold text-brand-blue hover:text-brand-blue-dark transition-colors duration-200"
+                className="text-sm font-semibold text-brand-blue hover:text-brand-dark transition-colors duration-200"
               >
                 Ver todos los productos
               </button>

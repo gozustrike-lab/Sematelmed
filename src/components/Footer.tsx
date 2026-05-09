@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, MapPin, Mail, Facebook, ExternalLink } from "lucide-react";
 import { COMPANY, SOCIAL_LINKS, SERVICES } from "@/constants/data";
 
@@ -22,20 +23,16 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Column 1: About */}
+          {/* Column 1: About + Logo real */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-blue to-brand-blue-light flex items-center justify-center shadow-lg shadow-brand-blue/30">
-                <span className="text-white font-extrabold text-lg">S</span>
-              </div>
-              <div>
-                <p className="text-xl font-extrabold text-white leading-none">
-                  Semat<span className="text-brand-orange">elmed</span>
-                </p>
-                <p className="text-[10px] text-white/50 font-medium tracking-widest uppercase">
-                  {COMPANY.slogan}
-                </p>
-              </div>
+            <Link href="/" className="inline-flex items-center mb-4">
+              <Image
+                src="/logo-sematelmed.png"
+                alt="Sematelmed — Siempre a la vanguardia"
+                width={180}
+                height={68}
+                className="h-14 w-auto object-contain brightness-0 invert opacity-90"
+              />
             </Link>
             <p className="text-sm text-white/60 leading-relaxed mt-3">
               {COMPANY.description}

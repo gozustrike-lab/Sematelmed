@@ -7,12 +7,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-poppins), sans-serif;
+  --font-heading: var(--font-montserrat), 'Arial Black', sans-serif;
   --font-mono: var(--font-geist-mono);
 
   /* ── Sematelmed Brand Colors ── */
   --color-brand-blue: #4726BF;
-  --color-brand-blue-light: #6B4FE0;
-  --color-brand-blue-dark: #351B8F;
+  --color-brand-blue-light: #5C3FCC;
   --color-brand-orange: #FF4D00;
   --color-brand-orange-light: #FF7033;
   --color-brand-orange-dark: #CC3D00;
@@ -133,6 +133,7 @@
     @apply bg-background text-foreground font-sans;
   }
   h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), var(--font-poppins), sans-serif;
     @apply font-extrabold tracking-tight;
   }
 }
@@ -179,5 +180,5 @@
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #351B8F;
+  background: #5C3FCC;
 }

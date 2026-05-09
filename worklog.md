@@ -1,23 +1,23 @@
 ---
-Task ID: 1
+Task ID: 2
 Agent: Main Agent
-Task: Desarrollo completo de la web profesional de Sematelmed
+Task: Corrección de identidad visual — Logo, colores y tipografía
 
 Work Log:
-- Inicializado el entorno fullstack con Next.js 16, Tailwind CSS 4, TypeScript
-- Creado archivo `src/constants/data.ts` con datos centralizados (futuro CMS ready): COMPANY, MISSION, VISION, VALUES, SERVICES, PRODUCTS, HISTORY, SOCIAL_LINKS
-- Configurado branding en `globals.css`: colores (#4726BF azul, #FF4D00 naranja, #202C40 oscuro), tipografía Poppins via next/font/google, animaciones personalizadas (float, gradient-shift, pulse-glow)
-- Creado layout principal con Poppins font, Navbar responsive con Sheet mobile, y Footer con 4 columnas
-- Desarrollada página de Inicio (/): Hero con gradientes y tarjetas flotantes, sección de 4 servicios, productos destacados, valores corporativos "El Camaleón", CTA final
-- Desarrollada página de Tienda (/tienda): catálogo de 16 productos con filtros por categoría, búsqueda en tiempo real, botón "Cotizar por WhatsApp" por producto
-- Desarrollada página de Nosotros (/nosotros): Misión y Visión, timeline de historia, recap de valores, sección de contacto con dirección real
-- ESLint passed limpio, dev server compilando GET / 200 exitosamente
+- Analizadas 3 imágenes de referencia: brand guidelines, paleta de colores, logo real
+- Procesado logo (pasted_image_1778289669705.png) con PIL: eliminado fondo blanco, creado versión transparente, recortado al contenido, generada versión redimensionada para navbar (200x75)
+- Guardados: logo-sematelmed.png (full), logo-sematelmed-cropped.png, logo-nav.png (nav)
+- Corregido globals.css: eliminado brand-blue-dark (#351B8F que causaba efecto morado), brand-blue-light ajustado a #5C3FCC, añadida variable --font-heading
+- Actualizado layout.tsx: añadida fuente Montserrat (700/800/900) como variable --font-montserrat para títulos
+- Actualizado globals.css: h1-h6 ahora usan font-family con --font-heading (Montserrat) como fallback de Uni Neue-Trial Heavy
+- Reemplazado logo en Navbar.tsx: componente "S" reemplazado por Image con /logo-nav.png en desktop y mobile
+- Reemplazado logo en Footer.tsx: texto reemplazado por Image con /logo-sematelmed.png (invertido para fondo oscuro)
+- Corregido hero gradient: de "from-brand-blue via-brand-blue-dark to-brand-dark" a "from-[#4726BF] to-[#202C40]" (azul a oscuro, sin morado intermedio)
+- Corregidos todos los references a brand-blue-dark y brand-blue-light en page.tsx, tienda/page.tsx, nosotros/page.tsx
+- ESLint: limpio. Dev server: compilando GET / 200 sin errores.
 
 Stage Summary:
-- Website profesional completa para Sematelmed
-- 3 rutas: /, /tienda, /nosotros
-- Datos centralizados en constants/data.ts
-- 100% responsive mobile-first
-- Branding: Azul (#4726BF), Naranja (#FF4D00), Oscuro (#202C40)
-- Integración WhatsApp con formato wa.me?text= por producto
-- Animaciones con Framer Motion
+- Logo real transparente implementado en Navbar y Footer
+- Colores corregidos: azul #4726BF puro sin derivados morados
+- Tipografía: Montserrat ExtraBold (800/900) para títulos ≈ Uni Neue-Trial Heavy, Poppins Regular para body
+- Todas las páginas compilando correctamente

@@ -98,9 +98,9 @@ function MissionVisionSection() {
           {/* Mission */}
           <motion.div variants={fadeUp} custom={0}>
             <Card className="h-full border-transparent shadow-lg shadow-brand-blue/5 bg-white rounded-2xl overflow-hidden">
-              <div className="h-2 bg-gradient-to-r from-brand-blue to-brand-blue-light" />
+              <div className="h-2 bg-[#4726BF]" />
               <CardContent className="p-8 md:p-10">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue to-brand-blue-light flex items-center justify-center mb-6 shadow-lg shadow-brand-blue/20">
+                <div className="w-14 h-14 rounded-2xl bg-[#4726BF] flex items-center justify-center mb-6 shadow-lg shadow-brand-blue/20">
                   <Target className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-extrabold text-brand-dark mb-4">
@@ -116,7 +116,7 @@ function MissionVisionSection() {
           {/* Vision */}
           <motion.div variants={fadeUp} custom={1}>
             <Card className="h-full border-transparent shadow-lg shadow-brand-orange/5 bg-white rounded-2xl overflow-hidden">
-              <div className="h-2 bg-gradient-to-r from-brand-orange to-brand-orange-light" />
+              <div className="h-2 bg-brand-orange" />
               <CardContent className="p-8 md:p-10">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-orange-light flex items-center justify-center mb-6 shadow-lg shadow-brand-orange/20">
                   <Eye className="w-7 h-7 text-white" />

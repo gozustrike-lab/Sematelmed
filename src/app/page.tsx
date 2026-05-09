@@ -59,10 +59,10 @@ function HeroSection() {
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-blue via-brand-blue-dark to-brand-dark animate-gradient" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#4726BF] to-[#202C40]" />
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-brand-orange rounded-full blur-[120px]" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-blue-light rounded-full blur-[150px]" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-blue rounded-full blur-[150px]" />
       </div>
       {/* Grid overlay */}
       <div
@@ -200,7 +200,7 @@ function HeroSection() {
               </div>
               {/* Decorative glow */}
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-orange/20 rounded-full blur-[80px]" />
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-blue-light/30 rounded-full blur-[80px]" />
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-blue/30 rounded-full blur-[80px]" />
             </div>
           </motion.div>
         </div>
@@ -269,7 +269,7 @@ function ServicesSection() {
               <motion.div key={service.id} variants={fadeUp} custom={i}>
                 <Card className="group h-full border-transparent shadow-none hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 bg-white rounded-2xl overflow-hidden">
                   <CardContent className="p-6 md:p-8">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-5 group-hover:from-brand-blue group-hover:to-brand-blue-light transition-all duration-500">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-5 group-hover:bg-[#4726BF] transition-all duration-500">
                       <Icon className="w-7 h-7 text-brand-blue group-hover:text-white transition-colors duration-500" />
                     </div>
                     <h3 className="text-xl font-extrabold text-brand-dark mb-2">
@@ -289,7 +289,7 @@ function ServicesSection() {
                         </li>
                       ))}
                     </ul>
-                    <Link href="/tienda" className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-blue hover:text-brand-blue-dark transition-colors duration-200 group/link">
+                    <Link href="/tienda" className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-blue hover:text-brand-dark transition-colors duration-200 group/link">
                       Explorar
                       <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform duration-200" />
                     </Link>
@@ -460,7 +460,7 @@ function ValuesSection() {
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="relative">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue to-brand-blue-light flex items-center justify-center mb-5 shadow-lg shadow-brand-blue/20 group-hover:shadow-brand-blue/40 transition-all duration-500">
+                    <div className="w-14 h-14 rounded-2xl bg-[#4726BF] flex items-center justify-center mb-5 shadow-lg shadow-brand-blue/20 group-hover:shadow-brand-blue/40 transition-all duration-500">
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-xl font-extrabold text-brand-dark mb-3">
