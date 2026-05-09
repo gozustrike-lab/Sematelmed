@@ -119,7 +119,7 @@ export default function TiendaPage() {
       </section>
 
       {/* ── Filters + Products ── */}
-      <section className="py-12 md:py-16 bg-background">
+      <section className="py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search + Filter toggle */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -130,7 +130,7 @@ export default function TiendaPage() {
                 placeholder="Buscar productos..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12 rounded-xl border-border/60 focus:border-brand-blue focus:ring-brand-blue/20 text-sm bg-white"
+                className="pl-10 h-12 rounded-xl border-white/40 focus:border-brand-blue focus:ring-brand-blue/20 text-sm bg-white/70 backdrop-blur-md"
               />
             </div>
             <Button
@@ -164,7 +164,7 @@ export default function TiendaPage() {
                         className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                           isActive
                             ? "bg-brand-blue text-white shadow-lg shadow-brand-blue/25"
-                            : "bg-white text-brand-dark border border-border/60 hover:border-brand-blue/30 hover:bg-brand-blue/5"
+                            : "bg-white/70 backdrop-blur-md text-brand-dark border border-white/40 hover:border-brand-blue/30 hover:bg-white/80"
                         }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -254,7 +254,7 @@ export default function TiendaPage() {
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <Card className="group h-full border border-border/50 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white rounded-2xl overflow-hidden flex flex-col">
+                      <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden flex flex-col">
                         {/* Top colored bar */}
                         <div className="h-1.5 bg-[#4726BF] group-hover:bg-brand-orange transition-all duration-500" />
                         <CardContent className="p-5 flex flex-col flex-1">

@@ -58,7 +58,7 @@ const stagger = {
 // ── SERVICES ──
 function ServicesSection() {
   return (
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -103,7 +103,7 @@ function ServicesSection() {
             const Icon = ICON_MAP[service.icon] || Monitor;
             return (
               <motion.div key={service.id} variants={fadeUp} custom={i}>
-                <Card className="group h-full border-transparent shadow-none hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 bg-white rounded-2xl overflow-hidden">
+                <Card className="group h-full border border-white/40 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
                   <CardContent className="p-6 md:p-8">
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-5 group-hover:bg-[#4726BF] transition-all duration-500">
                       <Icon className="w-7 h-7 text-brand-blue group-hover:text-white transition-colors duration-500" />
@@ -145,7 +145,7 @@ function FeaturedProductsSection() {
   const featured = PRODUCTS.filter((p) => p.featured).slice(0, 4);
 
   return (
-    <section className="py-20 md:py-28 bg-gradient-to-b from-muted/50 to-background">
+    <section className="py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -185,7 +185,7 @@ function FeaturedProductsSection() {
         >
           {featured.map((product, i) => (
             <motion.div key={product.id} variants={fadeUp} custom={i}>
-              <Card className="group h-full border border-border/50 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white rounded-2xl overflow-hidden">
+              <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden">
                 <CardContent className="p-5">
                   <Badge className="bg-brand-blue/10 text-brand-blue border-brand-blue/15 text-xs font-medium mb-3">
                     {CATEGORY_LABELS[product.category]}
@@ -246,7 +246,7 @@ function FeaturedProductsSection() {
 // ── VALUES ──
 function ValuesSection() {
   return (
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -289,7 +289,7 @@ function ValuesSection() {
             const Icon = ICON_MAP[value.icon] || Shield;
             return (
               <motion.div key={value.id} variants={fadeUp} custom={i}>
-                <div className="relative group h-full bg-white rounded-2xl p-6 md:p-8 border border-border/50 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <div className="relative group h-full bg-white/65 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/30 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
                   {/* Hover glow */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

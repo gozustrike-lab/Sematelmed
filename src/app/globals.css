@@ -168,6 +168,46 @@
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+/* ── Mesh Gradient Orbs (Fluid Background) ── */
+@keyframes mesh-orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(50px, -70px) scale(1.07); }
+  50% { transform: translate(-30px, -40px) scale(0.95); }
+  75% { transform: translate(20px, 50px) scale(1.03); }
+}
+
+@keyframes mesh-orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-55px, 45px) scale(0.94); }
+  50% { transform: translate(35px, -55px) scale(1.06); }
+  75% { transform: translate(-20px, -30px) scale(0.97); }
+}
+
+@keyframes mesh-orb-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, 35px) scale(1.09); }
+  66% { transform: translate(-40px, -20px) scale(0.93); }
+}
+
+@keyframes mesh-orb-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, -45px) scale(1.08); }
+  66% { transform: translate(30px, 25px) scale(0.94); }
+}
+
+.animate-mesh-orb-1 { animation: mesh-orb-1 28s ease-in-out infinite; }
+.animate-mesh-orb-2 { animation: mesh-orb-2 22s ease-in-out infinite; }
+.animate-mesh-orb-3 { animation: mesh-orb-3 32s ease-in-out infinite; }
+.animate-mesh-orb-4 { animation: mesh-orb-4 26s ease-in-out infinite; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-mesh-orb-1,
+  .animate-mesh-orb-2,
+  .animate-mesh-orb-3,
+  .animate-mesh-orb-4 { animation: none; }
+}
+
 /* ── Scrollbar personalizado ── */
 ::-webkit-scrollbar {
   width: 6px;

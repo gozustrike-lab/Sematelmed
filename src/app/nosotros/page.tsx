@@ -86,7 +86,7 @@ function PageHeader() {
 // ── MISSION & VISION ──
 function MissionVisionSection() {
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -97,7 +97,7 @@ function MissionVisionSection() {
         >
           {/* Mission */}
           <motion.div variants={fadeUp} custom={0}>
-            <Card className="h-full border-transparent shadow-lg shadow-brand-blue/5 bg-white rounded-2xl overflow-hidden">
+            <Card className="h-full border border-white/30 shadow-lg shadow-brand-blue/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
               <div className="h-2 bg-[#4726BF]" />
               <CardContent className="p-8 md:p-10">
                 <div className="w-14 h-14 rounded-2xl bg-[#4726BF] flex items-center justify-center mb-6 shadow-lg shadow-brand-blue/20">
@@ -115,7 +115,7 @@ function MissionVisionSection() {
 
           {/* Vision */}
           <motion.div variants={fadeUp} custom={1}>
-            <Card className="h-full border-transparent shadow-lg shadow-brand-orange/5 bg-white rounded-2xl overflow-hidden">
+            <Card className="h-full border border-white/30 shadow-lg shadow-brand-orange/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
               <div className="h-2 bg-brand-orange" />
               <CardContent className="p-8 md:p-10">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-orange-light flex items-center justify-center mb-6 shadow-lg shadow-brand-orange/20">
@@ -139,7 +139,7 @@ function MissionVisionSection() {
 // ── HISTORY TIMELINE ──
 function HistorySection() {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-muted/50 to-background">
+    <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -196,7 +196,7 @@ function HistorySection() {
 
               {/* Content */}
               <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}`}>
-                <Card className="border border-border/50 bg-white shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500 rounded-xl">
+                <Card className="border border-white/30 bg-white/70 backdrop-blur-xl shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500 rounded-xl">
                   <CardContent className="p-5">
                     <Badge className="bg-brand-blue/10 text-brand-blue border-brand-blue/15 text-xs font-bold mb-2">
                       {item.year}
@@ -221,7 +221,7 @@ function HistorySection() {
 // ── VALUES RECAP ──
 function ValuesRecapSection() {
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -248,7 +248,7 @@ function ValuesRecapSection() {
         >
           {VALUES.map((value, i) => (
             <motion.div key={value.id} variants={fadeUp} custom={i}>
-              <div className="flex items-start gap-3 p-5 bg-white rounded-xl border border-border/50 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500">
+              <div className="flex items-start gap-3 p-5 bg-white/65 backdrop-blur-xl rounded-xl border border-white/30 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500">
                 <CheckCircle2 className="w-5 h-5 text-brand-blue shrink-0 mt-0.5" />
                 <div>
                   <h3 className="text-sm font-bold text-brand-dark mb-1">{value.title}</h3>

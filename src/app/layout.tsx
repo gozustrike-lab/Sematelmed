@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { FluidBackground } from "@/components/FluidBackground";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -109,8 +110,9 @@ export default function RootLayout({
         <meta property="og:image:height" content="630" />
       </head>
       <body
-        className={`${poppins.variable} ${montserrat.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}
+        className={`${poppins.variable} ${montserrat.variable} antialiased text-foreground min-h-screen flex flex-col`}
       >
+        <FluidBackground />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
