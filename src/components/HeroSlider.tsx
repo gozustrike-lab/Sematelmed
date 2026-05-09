@@ -30,7 +30,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 2,
-    // Equipos médicos — monitor de signos vitales / tecnología (SIN pastillas)
+    // Equipos médicos — monitor de signos vitales / tecnología
     image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1920&q=80&auto=format&fit=crop",
     title: "Tecnología para la Salud",
     subtitle: "Mantenimiento y equipamiento médico con precisión garantizada.",
@@ -91,7 +91,6 @@ function Dot({
         active ? "w-8" : "w-2.5"
       }`}
     >
-      {/* Barra de progreso */}
       <span className="absolute inset-0 bg-white/30 rounded-full" />
       {active && (
         <motion.span
@@ -128,10 +127,10 @@ export function HeroSlider() {
     if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     resumeTimerRef.current = setTimeout(() => {
       setIsPaused(false);
-    }, 10000); // Reanuda tras 10 s de inactividad
+    }, 10000);
   }, []);
 
-  // ── Autoplay universal (funciona en PC, tablet y móvil) ──
+  // ── Autoplay universal ──
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => paginate(1), AUTOPLAY_MS);
@@ -149,47 +148,52 @@ export function HeroSlider() {
 
   return (
     <section
-      className="relative w-full h-[100svh] min-h-[600px] max-h-[1000px] overflow-hidden select-none"
+      className="relative w-full min-h-[85vh] overflow-hidden select-none"
+      style={{ isolation: "isolate" }}
     >
-      {/* ── Imágenes con fade + zoom ── */}
-      <AnimatePresence initial={false} custom={direction}>
-        <motion.div
-          key={page}
-          custom={direction}
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.15 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          <Image
-            src={currentSlide.image}
-            alt={currentSlide.title}
-            fill
-            className="object-cover object-center"
-            priority={page === 0}
-            sizes="100vw"
-          />
-        </motion.div>
-      </AnimatePresence>
+      {/* ═══════════════════════════════════════════════════════════
+          CAPA 1 — Imagen de fondo (z-0, completamente detrás)
+          ═══════════════════════════════════════════════════════════ */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={page}
+            custom={direction}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={currentSlide.image}
+              alt={currentSlide.title}
+              fill
+              className="object-cover object-center"
+              priority={page === 0}
+              sizes="100vw"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-      {/* ── Overlay oscuro / gradiente ── */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#202C40]/90 via-[#202C40]/70 to-[#202C40]/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#202C40]/60 via-transparent to-[#4726BF]/10" />
+      {/* ═══════════════════════════════════════════════════════════
+          CAPA 2 — Overlay sutil (gradiente, NO opaca la imagen)
+          ═══════════════════════════════════════════════════════════ */}
+      <div className="absolute inset-0 z-[1]">
+        {/* Gradiente lateral: más oscuro a la izquierda para legibilidad del texto */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#202C40]/75 via-[#202C40]/45 to-transparent" />
+        {/* Gradiente inferior: sutil para los controles de navegación */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#202C40]/50 via-transparent to-[#4726BF]/5" />
+      </div>
 
-      {/* ── Patrón sutil tipo grid ── */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px)",
-          backgroundSize: "50px 50px",
-        }}
-      />
-
-      {/* ── Contenido principal (centrado perfecto) ── */}
-      <div className="relative z-10 absolute inset-0 flex items-center pb-16 md:pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      {/* ═══════════════════════════════════════════════════════════
+          CAPA 3 — Contenido principal (z-10, centrado perfecto)
+          ═══════════════════════════════════════════════════════════ */}
+      <div className="relative z-10 flex items-center justify-center"
+        style={{ minHeight: "inherit" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-24">
           <div className="max-w-2xl">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -207,17 +211,17 @@ export function HeroSlider() {
                 </Badge>
 
                 {/* Título principal */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight mb-5">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight mb-5 drop-shadow-lg">
                   {currentSlide.title}
                 </h1>
 
                 {/* Subtítulo */}
-                <p className="text-base sm:text-lg md:text-xl text-white/75 max-w-lg leading-relaxed mb-4">
+                <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-lg leading-relaxed mb-4 drop-shadow-md">
                   {currentSlide.subtitle}
                 </p>
 
                 {/* Tagline de marca */}
-                <p className="text-sm text-white/40 font-medium mb-8">
+                <p className="text-sm text-white/50 font-medium mb-8 drop-shadow-sm">
                   {COMPANY.slogan} — {COMPANY.name}, Ilo
                 </p>
               </motion.div>
@@ -253,7 +257,9 @@ export function HeroSlider() {
         </div>
       </div>
 
-      {/* ── Controles de navegación ── */}
+      {/* ═══════════════════════════════════════════════════════════
+          CAPA 4 — Controles de navegación (z-20, abajo)
+          ═══════════════════════════════════════════════════════════ */}
       <div className="absolute z-20 bottom-0 left-0 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between pb-6 md:pb-8">
@@ -302,8 +308,10 @@ export function HeroSlider() {
         </div>
       </div>
 
-      {/* ── Wave separator ── */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-10 pointer-events-none">
+      {/* ═══════════════════════════════════════════════════════════
+          CAPA 5 — Wave separator (z-[5], entre contenido y controles)
+          ═══════════════════════════════════════════════════════════ */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-[5] pointer-events-none">
         <svg
           viewBox="0 0 1440 80"
           fill="none"
