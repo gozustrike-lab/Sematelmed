@@ -178,7 +178,7 @@ export function Footer() {
             <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
               <iframe
                 title="Ubicación de Sematelmed — Mercadillo de Ciudad Nueva, Ilo, Moquegua"
-                src="https://maps.google.com/maps?q=-17.6151005,-71.3378738&z=17&t=&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=-17.6152434,-71.3380836&z=19&t=&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="250"
                 style={{ border: 0, borderRadius: "12px" }}
@@ -193,7 +193,7 @@ export function Footer() {
                 Tienda N°12 — Ilo, Moquegua
               </p>
               <a
-                href="https://www.google.com/maps/place/Mercadillo+de+Ciudad+Nueva/@-17.6151005,-71.3378738,17z"
+                href="https://www.google.com/maps/place/Mercadillo+de+Ciudad+Nueva,+ilo/@-17.6152434,-71.3380836,20z/data=!4m12!1m5!3m4!2zMTfCsDM2JzU0LjQiUyA3McKwMjAnMTYuNCJX!8m2!3d-17.6151005!4d-71.3378738!3m5!1s0x91445b7ed90100b7:0xa675e56573d105a!8m2!3d-17.6151813!4d-71.3380989!16s%2Fg%2F11f15d68mc?hl=es-419"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/50 hover:text-white transition-colors duration-200"
