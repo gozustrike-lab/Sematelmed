@@ -26,6 +26,7 @@ import {
   PRODUCTS,
   CATEGORY_LABELS,
   SOCIAL_LINKS,
+  getWhatsAppURL,
 } from "@/constants/data";
 
 // ── Icon mapper ──
@@ -200,9 +201,7 @@ function FeaturedProductsSection() {
                       {product.price}
                     </span>
                     <a
-                      href={`https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(
-                        `Hola Sematelmed, me interesa el producto: ${product.name}`
-                      )}`}
+                      href={getWhatsAppURL("producto", product.name)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -364,7 +363,7 @@ function CTASection() {
           custom={2}
           className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
         >
-          <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer">
+          <a href={getWhatsAppURL("general")} target="_blank" rel="noopener noreferrer">
             <Button
               size="lg"
               className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold shadow-xl shadow-green-600/30 hover:shadow-green-600/50 transition-all duration-300 hover:-translate-y-0.5 px-8 py-6 text-base"

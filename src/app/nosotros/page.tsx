@@ -22,7 +22,7 @@ import {
   VISION,
   VALUES,
   HISTORY,
-  SOCIAL_LINKS,
+  getWhatsAppURL,
 } from "@/constants/data";
 
 // ── Animations ──
@@ -382,7 +382,7 @@ function ContactSection() {
           custom={0}
           className="text-center mt-12"
         >
-          <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer">
+          <a href={getWhatsAppURL("general")} target="_blank" rel="noopener noreferrer">
             <Button
               size="lg"
               className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold shadow-xl shadow-green-600/30 hover:shadow-green-600/50 transition-all duration-300 hover:-translate-y-0.5 px-8 py-6 text-base"

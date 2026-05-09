@@ -7,10 +7,10 @@ export const COMPANY = {
   name: "Sematelmed",
   slogan: "Siempre a la vanguardia",
   tagline: "Tecnología y equipos médicos que se adaptan a tu necesidad",
-  address: "Mercado de Ciudad Nueva Tienda N°12 – ILO",
-  phone: "+51 954 123 456",
-  email: "contacto@sematelmed.com",
-  whatsapp: "51954123456",
+  address: "Mercado de Ciudad Nueva Tienda N°12 – ILO, Pacocha",
+  phone: "+51 976 983 333",
+  email: "ventas@sematelmed.com",
+  whatsapp: "51976983333",
   website: "www.sematelmed.com",
   // Año de fundación
   since: 2010,
@@ -352,8 +352,50 @@ export const CATEGORY_LABELS: Record<ProductCategory, string> = {
 // ----------------------------------------------------------
 // Redes sociales
 // ----------------------------------------------------------
+// ----------------------------------------------------------
+// Lógica de WhatsApp dinámica
+// ----------------------------------------------------------
+export type WhatsAppContext =
+  | "general"
+  | "computo"
+  | "telecomunicaciones"
+  | "equipos-medicos"
+  | "energia-solar"
+  | "producto";
+
+const WHATSAPP_MESSAGES: Record<WhatsAppContext, (productName?: string) => string> = {
+  general: () =>
+    "Hola *Sematelmed*, deseo realizar una consulta general.",
+  computo: () =>
+    "Hola *Sematelmed*, deseo información sobre la venta de *Laptops/PCs*. Me gustaría recibir un catálogo actualizado.",
+  telecomunicaciones: () =>
+    "Hola *Sematelmed*, solicito asesoría para un proyecto de *Fibra Óptica* o redes. ¿Podrían ayudarme?",
+  "equipos-medicos": () =>
+    "Hola *Sematelmed*, requiero soporte técnico para *Equipos Médicos*. ¿Cuál es el proceso de revisión?",
+  "energia-solar": () =>
+    "Hola *Sematelmed*, me interesan los *Sistemas Solares* y UPS. Deseo una cotización.",
+  producto: (name) =>
+    `Hola *Sematelmed*, me interesa cotizar el producto: *${name || ""}*. ¿Tienen disponibilidad inmediata?`,
+};
+
+/**
+ * Genera la URL de WhatsApp con mensaje pre-rellenado.
+ * @param context — tipo de consulta
+ * @param productName — nombre del producto (solo para context="producto")
+ */
+export function getWhatsAppURL(
+  context: WhatsAppContext = "general",
+  productName?: string,
+): string {
+  const message = WHATSAPP_MESSAGES[context](productName);
+  return `https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+// ----------------------------------------------------------
+// Redes sociales
+// ----------------------------------------------------------
 export const SOCIAL_LINKS = {
   facebook: "https://facebook.com/sematelmed",
   tiktok: "https://tiktok.com/@sematelmed",
-  whatsapp: `https://wa.me/${COMPANY.whatsapp}`,
+  whatsapp: getWhatsAppURL("general"),
 } as const;

@@ -20,7 +20,7 @@ import {
   COMPANY,
   PRODUCTS,
   CATEGORY_LABELS,
-  SOCIAL_LINKS,
+  getWhatsAppURL,
   type ProductCategory,
 } from "@/constants/data";
 
@@ -309,9 +309,7 @@ export default function TiendaPage() {
                               {product.price}
                             </span>
                             <a
-                              href={`https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(
-                                `Hola Sematelmed, me interesa cotizar el producto: ${product.name}`
-                              )}`}
+                              href={getWhatsAppURL("producto", product.name)}
                               target="_blank"
                               rel="noopener noreferrer"
                             >

@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { COMPANY, SOCIAL_LINKS } from "@/constants/data";
+import { COMPANY, SOCIAL_LINKS, getWhatsAppURL } from "@/constants/data";
 
 // ── Tipado de cada slide ──
 interface Slide {
@@ -220,7 +220,7 @@ export function HeroSlider() {
                 </Button>
               </Link>
               <a
-                href={SOCIAL_LINKS.whatsapp}
+                href={getWhatsAppURL("general")}
                 target="_blank"
                 rel="noopener noreferrer"
               >
