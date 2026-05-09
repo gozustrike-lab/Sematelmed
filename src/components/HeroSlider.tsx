@@ -187,8 +187,8 @@ export function HeroSlider() {
         }}
       />
 
-      {/* ── Contenido principal ── */}
-      <div className="relative z-10 h-full flex items-center">
+      {/* ── Contenido principal (centrado perfecto) ── */}
+      <div className="relative z-10 absolute inset-0 flex items-center pb-16 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-2xl">
             <AnimatePresence mode="wait" custom={direction}>
@@ -224,7 +224,7 @@ export function HeroSlider() {
             </AnimatePresence>
 
             {/* Botones (no se animan con el slide) */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               <Link href="/tienda">
                 <Button
                   size="lg"
@@ -242,7 +242,7 @@ export function HeroSlider() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 text-base bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5"
+                  className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 text-base bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:opacity-90"
                 >
                   <MessageCircle className="mr-2 w-5 h-5" />
                   WhatsApp

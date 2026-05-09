@@ -214,6 +214,22 @@ export function Footer() {
             Ilo, Moquegua — Perú
           </p>
         </div>
+
+        {/* ── Crédito de autoría (hardcoded, inmutable) ── */}
+        <div className="mt-6 pt-4 text-center">
+          <p className="text-xs" style={{ color: "#94a3b8" }}>
+            Diseño y desarrollo web por{" "}
+            <a
+              href="https://fastpagepro.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold hover:underline underline-offset-2 transition-colors duration-200"
+              style={{ color: "#94a3b8" }}
+            >
+              Fast Page Pro
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
