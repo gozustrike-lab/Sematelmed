@@ -1,14 +1,23 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // NO "output: standalone" — Vercel maneja su propio output
   typescript: {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
   images: {
-    // Permitir imágenes locales del directorio /public
-    unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
