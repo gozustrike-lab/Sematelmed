@@ -136,3 +136,27 @@ Stage Summary:
 - Draft Mode API routes working
 - sanityFetch auto-detects draft mode (perspective: previewDrafts vs published)
 - User needs to generate SANITY_API_READ_TOKEN in sanity.io/manage and set it in .env.local and Vercel env vars
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix — productos publicados de Sanity no se veían en /tienda
+
+Work Log:
+- Diagnosed root cause: sanityFetch (defineLive) was failing silently when SANITY_API_READ_TOKEN was empty, causing fallback to static data
+- Created src/lib/sanity.queries.ts — centralized GROQ queries with asset-> expansion
+- Rewrote tienda/page.tsx — triple-layer fetch architecture:
+  1. sanityFetch (Live Preview) — only when token exists
+  2. sanityClient.fetch (CDN) — no token needed, published content
+  3. Fallback to local static products
+- Updated sanity.client.ts — removed duplicate queries, robust types, image nullable, safe plainText
+- Updated tienda-content.tsx — null-safe urlFor guard (product.image && product.image.asset)
+- Added export const revalidate = 60 for ISR
+- Build confirmed: "1 productos cargados via sanityClient (CDN)"
+- Pushed as commit 00e9aa8
+
+Stage Summary:
+- Products from Sanity now display correctly on /tienda
+- ISR revalidation set to 60 seconds
+- Triple-layer fetch ensures resilience even without API token
+- Footer credit "Fast Page Pro" remains untouched (hardcoded in Footer.tsx)
