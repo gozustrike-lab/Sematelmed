@@ -93,3 +93,23 @@ Stage Summary:
 - .env.local created locally (not in git)
 - Fast Page Pro credit remains hardcoded in Footer, not editable from CMS
 - Studio accessible at /admin route
+---
+Task ID: 3
+Agent: Main Agent
+Task: Conectar Tienda a Sanity.io CMS con fallback inteligente
+
+Work Log:
+- Read all existing files: tienda/page.tsx, sanity.config.ts, admin page, sanity.client.ts, product schema
+- Updated sanity.client.ts: replaced deprecated default import with createImageUrlBuilder, added plainText() helper for Portable Text → string extraction
+- Created src/app/tienda/tienda-content.tsx: extracted client-side UI (useState for search/filter, Framer Motion animations, AnimatePresence, product cards with images from Sanity CDN, stock badge, featured badge, WhatsApp CTA per product)
+- Rewrote src/app/tienda/page.tsx: converted from "use client" to async Server Component, fetch from Sanity with GROQ via getAllProducts(), smart fallback to hardcoded PRODUCTS from data.ts when CMS is empty or network fails, Suspense boundary with spinner loader
+- Key features: product images via urlFor() + next/image, "Agotado" badge when stock=0 with disabled button, "Destacado" badge on image, category count in filter pills, plainText() for Portable Text descriptions in card previews, source indicator text (CMS vs fallback)
+- Build: 0 warnings, 0 errors, deprecation warning resolved
+- Pushed as commit bfe8d35
+
+Stage Summary:
+- 3 files modified: src/app/tienda/page.tsx (rewritten), src/app/tienda/tienda-content.tsx (new), src/lib/sanity.client.ts (updated)
+- Architecture: page.tsx (Server, fetch) → tienda-content.tsx (Client, interactive)
+- Fallback: hardcoded PRODUCTS from data.ts when Sanity returns empty or errors
+- WhatsApp: getWhatsAppURL("producto", product.name) with hardcoded +51 976 983 333
+- Fast Page Pro credit: untouched in Footer, not in CMS
