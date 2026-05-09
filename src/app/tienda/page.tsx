@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { SectionTransition } from "@/components/SectionTransition";
 import {
   COMPANY,
   PRODUCTS,
@@ -41,7 +42,7 @@ const ALL_CATEGORIES: { key: ProductCategory | "all"; label: string; icon: React
   { key: "energia-solar", label: CATEGORY_LABELS["energia-solar"], icon: Sun },
 ];
 
-// ── Animation variants ──
+// ── Animation variants (scroll-reveal optimizado) ──
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
@@ -76,7 +77,7 @@ export default function TiendaPage() {
 
   return (
     <>
-      {/* ── Header ── */}
+      {/* ── Header (oscuro) ── */}
       <section className="relative bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 right-20 w-64 h-64 bg-brand-blue rounded-full blur-[120px]" />
@@ -109,14 +110,10 @@ export default function TiendaPage() {
             </p>
           </motion.div>
         </div>
-
-        {/* Wave */}
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-          <svg viewBox="0 0 1440 60" fill="none" preserveAspectRatio="none" className="w-full h-8 md:h-12">
-            <path d="M0 30C360 60 720 0 1080 30C1260 45 1380 40 1440 30V60H0V30Z" className="fill-background" />
-          </svg>
-        </div>
       </section>
+
+      {/* Transición: Header (oscuro) → Products (claro) */}
+      <SectionTransition variant="dark-to-light" height={120} />
 
       {/* ── Filters + Products ── */}
       <section className="py-12 md:py-16">
@@ -143,7 +140,7 @@ export default function TiendaPage() {
             </Button>
           </div>
 
-          {/* Category pills */}
+          {/* Category pills (mobile toggle) */}
           <AnimatePresence>
             {showFilters && (
               <motion.div
@@ -184,7 +181,7 @@ export default function TiendaPage() {
             )}
           </AnimatePresence>
 
-          {/* Always show category pills on desktop, toggle on mobile */}
+          {/* Always show category pills on desktop */}
           <div className="hidden sm:flex flex-wrap gap-2 mb-8">
             {ALL_CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.key;
@@ -254,7 +251,7 @@ export default function TiendaPage() {
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden flex flex-col">
+                      <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden flex flex-col">
                         {/* Top colored bar */}
                         <div className="h-1.5 bg-[#4726BF] group-hover:bg-brand-orange transition-all duration-500" />
                         <CardContent className="p-5 flex flex-col flex-1">
@@ -315,7 +312,7 @@ export default function TiendaPage() {
                             >
                               <Button
                                 size="sm"
-                                className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white text-xs font-semibold shadow-md shadow-green-600/20 transition-all duration-300 hover:-translate-y-0.5"
+                                className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white text-xs font-semibold shadow-md shadow-green-600/20 hover:shadow-green-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03]"
                               >
                                 <MessageCircle className="w-3.5 h-3.5 mr-1" />
                                 Cotizar
@@ -351,6 +348,9 @@ export default function TiendaPage() {
           )}
         </div>
       </section>
+
+      {/* Transición: Products (claro) → Footer (oscuro) */}
+      <SectionTransition variant="light-to-dark" height={120} />
     </>
   );
 }

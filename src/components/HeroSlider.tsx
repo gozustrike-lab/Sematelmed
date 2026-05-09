@@ -308,22 +308,8 @@ export function HeroSlider() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════
-          CAPA 5 — Wave separator (z-[5], entre contenido y controles)
-          ═══════════════════════════════════════════════════════════ */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-[5] pointer-events-none">
-        <svg
-          viewBox="0 0 1440 80"
-          fill="none"
-          preserveAspectRatio="none"
-          className="w-full h-8 md:h-12"
-        >
-          <path
-            d="M0 40C360 80 720 0 1080 40C1260 60 1380 50 1440 40V80H0V40Z"
-            className="fill-background"
-          />
-        </svg>
-      </div>
+      {/* ── Gradiente inferior suave (prepara la transición a la siguiente sección) ── */}
+      <div className="absolute bottom-0 left-0 w-full h-32 z-[5] pointer-events-none bg-gradient-to-t from-[#202C40]/30 to-transparent" />
     </section>
   );
 }

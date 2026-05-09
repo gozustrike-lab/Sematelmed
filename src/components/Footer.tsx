@@ -15,21 +15,6 @@ const SERVICE_ICONS: Record<string, React.ElementType> = {
 export function Footer() {
   return (
     <footer className="bg-[#202C40] text-white">
-      {/* ── Wave separator ── */}
-      <div className="w-full overflow-hidden leading-[0]">
-        <svg
-          className="w-full h-12 md:h-16"
-          viewBox="0 0 1440 64"
-          fill="none"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 32C240 64 480 0 720 32C960 64 1200 0 1440 32V64H0V32Z"
-            className="fill-[#202C40]"
-          />
-        </svg>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* ── Columna 1: Marca + Logo ── */}

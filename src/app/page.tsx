@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { HeroSlider } from "@/components/HeroSlider";
+import { SectionTransition } from "@/components/SectionTransition";
 import {
   COMPANY,
   SERVICES,
@@ -41,7 +42,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   shield: Shield,
 };
 
-// ── Animations ──
+// ── Animaciones optimizadas (scroll-reveal) ──
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -103,7 +104,7 @@ function ServicesSection() {
             const Icon = ICON_MAP[service.icon] || Monitor;
             return (
               <motion.div key={service.id} variants={fadeUp} custom={i}>
-                <Card className="group h-full border border-white/40 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
+                <Card className="group h-full border border-white/40 shadow-sm hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
                   <CardContent className="p-6 md:p-8">
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-5 group-hover:bg-[#4726BF] transition-all duration-500">
                       <Icon className="w-7 h-7 text-brand-blue group-hover:text-white transition-colors duration-500" />
@@ -185,7 +186,7 @@ function FeaturedProductsSection() {
         >
           {featured.map((product, i) => (
             <motion.div key={product.id} variants={fadeUp} custom={i}>
-              <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-1 bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden">
+              <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden">
                 <CardContent className="p-5">
                   <Badge className="bg-brand-blue/10 text-brand-blue border-brand-blue/15 text-xs font-medium mb-3">
                     {CATEGORY_LABELS[product.category]}
@@ -207,7 +208,7 @@ function FeaturedProductsSection() {
                     >
                       <Button
                         size="sm"
-                        className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white text-xs font-semibold shadow-md shadow-green-600/20 transition-all duration-300 hover:-translate-y-0.5"
+                        className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white text-xs font-semibold shadow-md shadow-green-600/20 hover:shadow-green-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03]"
                       >
                         <MessageCircle className="w-3.5 h-3.5 mr-1" />
                         Cotizar
@@ -289,7 +290,7 @@ function ValuesSection() {
             const Icon = ICON_MAP[value.icon] || Shield;
             return (
               <motion.div key={value.id} variants={fadeUp} custom={i}>
-                <div className="relative group h-full bg-white/65 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/30 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <div className="relative group h-full bg-white/65 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/30 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] overflow-hidden">
                   {/* Hover glow */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -393,9 +394,17 @@ export default function HomePage() {
   return (
     <>
       <HeroSlider />
+      {/* Transición: Hero (oscuro) → Services (claro) */}
+      <SectionTransition variant="dark-to-light" height={140} />
       <ServicesSection />
+      {/* Fusión suave entre secciones claras */}
+      <SectionTransition variant="soft-merge" height={80} />
       <FeaturedProductsSection />
+      {/* Fusión suave entre secciones claras */}
+      <SectionTransition variant="soft-merge" height={80} />
       <ValuesSection />
+      {/* Transición: Values (claro) → CTA (oscuro) */}
+      <SectionTransition variant="light-to-dark" height={140} />
       <CTASection />
     </>
   );

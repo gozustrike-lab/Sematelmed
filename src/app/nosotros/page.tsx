@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { SectionTransition } from "@/components/SectionTransition";
 import {
   COMPANY,
   MISSION,
@@ -25,7 +26,7 @@ import {
   getWhatsAppURL,
 } from "@/constants/data";
 
-// ── Animations ──
+// ── Animaciones (scroll-reveal optimizado) ──
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -74,11 +75,6 @@ function PageHeader() {
           </p>
         </motion.div>
       </div>
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-        <svg viewBox="0 0 1440 60" fill="none" preserveAspectRatio="none" className="w-full h-8 md:h-12">
-          <path d="M0 30C360 60 720 0 1080 30C1260 45 1380 40 1440 30V60H0V30Z" className="fill-background" />
-        </svg>
-      </div>
     </section>
   );
 }
@@ -97,7 +93,7 @@ function MissionVisionSection() {
         >
           {/* Mission */}
           <motion.div variants={fadeUp} custom={0}>
-            <Card className="h-full border border-white/30 shadow-lg shadow-brand-blue/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
+            <Card className="h-full border border-white/30 shadow-lg shadow-brand-blue/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:scale-[1.01]">
               <div className="h-2 bg-[#4726BF]" />
               <CardContent className="p-8 md:p-10">
                 <div className="w-14 h-14 rounded-2xl bg-[#4726BF] flex items-center justify-center mb-6 shadow-lg shadow-brand-blue/20">
@@ -115,7 +111,7 @@ function MissionVisionSection() {
 
           {/* Vision */}
           <motion.div variants={fadeUp} custom={1}>
-            <Card className="h-full border border-white/30 shadow-lg shadow-brand-orange/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
+            <Card className="h-full border border-white/30 shadow-lg shadow-brand-orange/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-brand-orange/15 transition-all duration-500 hover:scale-[1.01]">
               <div className="h-2 bg-brand-orange" />
               <CardContent className="p-8 md:p-10">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-orange-light flex items-center justify-center mb-6 shadow-lg shadow-brand-orange/20">
@@ -196,7 +192,7 @@ function HistorySection() {
 
               {/* Content */}
               <div className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}`}>
-                <Card className="border border-white/30 bg-white/70 backdrop-blur-xl shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500 rounded-xl">
+                <Card className="border border-white/30 bg-white/70 backdrop-blur-xl shadow-sm hover:shadow-lg hover:shadow-brand-blue/15 transition-all duration-500 rounded-xl hover:scale-[1.01]">
                   <CardContent className="p-5">
                     <Badge className="bg-brand-blue/10 text-brand-blue border-brand-blue/15 text-xs font-bold mb-2">
                       {item.year}
@@ -248,7 +244,7 @@ function ValuesRecapSection() {
         >
           {VALUES.map((value, i) => (
             <motion.div key={value.id} variants={fadeUp} custom={i}>
-              <div className="flex items-start gap-3 p-5 bg-white/65 backdrop-blur-xl rounded-xl border border-white/30 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/10 transition-all duration-500">
+              <div className="flex items-start gap-3 p-5 bg-white/65 backdrop-blur-xl rounded-xl border border-white/30 hover:border-brand-blue/30 shadow-sm hover:shadow-lg hover:shadow-brand-blue/15 transition-all duration-500 hover:scale-[1.02]">
                 <CheckCircle2 className="w-5 h-5 text-brand-blue shrink-0 mt-0.5" />
                 <div>
                   <h3 className="text-sm font-bold text-brand-dark mb-1">{value.title}</h3>
@@ -312,7 +308,7 @@ function ContactSection() {
         >
           {/* Address */}
           <motion.div variants={fadeUp} custom={0}>
-            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl">
+            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/15 hover:scale-[1.02] transition-all duration-500">
               <CardContent className="p-5 text-center">
                 <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mx-auto mb-3">
                   <MapPin className="w-6 h-6 text-brand-orange" />
@@ -325,7 +321,7 @@ function ContactSection() {
 
           {/* Phone */}
           <motion.div variants={fadeUp} custom={1}>
-            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl">
+            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/15 hover:scale-[1.02] transition-all duration-500">
               <CardContent className="p-5 text-center">
                 <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mx-auto mb-3">
                   <Phone className="w-6 h-6 text-brand-orange" />
@@ -343,7 +339,7 @@ function ContactSection() {
 
           {/* Email */}
           <motion.div variants={fadeUp} custom={2}>
-            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl">
+            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/15 hover:scale-[1.02] transition-all duration-500">
               <CardContent className="p-5 text-center">
                 <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mx-auto mb-3">
                   <Mail className="w-6 h-6 text-brand-orange" />
@@ -361,7 +357,7 @@ function ContactSection() {
 
           {/* Hours */}
           <motion.div variants={fadeUp} custom={3}>
-            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl">
+            <Card className="h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/15 hover:scale-[1.02] transition-all duration-500">
               <CardContent className="p-5 text-center">
                 <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mx-auto mb-3">
                   <Clock className="w-6 h-6 text-brand-orange" />
@@ -402,9 +398,17 @@ export default function NosotrosPage() {
   return (
     <>
       <PageHeader />
+      {/* Transición: Header (oscuro) → Mission/Vision (claro) */}
+      <SectionTransition variant="dark-to-light" height={120} />
       <MissionVisionSection />
+      {/* Fusión suave entre secciones claras */}
+      <SectionTransition variant="soft-merge" height={80} />
       <HistorySection />
+      {/* Fusión suave entre secciones claras */}
+      <SectionTransition variant="soft-merge" height={80} />
       <ValuesRecapSection />
+      {/* Transición: Values Recap (claro) → Contact (oscuro) */}
+      <SectionTransition variant="light-to-dark" height={140} />
       <ContactSection />
     </>
   );
