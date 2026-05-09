@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     siteName: "Sematelmed",
     images: [
       {
-        url: "/og-image-sematelmed.jpg",
+        url: "https://sematelmed.vercel.app/og-image-sematelmed.jpg",
         width: 1200,
         height: 630,
         alt: "Sematelmed - Soluciones Tecnológicas de Vanguardia",
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     title: "Sematelmed | Tecnología de Vanguardia",
     description:
       "Servicio técnico especializado y venta de equipos en Ilo, Moquegua. ¡Cotiza con nosotros!",
-    images: ["/og-image-sematelmed.jpg"],
+    images: ["https://sematelmed.vercel.app/og-image-sematelmed.jpg"],
   },
   other: {
     "theme-color": "#4726BF",

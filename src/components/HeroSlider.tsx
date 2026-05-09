@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -110,6 +110,7 @@ export function HeroSlider() {
   const [[page, direction], setPage] = useState([0, 0]);
   const [isPaused, setIsPaused] = useState(false);
   const total = SLIDES.length;
+  const resumeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-play
   const paginate = useCallback(
@@ -122,19 +123,33 @@ export function HeroSlider() {
     [total],
   );
 
+  // ── Función para reanudar el autoplay tras una pausa manual ──
+  const scheduleResume = useCallback(() => {
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 10000); // Reanuda tras 10 s de inactividad
+  }, []);
+
+  // ── Autoplay universal (funciona en PC, tablet y móvil) ──
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => paginate(1), AUTOPLAY_MS);
     return () => clearInterval(timer);
   }, [paginate, isPaused]);
 
+  // ── Limpiar timer de reanudación al desmontar ──
+  useEffect(() => {
+    return () => {
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, []);
+
   const currentSlide = SLIDES[page];
 
   return (
     <section
       className="relative w-full h-[100svh] min-h-[600px] max-h-[1000px] overflow-hidden select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       {/* ── Imágenes con fade + zoom ── */}
       <AnimatePresence initial={false} custom={direction}>
@@ -248,9 +263,11 @@ export function HeroSlider() {
                 <Dot
                   key={i}
                   active={i === page}
-                  onClick={() =>
-                    setPage([i, i > page ? 1 : -1])
-                  }
+                  onClick={() => {
+                    setIsPaused(true);
+                    scheduleResume();
+                    setPage([i, i > page ? 1 : -1]);
+                  }}
                   index={i}
                 />
               ))}
@@ -259,14 +276,22 @@ export function HeroSlider() {
             {/* Flechas */}
             <div className="flex items-center gap-2">
               <button
-                onClick={() => paginate(-1)}
+                onClick={() => {
+                  setIsPaused(true);
+                  scheduleResume();
+                  paginate(-1);
+                }}
                 aria-label="Slide anterior"
                 className="w-10 h-10 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm flex items-center justify-center text-white/70 hover:bg-white/15 hover:text-white hover:border-white/40 transition-all duration-200"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
-                onClick={() => paginate(1)}
+                onClick={() => {
+                  setIsPaused(true);
+                  scheduleResume();
+                  paginate(1);
+                }}
                 aria-label="Slide siguiente"
                 className="w-10 h-10 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm flex items-center justify-center text-white/70 hover:bg-white/15 hover:text-white hover:border-white/40 transition-all duration-200"
               >
