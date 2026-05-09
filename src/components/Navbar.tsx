@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { COMPANY, SOCIAL_LINKS } from "@/constants/data";
+import { COMPANY, getWhatsAppURL } from "@/constants/data";
 
 const NAV_LINKS = [
   { href: "/", label: "Inicio" },
@@ -35,14 +35,14 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo real de Sematelmed */}
-          <Link href="/" className="flex items-center gap-2 group">
+          {/* Logo transparente de Sematelmed */}
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
             <Image
               src="/logo-nav.png"
               alt="Sematelmed — Siempre a la vanguardia"
               width={160}
               height={60}
-              className="h-10 md:h-12 w-auto object-contain"
+              className="h-10 md:h-12 w-auto object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
               priority
             />
           </Link>
@@ -73,13 +73,13 @@ export function Navbar() {
           {/* CTA + Mobile Menu */}
           <div className="flex items-center gap-3">
             <a
-              href={SOCIAL_LINKS.whatsapp}
+              href={getWhatsAppURL("general")}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2"
             >
               <Button className="bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold shadow-lg shadow-brand-orange/25 hover:shadow-brand-orange/40 transition-all duration-300 hover:-translate-y-0.5">
-                <Phone className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4" />
                 Contáctanos
               </Button>
             </a>
@@ -134,13 +134,13 @@ export function Navbar() {
                   {/* Mobile CTA */}
                   <div className="mt-auto p-4 border-t border-brand-blue/10">
                     <a
-                      href={SOCIAL_LINKS.whatsapp}
+                      href={getWhatsAppURL("general")}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block"
                     >
                       <Button className="w-full bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold shadow-lg shadow-brand-orange/25">
-                        <Phone className="w-4 h-4 mr-2" />
+                        <MessageCircle className="w-4 h-4 mr-2" />
                         Contáctanos
                       </Button>
                     </a>

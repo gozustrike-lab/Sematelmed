@@ -209,11 +209,11 @@ export function HeroSlider() {
             </AnimatePresence>
 
             {/* Botones (no se animan con el slide) */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
               <Link href="/tienda">
                 <Button
                   size="lg"
-                  className="bg-[#FF4D00] hover:bg-[#CC3D00] text-white font-bold shadow-xl shadow-[#FF4D00]/30 hover:shadow-[#FF4D00]/50 transition-all duration-300 hover:-translate-y-0.5 px-8 py-6 text-base"
+                  className="w-full sm:w-auto bg-[#FF4D00] hover:bg-[#CC3D00] text-white font-bold shadow-xl shadow-[#FF4D00]/30 hover:shadow-[#FF4D00]/50 transition-all duration-300 hover:-translate-y-0.5 px-8 py-6 text-base"
                 >
                   Ver Catálogo
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -227,7 +227,7 @@ export function HeroSlider() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 text-base bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5"
+                  className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 text-base bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5"
                 >
                   <MessageCircle className="mr-2 w-5 h-5" />
                   WhatsApp
