@@ -104,7 +104,7 @@ function Dot({
   );
 }
 
-// ── HERO SLIDER ──
+// ── HERO SLIDER (FULL BLEED) ──
 export function HeroSlider() {
   const [[page, direction], setPage] = useState([0, 0]);
   const [isPaused, setIsPaused] = useState(false);
@@ -148,11 +148,12 @@ export function HeroSlider() {
 
   return (
     <section
-      className="relative w-full min-h-[85vh] overflow-hidden select-none"
+      className="relative w-full h-[100dvh] overflow-hidden select-none"
       style={{ isolation: "isolate" }}
     >
       {/* ═══════════════════════════════════════════════════════════
-          CAPA 1 — Imagen de fondo (z-0, completamente detrás)
+          CAPA 1 — Imagen de fondo FULL BLEED (z-0)
+          object-cover: cubre todo sin deformarse
           ═══════════════════════════════════════════════════════════ */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence initial={false} custom={direction}>
@@ -178,22 +179,19 @@ export function HeroSlider() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
-          CAPA 2 — Overlay sutil (gradiente, NO opaca la imagen)
+          CAPA 2 — Overlay sutil (legibilidad sin opacar)
           ═══════════════════════════════════════════════════════════ */}
       <div className="absolute inset-0 z-[1]">
-        {/* Gradiente lateral: más oscuro a la izquierda para legibilidad del texto */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#202C40]/75 via-[#202C40]/45 to-transparent" />
-        {/* Gradiente inferior: sutil para los controles de navegación */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#202C40]/50 via-transparent to-[#4726BF]/5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#202C40]/60 via-transparent to-[#4726BF]/5" />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
           CAPA 3 — Contenido principal (z-10, centrado perfecto)
+          pt-24 md:pt-28: espacio para la Navbar fija transparente
           ═══════════════════════════════════════════════════════════ */}
-      <div className="relative z-10 flex items-center justify-center"
-        style={{ minHeight: "inherit" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 md:py-24">
+      <div className="relative z-10 flex items-center justify-center h-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 md:pt-28 pb-20">
           <div className="max-w-2xl">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -308,8 +306,8 @@ export function HeroSlider() {
         </div>
       </div>
 
-      {/* ── Gradiente inferior suave (prepara la transición a la siguiente sección) ── */}
-      <div className="absolute bottom-0 left-0 w-full h-32 z-[5] pointer-events-none bg-gradient-to-t from-[#202C40]/30 to-transparent" />
+      {/* ── Gradiente inferior suave (funde con SectionTransition) ── */}
+      <div className="absolute bottom-0 left-0 w-full h-40 z-[5] pointer-events-none bg-gradient-to-t from-[#202C40]/40 via-[#202C40]/15 to-transparent" />
     </section>
   );
 }

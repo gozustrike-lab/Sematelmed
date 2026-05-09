@@ -49,10 +49,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // ── Scroll detection ──
+  // ── Scroll detection — threshold 80px para transición suave ──
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -74,24 +74,45 @@ export function Navbar() {
     setMobileOpen(false);
   };
 
+  // ── Clases dinámicas: transparente vs sólida ──
+  const headerBg = scrolled
+    ? "bg-white/95 backdrop-blur-md shadow-lg shadow-brand-dark/5 border-b border-brand-blue/10"
+    : "bg-transparent";
+
+  const logoFilter = scrolled
+    ? "drop-shadow-sm"
+    : "brightness-0 invert drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]";
+
+  const navLinkBase = "relative px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300";
+  const navLinkStyle = scrolled
+    ? "text-brand-dark hover:text-brand-blue hover:bg-brand-blue/5"
+    : "text-white/90 hover:text-white hover:bg-white/10";
+  const navLinkActive = scrolled
+    ? "text-brand-blue bg-brand-blue/10"
+    : "text-white bg-white/15";
+
+  const mobileBtnStyle = scrolled
+    ? "text-brand-dark hover:text-brand-blue hover:bg-brand-blue/5"
+    : "text-white hover:text-white/80 hover:bg-white/10";
+
+  const whatsappBtnStyle = scrolled
+    ? "bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold shadow-lg shadow-brand-orange/25 hover:shadow-brand-orange/40 transition-all duration-300 hover:-translate-y-0.5"
+    : "bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-semibold border border-white/20 shadow-lg transition-all duration-300 hover:-translate-y-0.5";
+
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-lg shadow-brand-dark/5 border-b border-brand-blue/10"
-          : "bg-white/80 backdrop-blur-sm"
-      }`}
+      className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerBg}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* ── Logo transparente de Sematelmed ── */}
+          {/* ── Logo — blanco sobre Hero oscuro, normal cuando sólida ── */}
           <Link href="/" className="flex items-center gap-2 group shrink-0" onClick={handleLinkClick}>
             <Image
               src="/logo-nav.png"
               alt="Sematelmed — Siempre a la vanguardia"
               width={160}
               height={60}
-              className="h-10 md:h-12 w-auto object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-105"
+              className={`h-10 md:h-12 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${logoFilter}`}
               priority
             />
           </Link>
@@ -104,15 +125,13 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? "text-brand-blue bg-brand-blue/10"
-                      : "text-brand-dark hover:text-brand-blue hover:bg-brand-blue/5"
-                  }`}
+                  className={`${navLinkBase} ${isActive ? navLinkActive : navLinkStyle}`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-brand-blue rounded-full" />
+                    <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full transition-colors duration-300 ${
+                      scrolled ? "bg-brand-blue" : "bg-white"
+                    }`} />
                   )}
                 </Link>
               );
@@ -128,7 +147,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2"
             >
-              <Button className="bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold shadow-lg shadow-brand-orange/25 hover:shadow-brand-orange/40 transition-all duration-300 hover:-translate-y-0.5">
+              <Button className={whatsappBtnStyle}>
                 <MessageCircle className="w-4 h-4" />
                 Contáctanos
               </Button>
@@ -140,7 +159,7 @@ export function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="md:hidden text-brand-dark hover:text-brand-blue hover:bg-brand-blue/5 transition-colors duration-200"
+                  className={`md:hidden transition-colors duration-300 ${mobileBtnStyle}`}
                   aria-label="Abrir menú de navegación"
                 >
                   <Menu className="w-6 h-6" />
