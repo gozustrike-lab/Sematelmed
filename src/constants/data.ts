@@ -7,7 +7,7 @@ export const COMPANY = {
   name: "Sematelmed",
   slogan: "Siempre a la vanguardia",
   tagline: "Tecnología y equipos médicos que se adaptan a tu necesidad",
-  address: "Mercado de Ciudad Nueva Tienda N°12 – ILO, Pacocha",
+  address: "Mercadillo de Ciudad Nueva, Tienda N°12 – ILO, Pacocha",
   phone: "+51 976 983 333",
   email: "ventas@sematelmed.com",
   whatsapp: "51976983333",
@@ -15,7 +15,7 @@ export const COMPANY = {
   // Año de fundación
   since: 2010,
   description:
-    "Somos una empresa ilocana dedicada a brindar soluciones integrales en computo, telecomunicaciones, equipos médicos y energía solar. Nuestro compromiso es llevar tecnología de vanguardia a cada hogar, consultorio y empresa del sur del Perú.",
+    "Somos una empresa ilocana dedicada a brindar soluciones integrales en cómputo, telecomunicaciones, equipos médicos y energía solar. Nuestro compromiso es llevar tecnología de vanguardia a cada hogar, consultorio y empresa del sur del Perú.",
 } as const;
 
 // ----------------------------------------------------------
@@ -206,7 +206,7 @@ export const PRODUCTS: Product[] = [
     price: "Desde S/ 189",
     description:
       "Cámara de seguridad tipo bullet con resolución 4MP, visión nocturna hasta 30 metros y resistencia IP67.",
-    specs: ["4MP 2560x1440", "Vision nocturna IR 30m", "IP67 weatherproof", "PoE + DC 12V"],
+    specs: ["4MP 2560x1440", "Visión nocturna IR 30m", "IP67 weatherproof", "PoE + DC 12V"],
     featured: false,
   },
   {
@@ -262,11 +262,11 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "glucometro-completo",
-    name: "Glucometro Completo + 50 Tiras",
+    name: "Glucómetro Completo + 50 Tiras",
     category: "equipos-medicos",
     price: "Desde S/ 199",
     description:
-      "Kit completo de glucosa en sangre con glucometro digital, 50 tiras reactivas, lancetas y dispositivo de punción.",
+      "Kit completo de glucosa en sangre con glucómetro digital, 50 tiras reactivas, lancetas y dispositivo de punción.",
     specs: ["50 tiras reactivas incluidas", "Resultado en 5 segundos", "Memoria 200 lecturas", "Función de promedio"],
     featured: true,
   },
@@ -283,11 +283,11 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "inversor-hibrido-3000w",
-    name: "Inversor Hibrido 3000W",
+    name: "Inversor Híbrido 3000W",
     category: "energia-solar",
     price: "Desde S/ 1,899",
     description:
-      "Inversor hibrido con cargador MPPT integrado, capaz de gestionar energía solar y red eléctrica de forma inteligente.",
+      "Inversor híbrido con cargador MPPT integrado, capaz de gestionar energía solar y red eléctrica de forma inteligente.",
     specs: ["3000W / 6000W pico", "MPPT 48V integrado", "Con display LCD", "Batería 48V compatible"],
     featured: false,
   },

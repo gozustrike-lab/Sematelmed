@@ -56,7 +56,11 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
-  metadataBase: new URL("https://sematelmed.com.pe"),
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://sematelmed.com.pe"
+  ),
   alternates: {
     canonical: "/",
   },
@@ -64,7 +68,6 @@ export const metadata: Metadata = {
     title: "Sematelmed — Siempre a la vanguardia",
     description:
       "Expertos en telecomunicaciones, equipos médicos y soporte técnico especializado. ¡Cotiza con nosotros por WhatsApp!",
-    url: "https://sematelmed.com.pe",
     siteName: "Sematelmed",
     images: [
       {
