@@ -177,20 +177,31 @@ export function Footer() {
             </h4>
             <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
               <iframe
-                title="Ubicación de Sematelmed en Ilo, Moquegua"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3893.5!2d-70.343!3d-17.388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDIzJzE3LjAiUyA3MMKwMjAnMzQuOCJX!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe"
+                title="Ubicación de Sematelmed — Mercadillo de Ciudad Nueva, Ilo, Moquegua"
+                src="https://maps.google.com/maps?q=Mercadillo+Ciudad+Nueva+Pacocha+Ilo+Moquegua+Peru&t=&z=17&ie=UTF8&iwloc=&output=embed"
                 width="100%"
-                height="200"
-                style={{ border: 0 }}
+                height="250"
+                style={{ border: 0, borderRadius: "12px" }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="w-full"
               />
             </div>
-            <p className="text-xs text-white/40 mt-3">
-              Mercado de Ciudad Nueva — Ilo, Moquegua, Perú
-            </p>
+            <div className="flex items-center justify-between mt-3">
+              <p className="text-xs text-white/40">
+                Tienda N°12 — Ilo, Moquegua
+              </p>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Mercadillo+Ciudad+Nueva+Pacocha+Ilo+Moquegua+Peru"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#4726BF] hover:text-[#6B4FE0] transition-colors duration-200"
+              >
+                <MapPin className="w-3 h-3" />
+                Cómo llegar
+              </a>
+            </div>
           </div>
         </div>
 
