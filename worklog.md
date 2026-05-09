@@ -69,3 +69,27 @@ Stage Summary:
 - Hero: Full Bleed 100dvh, perfectly centered content, mouse scroll indicator with bounce animation
 - Scroll indicator: appears after 1.5s delay, smooth scrolls to Services section
 - 3 files modified: src/components/Navbar.tsx, src/components/HeroSlider.tsx, src/app/page.tsx
+---
+Task ID: 2
+Agent: Main Agent
+Task: Integración completa de Sanity.io CMS para Sematelmed
+
+Work Log:
+- Read existing data.ts to understand current data models (Product, Company, Mission, Vision, etc.)
+- Installed dependencies: sanity, next-sanity, @sanity/vision, @portabletext/react, @sanity/image-url
+- Created sanity/schemas/product.ts: Full product schema with slug, image (hotspot), category (radio: 4 options), description (Rich Text/Portable Text), price, specs (array of strings), stock (number), featured (boolean), order (number). Preview shows category emoji + featured star.
+- Created sanity/schemas/siteSettings.ts: Singleton document for mission, vision, address, phone, whatsapp (regex validated digits only), email, description, facebookUrl, tiktokUrl, mapLatitude, mapLongitude
+- Created sanity/schema.ts: Unified export of [product, siteSettings]
+- Created sanity.config.ts: Studio at /admin basePath, structureTool + visionTool, brand theme colors (#4726BF, #FF4D00, #202C40), env vars with fallbacks
+- Created src/app/admin/[[...index]]/page.tsx: NextStudio component with "use client"
+- Created src/lib/sanity.client.ts: createClient with CDN, urlFor() image builder, full TypeScript types (SanityProduct, SanitySiteSettings), 5 GROQ queries (all products, featured, by category, by slug, site settings), 5 async helper functions
+- Created .env.local: NEXT_PUBLIC_SANITY_PROJECT_ID=95d9zjqb, NEXT_PUBLIC_SANITY_DATASET=production (not committed to git)
+- Updated next.config.ts: Added cdn.sanity.io to remotePatterns for image optimization
+- Build successful: /admin route listed as dynamic (ƒ)
+- Pushed as commit f87fb34
+
+Stage Summary:
+- 9 files created/modified: sanity.config.ts, sanity/schema.ts, sanity/schemas/product.ts, sanity/schemas/siteSettings.ts, src/app/admin/[[...index]]/page.tsx, src/lib/sanity.client.ts, next.config.ts, package.json, package-lock.json
+- .env.local created locally (not in git)
+- Fast Page Pro credit remains hardcoded in Footer, not editable from CMS
+- Studio accessible at /admin route
