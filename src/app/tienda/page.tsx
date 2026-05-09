@@ -1,33 +1,20 @@
 // ============================================================
 // SEMATELMED — Tienda (Server Component)
-// Consume productos de Sanity.io con fallback a datos estáticos
-// Soporta Draft Mode para Live Preview desde Sanity Studio
+// Fetch directo a Sanity con fallback a datos estáticos
+// ISR: revalidación automática cada 60 segundos
+// Live Preview: sanityFetch para Draft Mode cuando token existe
 // ============================================================
 
 import { Suspense } from "react";
-import { sanityFetch } from "@/sanity/live";
-import { type SanityProduct } from "@/lib/sanity.client";
+import { sanityClient, type SanityProduct } from "@/lib/sanity.client";
+import { ALL_PRODUCTS_QUERY } from "@/lib/sanity.queries";
 import { PRODUCTS, type Product } from "@/constants/data";
 import { TiendaContent } from "./tienda-content";
 
-// ── GROQ Query ──
-const ALL_PRODUCTS_QUERY = `
-  *[_type == "product"] | order(order asc) {
-    _id,
-    _createdAt,
-    _updatedAt,
-    name,
-    "slug": slug.current,
-    image,
-    category,
-    description,
-    price,
-    specs,
-    stock,
-    featured,
-    order
-  }
-`;
+// ── ISR: revalida cada 60 segundos ──
+// Cuando el usuario publique en Sanity, la página se actualiza
+// automáticamente en el siguiente request (máximo 60s de espera)
+export const revalidate = 60;
 
 // ── Loader skeleton ──
 function TiendaLoader() {
@@ -61,46 +48,88 @@ function fallbackToSanityFormat(products: Product[]): SanityProduct[] {
     ],
     price: p.price,
     specs: p.specs,
-    stock: 99, // Fallback: siempre disponible
+    stock: 99,
     featured: p.featured,
     order: i,
   }));
 }
 
-// ── Fetch de productos desde Sanity con Live Preview (Server Component) ──
-// sanityFetch detecta automáticamente si está en Draft Mode y usa
-// perspective: 'previewDrafts' o 'published' según corresponda
+// ── Fetch de productos desde Sanity ──
+// Estrategia de triple capa:
+// 1. Intenta sanityFetch (Live Preview / Draft Mode) si el token existe
+// 2. Sino, usa sanityClient.fetch directo (CDN, no necesita token)
+// 3. Si todo falla, fallback a datos estáticos locales
 async function getProducts(): Promise<{
   products: SanityProduct[];
   source: "sanity" | "fallback";
 }> {
-  try {
-    // sanityFetch retorna { data, sourceMap, tags }
-    const { data: sanityProducts } = await sanityFetch<SanityProduct[]>({
-      query: ALL_PRODUCTS_QUERY,
-    });
+  // ── Capa 1: sanityFetch (Live Preview con drafts) ──
+  // Solo si existe el token de lectura (necesario para perspective: previewDrafts)
+  if (process.env.SANITY_API_READ_TOKEN) {
+    try {
+      const { defineLive } = await import("next-sanity/live");
+      const { createClient } = await import("next-sanity");
 
-    // Si Sanity tiene productos, los usamos
+      const liveClient = createClient({
+        projectId:
+          process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb",
+        dataset:
+          process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+        apiVersion: "2024-01-01",
+        useCdn: false,
+        perspective: "published",
+      });
+
+      const { sanityFetch } = defineLive({
+        client: liveClient,
+        serverToken: process.env.SANITY_API_READ_TOKEN,
+      });
+
+      const { data } = await sanityFetch<SanityProduct[]>({
+        query: ALL_PRODUCTS_QUERY,
+      });
+
+      if (data && data.length > 0) {
+        console.log(
+          `[Sematelmed] ✅ ${data.length} productos cargados via sanityFetch (Live Preview)`,
+        );
+        return { products: data, source: "sanity" };
+      }
+    } catch (liveError) {
+      console.warn(
+        "[Sematelmed] sanityFetch falló, intentando fetch directo...",
+        liveError instanceof Error ? liveError.message : liveError,
+      );
+    }
+  }
+
+  // ── Capa 2: fetch directo con sanityClient (CDN, publicado) ──
+  try {
+    const sanityProducts = await sanityClient.fetch<SanityProduct[]>(
+      ALL_PRODUCTS_QUERY,
+    );
+
     if (sanityProducts && sanityProducts.length > 0) {
+      console.log(
+        `[Sematelmed] ✅ ${sanityProducts.length} productos cargados via sanityClient (CDN)`,
+      );
       return { products: sanityProducts, source: "sanity" };
     }
-
-    // Fallback a datos estáticos si el CMS está vacío
-    return {
-      products: fallbackToSanityFormat(PRODUCTS),
-      source: "fallback",
-    };
-  } catch (error) {
-    // Si hay error de red o API, usamos datos estáticos
+  } catch (cdnError) {
     console.warn(
-      "[Sematelmed] No se pudo conectar a Sanity. Usando datos precargados.",
-      error instanceof Error ? error.message : error,
+      "[Sematelmed] sanityClient.fetch falló, usando fallback...",
+      cdnError instanceof Error ? cdnError.message : cdnError,
     );
-    return {
-      products: fallbackToSanityFormat(PRODUCTS),
-      source: "fallback",
-    };
   }
+
+  // ── Capa 3: fallback a datos estáticos ──
+  console.log(
+    "[Sematelmed] ⚠️ Sanity no tiene datos. Usando catálogo precargado.",
+  );
+  return {
+    products: fallbackToSanityFormat(PRODUCTS),
+    source: "fallback",
+  };
 }
 
 // ── Server Component (async) ──

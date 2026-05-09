@@ -299,13 +299,16 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map((product, i) => {
                   const Icon = getCategoryIcon(product.category);
-                  const imageUrl = product.image
-                    ? urlFor(product.image)
-                        .width(400)
-                        .height(300)
-                        .fit("crop")
-                        .url()
-                    : null;
+                  // Construir URL de imagen desde Sanity asset
+                  // product.image puede venir con asset expandido (asset->) o como referencia
+                  const imageUrl =
+                    product.image && product.image.asset
+                      ? urlFor(product.image)
+                          .width(400)
+                          .height(300)
+                          .fit("crop")
+                          .url()
+                      : null;
 
                   return (
                     <motion.div
