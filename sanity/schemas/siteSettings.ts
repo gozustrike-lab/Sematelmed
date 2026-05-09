@@ -1,6 +1,6 @@
 // ============================================================
-// SEMATELMED — Esquema de Configuración del Sitio (Sanity.io)
-// Misión, Visión, Dirección, WhatsApp, Datos de contacto
+// SEMATELMED — Esquema de Configuración del Sitio (Sanity v3)
+// Singleton: Misión, Visión, Dirección, WhatsApp, Contacto
 // ============================================================
 // NOTA: El crédito "Diseño y desarrollo web por Fast Page Pro"
 // está HARDCODED en el Footer y NO es editable desde el CMS.
@@ -13,8 +13,6 @@ export default defineType({
   title: "Configuración del Sitio",
   type: "document",
   icon: () => "⚙️",
-
-  // Solo un documento de configuración
   singleton: true,
 
   fields: [
@@ -23,9 +21,7 @@ export default defineType({
       name: "mission",
       title: "Misión",
       type: "text",
-      rows: 4,
       validation: (Rule) => Rule.required().max(500),
-      description: "La misión de la empresa. Se muestra en la página Nosotros.",
     }),
 
     // ── Visión ──
@@ -33,9 +29,7 @@ export default defineType({
       name: "vision",
       title: "Visión",
       type: "text",
-      rows: 4,
       validation: (Rule) => Rule.required().max(500),
-      description: "La visión de la empresa. Se muestra en la página Nosotros.",
     }),
 
     // ── Dirección ──
@@ -44,7 +38,6 @@ export default defineType({
       title: "Dirección",
       type: "string",
       validation: (Rule) => Rule.required().max(150),
-      description: "Dirección física de la tienda (ej: Mercadillo de Ciudad Nueva, Tienda N°12 – ILO)",
     }),
 
     // ── Teléfono ──
@@ -53,19 +46,14 @@ export default defineType({
       title: "Teléfono",
       type: "string",
       validation: (Rule) => Rule.required().max(20),
-      description: "Número de teléfono visible (ej: +51 976 983 333)",
     }),
 
-    // ── WhatsApp (número limpio para enlace wa.me) ──
+    // ── WhatsApp ──
     defineField({
       name: "whatsapp",
       title: "WhatsApp (número)",
       type: "string",
-      validation: (Rule) =>
-        Rule.required()
-          .regex(/^[0-9]+$/, "Solo dígitos, sin espacios ni guiones")
-          .max(15),
-      description: "Número de WhatsApp sin formato (ej: 51976983333) para generar enlaces wa.me",
+      validation: (Rule) => Rule.required().max(15),
     }),
 
     // ── Email ──
@@ -73,8 +61,7 @@ export default defineType({
       name: "email",
       title: "Correo Electrónico",
       type: "string",
-      validation: (Rule) => Rule.required().email(),
-      description: "Correo de contacto comercial (ej: ventas@sematelmed.com)",
+      validation: (Rule) => Rule.required(),
     }),
 
     // ── Descripción general ──
@@ -82,45 +69,41 @@ export default defineType({
       name: "description",
       title: "Descripción General",
       type: "text",
-      rows: 3,
-      description: "Descripción breve de la empresa para SEO y presentación general",
     }),
 
-    // ── Facebook URL ──
+    // ── Facebook ──
     defineField({
       name: "facebookUrl",
       title: "Facebook URL",
-      type: "url",
-      description: "Enlace completo a la página de Facebook",
+      type: "string",
     }),
 
-    // ── TikTok URL ──
+    // ── TikTok ──
     defineField({
       name: "tiktokUrl",
       title: "TikTok URL",
-      type: "url",
-      description: "Enlace completo al perfil de TikTok",
+      type: "string",
     }),
 
-    // ── Google Maps Coordenadas ──
+    // ── Maps Latitud ──
     defineField({
       name: "mapLatitude",
-      title: "Latitud (Google Maps)",
+      title: "Latitud",
       type: "number",
-      description: "Latitud para el iframe de Google Maps (ej: -17.6152434)",
     }),
+
+    // ── Maps Longitud ──
     defineField({
       name: "mapLongitude",
-      title: "Longitud (Google Maps)",
+      title: "Longitud",
       type: "number",
-      description: "Longitud para el iframe de Google Maps (ej: -71.3380836)",
     }),
   ],
 
   preview: {
     prepare() {
       return {
-        title: "⚙️ Configuración del Sitio",
+        title: "Configuración del Sitio",
         subtitle: "Misión, Visión, Contacto y Redes Sociales",
       };
     },

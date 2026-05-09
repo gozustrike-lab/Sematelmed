@@ -1,6 +1,9 @@
 // ============================================================
-// SEMATELMED — Punto de entrada de esquemas de Sanity
-// Re-exporta desde schemas/index.ts para sanity.config.ts
+// SEMATELMED — Esquemas Unificados de Sanity
+// Importa y exporta todos los tipos de documento
 // ============================================================
 
-export { schemaTypes } from "./schemas/index";
+import product from "./schemas/product";
+import siteSettings from "./schemas/siteSettings";
+
+export const schemaTypes = [product, siteSettings];

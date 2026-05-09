@@ -1,6 +1,6 @@
 // ============================================================
-// SEMATELMED — Esquema de Producto (Sanity.io)
-// Catálogo de productos: Cómputo, Telecom, Médico, Energía Solar
+// SEMATELMED — Esquema de Producto (Sanity v3)
+// Sin propiedades no soportadas — solo sintaxis válida
 // ============================================================
 
 import { defineField, defineType } from "sanity";
@@ -10,42 +10,35 @@ export default defineType({
   title: "Producto",
   type: "document",
   icon: () => "📦",
+
   fields: [
-    // ── Nombre del producto ──
+    // ── Nombre ──
     defineField({
       name: "name",
       title: "Nombre del Producto",
       type: "string",
       validation: (Rule) => Rule.required().max(120),
-      description: "Nombre comercial del producto (ej: Laptop HP 15.6\" Ryzen 5)",
     }),
 
-    // ── Slug automático ──
+    // ── Slug ──
     defineField({
       name: "slug",
-      title: "Slug (URL)",
+      title: "Slug",
       type: "slug",
-      options: {
-        source: "name",
-        maxLength: 96,
-      },
+      options: { source: "name", maxLength: 96 },
       validation: (Rule) => Rule.required(),
-      description: "Identificador único para la URL del producto",
     }),
 
-    // ── Imagen del producto ──
+    // ── Imagen ──
     defineField({
       name: "image",
       title: "Imagen del Producto",
       type: "image",
-      options: {
-        hotspot: true,
-      },
+      options: { hotspot: true },
       validation: (Rule) => Rule.required(),
-      description: "Imagen principal del producto. Se recomienda 800x600px mínimo.",
     }),
 
-    // ── Categoría ──
+    // ── Categoría (string con lista de opciones) ──
     defineField({
       name: "category",
       title: "Categoría",
@@ -60,52 +53,15 @@ export default defineType({
         layout: "radio",
       },
       validation: (Rule) => Rule.required(),
-      description: "Línea de servicio a la que pertenece el producto",
     }),
 
-    // ── Descripción (Rich Text / Portable Text) ──
+    // ── Descripción (array de bloques — Portable Text limpio) ──
     defineField({
       name: "description",
       title: "Descripción",
       type: "array",
-      of: [
-        {
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "Título H3", value: "h3" },
-            { title: "Cita", value: "blockquote" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Negrita", value: "strong" },
-              { title: "Cursiva", value: "em" },
-              { title: "Subrayado", value: "underline" },
-              { title: "Tachado", value: "strike-through" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Enlace",
-                fields: [
-                  {
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                  },
-                ],
-              },
-            ],
-          },
-          list: [
-            { title: "Viñetas", value: "bullet" },
-            { title: "Numerada", value: "number" },
-          ],
-        },
-      ],
+      of: [{ type: "block" }],
       validation: (Rule) => Rule.required(),
-      description: "Descripción detallada del producto con formato enriquecido",
     }),
 
     // ── Precio ──
@@ -114,21 +70,14 @@ export default defineType({
       title: "Precio",
       type: "string",
       validation: (Rule) => Rule.required().max(50),
-      description: 'Texto del precio (ej: "Desde S/ 2,499" o "Cotizar")',
     }),
 
-    // ── Especificaciones técnicas ──
+    // ── Especificaciones técnicas (array de strings) ──
     defineField({
       name: "specs",
       title: "Especificaciones Técnicas",
       type: "array",
       of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Agregar especificación", value: "" },
-        ],
-      },
-      description: "Lista de especificaciones técnicas del producto",
     }),
 
     // ── Stock ──
@@ -137,8 +86,7 @@ export default defineType({
       title: "Stock Disponible",
       type: "number",
       initialValue: 0,
-      validation: (Rule) => Rule.min(0).integer(),
-      description: "Cantidad disponible en inventario. 0 = Agotado",
+      validation: (Rule) => Rule.min(0),
     }),
 
     // ── Destacado ──
@@ -147,16 +95,14 @@ export default defineType({
       title: "Producto Destacado",
       type: "boolean",
       initialValue: false,
-      description: "Marcar como destacado para mostrarlo en la sección principal del inicio",
     }),
 
-    // ── Orden de aparición ──
+    // ── Orden ──
     defineField({
       name: "order",
       title: "Orden",
       type: "number",
       initialValue: 0,
-      description: "Orden de aparición en el catálogo (menor = primero)",
     }),
   ],
 
@@ -168,35 +114,17 @@ export default defineType({
       featured: "featured",
     },
     prepare({ title, category, image, featured }) {
-      const categoryLabels: Record<string, string> = {
-        computo: "💻 Cómputo",
-        telecomunicaciones: "📡 Telecom",
-        "equipos-medicos": "🏥 Médico",
-        "energia-solar": "☀️ Solar",
+      const labels: Record<string, string> = {
+        computo: "Cómputo",
+        telecomunicaciones: "Telecomunicaciones",
+        "equipos-medicos": "Equipos Médicos",
+        "energia-solar": "Energía Solar",
       };
       return {
         title: `${featured ? "⭐ " : ""}${title}`,
-        subtitle: categoryLabels[category] || category,
+        subtitle: labels[category] || category,
         media: image,
       };
     },
   },
-
-  orderings: [
-    {
-      title: "Orden personalizado",
-      name: "orderAsc",
-      by: [{ field: "order", direction: "asc" }],
-    },
-    {
-      title: "Nombre A-Z",
-      name: "nameAsc",
-      by: [{ field: "name", direction: "asc" }],
-    },
-    {
-      title: "Más recientes",
-      name: "createdAtDesc",
-      by: [{ field: "_createdAt", direction: "desc" }],
-    },
-  ],
 });
