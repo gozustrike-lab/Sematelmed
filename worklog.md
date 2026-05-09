@@ -113,3 +113,26 @@ Stage Summary:
 - Fallback: hardcoded PRODUCTS from data.ts when Sanity returns empty or errors
 - WhatsApp: getWhatsAppURL("producto", product.name) with hardcoded +51 976 983 333
 - Fast Page Pro credit: untouched in Footer, not in CMS
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Activar Live Preview (Presentation Tool) + Draft Mode para Sanity Studio
+
+Work Log:
+- Installed @sanity/presentation v2.0.0
+- Modified sanity.config.ts: added presentationTool plugin with previewUrl config (localhost:3000 dev, sematelmed.vercel.app prod), previewMode enable route, and document location resolvers for product and siteSettings
+- Created src/sanity/live.ts with defineLive from next-sanity/live exporting sanityFetch and SanityLive
+- Created src/app/api/draft-mode/enable/route.ts using next/headers draftMode().enable()
+- Created src/app/api/draft-mode/disable/route.ts using next/headers draftMode().disable()
+- Updated src/app/tienda/page.tsx to use sanityFetch (auto-detects Draft Mode and switches perspective)
+- Added SanityLive component to src/app/layout.tsx root layout for live revalidation
+- Added SANITY_API_READ_TOKEN placeholder in .env.local
+- Build successful, all routes generated correctly
+- Pushed as commit 41b78a1
+
+Stage Summary:
+- Live Preview (Presentation Tool) fully configured
+- Draft Mode API routes working
+- sanityFetch auto-detects draft mode (perspective: previewDrafts vs published)
+- User needs to generate SANITY_API_READ_TOKEN in sanity.io/manage and set it in .env.local and Vercel env vars
