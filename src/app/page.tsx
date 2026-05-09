@@ -59,7 +59,7 @@ const stagger = {
 // ── SERVICES ──
 function ServicesSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section id="seccion-servicios" className="py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

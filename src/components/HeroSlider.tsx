@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { MessageCircle, ChevronLeft, ChevronRight, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { COMPANY, getWhatsAppURL } from "@/constants/data";
@@ -191,69 +191,107 @@ export function HeroSlider() {
           pt-24 md:pt-28: espacio para la Navbar fija transparente
           ═══════════════════════════════════════════════════════════ */}
       <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 md:pt-28 pb-20">
-          <div className="max-w-2xl">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={page}
-                custom={direction}
-                variants={textVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={textTransition}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 md:pt-28 pb-32 text-center">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={page}
+              custom={direction}
+              variants={textVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={textTransition}
+            >
+              {/* Badge de categoría */}
+              <Badge className="bg-white/15 text-white border-white/20 hover:bg-white/20 px-4 py-1.5 text-sm font-medium backdrop-blur-sm mb-6">
+                {currentSlide.badge}
+              </Badge>
+
+              {/* Título principal */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight mb-5 drop-shadow-lg">
+                {currentSlide.title}
+              </h1>
+
+              {/* Subtítulo */}
+              <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed mb-4 drop-shadow-md">
+                {currentSlide.subtitle}
+              </p>
+
+              {/* Tagline de marca */}
+              <p className="text-sm text-white/50 font-medium mb-8 drop-shadow-sm">
+                {COMPANY.slogan} — {COMPANY.name}, Ilo
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Botones (no se animan con el slide) */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+            <Link href="/tienda">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto bg-[#FF4D00] hover:bg-[#CC3D00] text-white font-bold shadow-xl shadow-[#FF4D00]/30 hover:shadow-[#FF4D00]/50 transition-all duration-300 hover:-translate-y-0.5 px-8 py-6 text-base"
               >
-                {/* Badge de categoría */}
-                <Badge className="bg-white/15 text-white border-white/20 hover:bg-white/20 px-4 py-1.5 text-sm font-medium backdrop-blur-sm mb-6">
-                  {currentSlide.badge}
-                </Badge>
-
-                {/* Título principal */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight mb-5 drop-shadow-lg">
-                  {currentSlide.title}
-                </h1>
-
-                {/* Subtítulo */}
-                <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-lg leading-relaxed mb-4 drop-shadow-md">
-                  {currentSlide.subtitle}
-                </p>
-
-                {/* Tagline de marca */}
-                <p className="text-sm text-white/50 font-medium mb-8 drop-shadow-sm">
-                  {COMPANY.slogan} — {COMPANY.name}, Ilo
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Botones (no se animan con el slide) */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-              <Link href="/tienda">
-                <Button
-                  size="lg"
-                  className="w-full sm:w-auto bg-[#FF4D00] hover:bg-[#CC3D00] text-white font-bold shadow-xl shadow-[#FF4D00]/30 hover:shadow-[#FF4D00]/50 transition-all duration-300 hover:-translate-y-0.5 px-8 py-6 text-base"
-                >
-                  Ver Catálogo
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <a
-                href={getWhatsAppURL("general")}
-                target="_blank"
-                rel="noopener noreferrer"
+                Ver Catálogo
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <a
+              href={getWhatsAppURL("general")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 text-base bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:opacity-90"
               >
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 text-base bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:opacity-90"
-                >
-                  <MessageCircle className="mr-2 w-5 h-5" />
-                  WhatsApp
-                </Button>
-              </a>
-            </div>
+                <MessageCircle className="mr-2 w-5 h-5" />
+                WhatsApp
+              </Button>
+            </a>
           </div>
         </div>
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          CAPA 3.5 — Indicador de Scroll (z-15, rebote hacia abajo)
+          ═══════════════════════════════════════════════════════════ */}
+      <motion.button
+        onClick={() => {
+          const nextSection = document.getElementById("seccion-servicios");
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            window.scrollBy({ top: window.innerHeight, behavior: "smooth" });
+          }
+        }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
+        className="absolute z-[15] bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 cursor-pointer group"
+        aria-label="Desplazar hacia abajo"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="w-8 h-12 rounded-full border-2 border-white/30 flex items-start justify-center pt-2 group-hover:border-white/50 transition-colors duration-300"
+        >
+          <motion.div
+            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+            transition={{
+              duration: 1.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="w-1 h-3 rounded-full bg-white/70"
+          />
+        </motion.div>
+        <ChevronDown className="w-5 h-5 text-white/40 group-hover:text-white/60 transition-colors duration-300" />
+      </motion.button>
 
       {/* ═══════════════════════════════════════════════════════════
           CAPA 4 — Controles de navegación (z-20, abajo)

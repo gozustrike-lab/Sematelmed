@@ -74,25 +74,25 @@ export function Navbar() {
     setMobileOpen(false);
   };
 
-  // ── Clases dinámicas: transparente vs sólida ──
+  // ── Clases dinámicas: transparente vs sólida (#202C40) ──
   const headerBg = scrolled
-    ? "bg-white/95 backdrop-blur-md shadow-lg shadow-brand-dark/5 border-b border-brand-blue/10"
+    ? "bg-[#202C40]/95 backdrop-blur-md shadow-lg shadow-black/20 border-b border-white/5"
     : "bg-transparent";
 
   const logoFilter = scrolled
-    ? "drop-shadow-sm"
+    ? "brightness-0 invert drop-shadow-sm"
     : "brightness-0 invert drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]";
 
   const navLinkBase = "relative px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300";
   const navLinkStyle = scrolled
-    ? "text-brand-dark hover:text-brand-blue hover:bg-brand-blue/5"
+    ? "text-white/80 hover:text-white hover:bg-white/10"
     : "text-white/90 hover:text-white hover:bg-white/10";
   const navLinkActive = scrolled
-    ? "text-brand-blue bg-brand-blue/10"
+    ? "text-white bg-white/15"
     : "text-white bg-white/15";
 
   const mobileBtnStyle = scrolled
-    ? "text-brand-dark hover:text-brand-blue hover:bg-brand-blue/5"
+    ? "text-white hover:text-white/80 hover:bg-white/10"
     : "text-white hover:text-white/80 hover:bg-white/10";
 
   const whatsappBtnStyle = scrolled
@@ -129,9 +129,7 @@ export function Navbar() {
                 >
                   {link.label}
                   {isActive && (
-                    <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full transition-colors duration-300 ${
-                      scrolled ? "bg-brand-blue" : "bg-white"
-                    }`} />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-brand-orange transition-colors duration-300" />
                   )}
                 </Link>
               );
