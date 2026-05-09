@@ -193,13 +193,13 @@ export function Footer() {
                 Tienda N°12 — Ilo, Moquegua
               </p>
               <a
-                href="https://www.google.com/maps/dir/?api=1&destination=Mercadillo+Ciudad+Nueva+Pacocha+Ilo+Moquegua+Peru"
+                href="https://www.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#4726BF] hover:text-[#6B4FE0] transition-colors duration-200"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/50 hover:text-white transition-colors duration-200"
               >
-                <MapPin className="w-3 h-3" />
-                Cómo llegar
+                <MapPin className="w-3.5 h-3.5" />
+                Abrir en Maps
               </a>
             </div>
           </div>

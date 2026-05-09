@@ -153,9 +153,9 @@ export function Navbar() {
               >
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
 
-                <div className="flex flex-col h-full overflow-y-auto">
+                <div className="flex flex-col h-full">
                   {/* ── Header: Logo + Botón Cerrar ── */}
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-brand-blue/10">
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-brand-blue/10 shrink-0">
                     <Link href="/" onClick={handleLinkClick}>
                       <Image
                         src="/logo-nav.png"
@@ -175,9 +175,9 @@ export function Navbar() {
                     </button>
                   </div>
 
-                  {/* ── Nav Links con animación staggered ── */}
+                  {/* ── Zona de Navegación (parte superior) ── */}
                   <motion.nav
-                    className="flex flex-col gap-1 px-3 py-5"
+                    className="flex flex-col gap-2 px-4 pt-6 pb-4 shrink-0"
                     variants={menuVariants}
                     initial="hidden"
                     animate={mobileOpen ? "visible" : "exit"}
@@ -208,43 +208,46 @@ export function Navbar() {
                     </AnimatePresence>
                   </motion.nav>
 
-                  {/* ── Separador ── */}
-                  <div className="mx-5 border-t border-brand-blue/8" />
+                  {/* ── Zona de Acción: empujada al fondo ── */}
+                  <div className="mt-auto shrink-0">
+                    {/* Separador */}
+                    <div className="mx-5 border-t border-brand-blue/10" />
 
-                  {/* ── CTA Buttons ── */}
-                  <div className="mt-4 px-5 space-y-3">
-                    {/* WhatsApp */}
-                    <a
-                      href={getWhatsAppURL("general")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={handleLinkClick}
-                    >
-                      <Button className="w-full bg-[#25D366] hover:bg-[#1EBE5A] text-white font-semibold shadow-lg shadow-[#25D366]/20 transition-all duration-300 hover:shadow-[#25D366]/35 h-12 text-sm">
-                        <MessageCircle className="w-4 h-4 mr-2.5" />
-                        Escribir por WhatsApp
-                      </Button>
-                    </a>
-                    {/* Llamar */}
-                    <a href="tel:+51976983333" onClick={handleLinkClick}>
-                      <Button
-                        variant="outline"
-                        className="w-full border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5 hover:border-brand-orange/50 font-semibold transition-all duration-300 h-12 text-sm"
+                    {/* CTA Buttons — gap-4 entre botones */}
+                    <div className="mt-5 px-5 flex flex-col gap-4">
+                      {/* WhatsApp */}
+                      <a
+                        href={getWhatsAppURL("general")}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={handleLinkClick}
                       >
-                        <Phone className="w-4 h-4 mr-2.5" />
-                        Llamar al {COMPANY.phone}
-                      </Button>
-                    </a>
-                  </div>
+                        <Button className="w-full bg-[#25D366] hover:bg-[#1EBE5A] text-white font-semibold shadow-lg shadow-[#25D366]/20 transition-all duration-300 hover:shadow-[#25D366]/35 h-12 rounded-xl text-sm">
+                          <MessageCircle className="w-4 h-4 mr-2.5" />
+                          Escribir por WhatsApp
+                        </Button>
+                      </a>
+                      {/* Llamar */}
+                      <a href="tel:+51976983333" onClick={handleLinkClick}>
+                        <Button
+                          variant="outline"
+                          className="w-full border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5 hover:border-brand-orange/50 font-semibold transition-all duration-300 h-12 rounded-xl text-sm"
+                        >
+                          <Phone className="w-4 h-4 mr-2.5" />
+                          Llamar al {COMPANY.phone}
+                        </Button>
+                      </a>
+                    </div>
 
-                  {/* ── Footer del menú ── */}
-                  <div className="mt-auto px-5 py-5 border-t border-brand-blue/8">
-                    <p className="text-xs text-muted-foreground leading-relaxed text-center">
-                      {COMPANY.address}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground/60 text-center mt-2">
-                      {COMPANY.slogan}
-                    </p>
+                    {/* Footer del menú */}
+                    <div className="px-5 pt-5 pb-6">
+                      <p className="text-xs text-muted-foreground leading-relaxed text-center">
+                        {COMPANY.address}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground/60 text-center mt-2">
+                        {COMPANY.slogan}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </SheetContent>
