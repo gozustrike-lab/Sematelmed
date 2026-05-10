@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Poppins, Montserrat } from "next/font/google";
+import { draftMode } from "next/headers";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FluidBackground } from "@/components/FluidBackground";
 import { SanityLive } from "@/sanity/live";
+import { VisualEditing } from "@/components/VisualEditing";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -56,7 +58,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    appleTouchIcon: "/apple-touch-icon.png",
   },
   metadataBase: new URL(
     process.env.VERCEL_URL
@@ -95,11 +97,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+// ── RootLayout (Server Component + async) ──
+// draftMode() permite detectar si el Preview Mode está activo.
+// Cuando está activo:
+//   - SanityLive: revalidación en tiempo real via WebSocket
+//   - VisualEditing: overlay de edición inline sobre la página
+//
+// REGLA FAST PAGE PRO:
+// El crédito "Diseño y desarrollo web por Fast Page Pro" en el Footer
+// es HARDCODED y NO tiene etiquetas de edición visual (stega).
+// Es estático, intocable e inamovible por diseño.
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const draft = await draftMode();
+
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
@@ -118,8 +132,10 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Toaster />
-        {/* SanityLive: habilita Live Preview + Draft Mode + Inline Editing */}
+        {/* SanityLive: revalidación en tiempo real (siempre activo) */}
         <SanityLive />
+        {/* VisualEditing: overlay de edición inline (SOLO en Draft Mode) */}
+        {draft.isEnabled && <VisualEditing />}
       </body>
     </html>
   );

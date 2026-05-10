@@ -1,7 +1,7 @@
 // ============================================================
-// SEMATELMED — Cliente de Sanity + Utilidades
+// FAST PAGE PRO — Cliente de Sanity + Utilidades
 // Cliente principal para fetch de datos publicados (CDN)
-// Tipos TypeScript, urlFor, plainText
+// Cliente stega para Visual Editing (source maps en datos)
 // ============================================================
 
 import { createClient } from "@sanity/client";
@@ -12,7 +12,7 @@ import { createImageUrlBuilder } from "@sanity/image-url";
 export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  apiVersion: "2024-01-01",
+  apiVersion: "2025-01-01",
   useCdn: true,
 });
 
