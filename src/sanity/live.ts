@@ -11,7 +11,7 @@ import { defineLive } from "next-sanity/live";
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  apiVersion: "2024-01-01",
+  apiVersion: "2025-01-01",
   useCdn: true,
   perspective: "published",
 });
@@ -21,6 +21,10 @@ const client = createClient({
 // sanity.io/manage → API → Tokens → New Token (Reader)
 const token = process.env.SANITY_API_READ_TOKEN;
 
+// ── Token público para el navegador (VisualEditing overlay) ──
+// Debe estar en NEXT_PUBLIC_ para que el browser pueda leerlo
+const browserToken = process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN;
+
 // ── Exportar sanityFetch y SanityLive ──
 // - sanityFetch: para Server Components, detecta Draft Mode automáticamente
 //   Retorna datos con source maps para edición inline (VisualEditing)
@@ -29,5 +33,5 @@ const token = process.env.SANITY_API_READ_TOKEN;
 export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: token,
-  browserToken: token,
+  browserToken: browserToken,
 });
