@@ -5,5 +5,6 @@
 
 import product from "./schemas/product";
 import siteSettings from "./schemas/siteSettings";
+import studioGuide from "./schemas/guia";
 
-export const schemaTypes = [product, siteSettings];
+export const schemaTypes = [product, siteSettings, studioGuide];

@@ -3,6 +3,7 @@
 // Fetch directo a Sanity con fallback a datos estáticos
 // ISR: revalidación automática cada 60 segundos
 // Live Preview: sanityFetch para Draft Mode cuando token existe
+// Inline Editing: VisualEditing overlay con source maps
 // ============================================================
 
 import { Suspense } from "react";
@@ -63,8 +64,7 @@ async function getProducts(): Promise<{
   products: SanityProduct[];
   source: "sanity" | "fallback";
 }> {
-  // ── Capa 1: sanityFetch (Live Preview con drafts) ──
-  // Solo si existe el token de lectura (necesario para perspective: previewDrafts)
+  // ── Capa 1: sanityFetch (Live Preview con drafts + source maps para inline editing) ──
   if (process.env.SANITY_API_READ_TOKEN) {
     try {
       const { defineLive } = await import("next-sanity/live");
@@ -85,19 +85,20 @@ async function getProducts(): Promise<{
         serverToken: process.env.SANITY_API_READ_TOKEN,
       });
 
+      // sanityFetch retorna datos con source maps para VisualEditing
       const { data } = await sanityFetch<SanityProduct[]>({
         query: ALL_PRODUCTS_QUERY,
       });
 
       if (data && data.length > 0) {
         console.log(
-          `[Sematelmed] ✅ ${data.length} productos cargados via sanityFetch (Live Preview)`,
+          `[Fast Page Pro] ✅ ${data.length} productos cargados via sanityFetch (Live Preview + Inline Editing)`,
         );
         return { products: data, source: "sanity" };
       }
     } catch (liveError) {
       console.warn(
-        "[Sematelmed] sanityFetch falló, intentando fetch directo...",
+        "[Fast Page Pro] sanityFetch falló, intentando fetch directo...",
         liveError instanceof Error ? liveError.message : liveError,
       );
     }
@@ -111,20 +112,20 @@ async function getProducts(): Promise<{
 
     if (sanityProducts && sanityProducts.length > 0) {
       console.log(
-        `[Sematelmed] ✅ ${sanityProducts.length} productos cargados via sanityClient (CDN)`,
+        `[Fast Page Pro] ✅ ${sanityProducts.length} productos cargados via sanityClient (CDN)`,
       );
       return { products: sanityProducts, source: "sanity" };
     }
   } catch (cdnError) {
     console.warn(
-      "[Sematelmed] sanityClient.fetch falló, usando fallback...",
+      "[Fast Page Pro] sanityClient.fetch falló, usando fallback...",
       cdnError instanceof Error ? cdnError.message : cdnError,
     );
   }
 
   // ── Capa 3: fallback a datos estáticos ──
   console.log(
-    "[Sematelmed] ⚠️ Sanity no tiene datos. Usando catálogo precargado.",
+    "[Fast Page Pro] ⚠️ Sanity no tiene datos. Usando catálogo precargado.",
   );
   return {
     products: fallbackToSanityFormat(PRODUCTS),

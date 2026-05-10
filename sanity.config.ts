@@ -1,19 +1,19 @@
 // ============================================================
 // FAST PAGE PRO — Configuración de Sanity Studio
 // Studio embebido en Next.js App Router — ruta: /admin
-// Estructura: 2 grupos con iconos profesionales
+// Plugins: Structure + Presentation (Live Preview + Inline Editing)
 // Reutilizable: lee COMPANY_NAME desde variable de entorno
 // ============================================================
 
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-import { visionTool } from "@sanity/vision";
 import { presentationTool } from "sanity/presentation";
 import { defineLocations } from "sanity/presentation";
 import {
   PackageIcon,
   HomeIcon,
   CogIcon,
+  BookIcon,
 } from "@sanity/icons";
 import { schemaTypes } from "./sanity/schema";
 import {
@@ -37,7 +37,7 @@ export default defineConfig({
 
   // ── Plugins ──
   plugins: [
-    // ── Structure Builder: panel organizado en 2 grupos ──
+    // ── Structure Builder: panel organizado en 3 grupos ──
     structureTool({
       structure: (S) => {
         return S.list()
@@ -67,7 +67,6 @@ export default defineConfig({
                 S.list()
                   .title("Empresa")
                   .items([
-                    // Configuración del sitio (singleton — documento único)
                     S.listItem()
                       .title("Configuración del Sitio")
                       .icon(CogIcon)
@@ -80,20 +79,32 @@ export default defineConfig({
                       ),
                   ]),
               ),
+
+            // ── Grupo 3: Guía de Uso ──
+            S.listItem()
+              .title("Guía de Uso")
+              .icon(BookIcon)
+              .id("guia-group")
+              .child(
+                S.document()
+                  .schemaType("studioGuide")
+                  .documentId("studio-guide")
+                  .title("Guía Paso a Paso"),
+              ),
           ]);
       },
     }),
 
-    // ── GROQ Query Debugger ──
-    visionTool(),
-
-    // ── Presentation Tool (Live Preview / Draft Mode) ──
+    // ── Presentation Tool (Live Preview + Inline Editing) ──
+    // Muestra la web completa inmediatamente y permite editar inline
     presentationTool({
       previewUrl: {
+        // URL que se carga al abrir el panel (toda la web visible de inmediato)
         initial:
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
             : SITE_URL,
+        // Habilita Draft Mode para inline editing y contenido no publicado
         previewMode: {
           enable: "/api/draft-mode/enable",
         },
@@ -103,7 +114,9 @@ export default defineConfig({
           product: defineLocations({
             type: "product",
             resolve: () => ({
-              locations: [{ title: "Tienda", href: "/tienda" }],
+              locations: [
+                { title: "Tienda", href: "/tienda" },
+              ],
             }),
           }),
           siteSettings: defineLocations({
