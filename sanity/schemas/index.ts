@@ -1,6 +1,6 @@
 // ============================================================
-// SEMATELMED — Índice de Esquemas de Sanity
-// Exporta centralizada de todos los tipos de documento
+// FAST PAGE PRO — Índice de Esquemas
+// Re-exporta centralizado de todos los tipos de documento
 // ============================================================
 
 import product from "./product";

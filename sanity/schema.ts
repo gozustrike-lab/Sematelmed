@@ -1,6 +1,6 @@
 // ============================================================
-// SEMATELMED — Esquemas Unificados de Sanity
-// Importa y exporta todos los tipos de documento
+// FAST PAGE PRO — Esquemas Unificados de Sanity
+// Punto de entrada: importa todos los tipos de documento
 // ============================================================
 
 import product from "./schemas/product";

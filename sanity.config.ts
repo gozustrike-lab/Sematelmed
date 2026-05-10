@@ -1,7 +1,8 @@
 // ============================================================
-// SEMATELMED — Configuración de Sanity Studio
+// FAST PAGE PRO — Configuración de Sanity Studio
 // Studio embebido en Next.js App Router — ruta: /admin
-// Incluye Presentation Tool (Live Preview) + Draft Mode
+// Estructura: 2 grupos con iconos profesionales
+// Reutilizable: lee COMPANY_NAME desde variable de entorno
 // ============================================================
 
 import { defineConfig } from "sanity";
@@ -9,14 +10,25 @@ import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { presentationTool } from "sanity/presentation";
 import { defineLocations } from "sanity/presentation";
+import {
+  PackageIcon,
+  HomeIcon,
+  CogIcon,
+} from "@sanity/icons";
 import { schemaTypes } from "./sanity/schema";
+import {
+  STUDIO_TITLE,
+  SITE_URL,
+  BRAND_COLORS,
+} from "./sanity/lib/schema-master";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
 export default defineConfig({
-  name: "sematelmed-studio",
-  title: "Sematelmed CMS",
+  name: "fast-page-pro-studio",
+  title: STUDIO_TITLE,
+
   projectId,
   dataset,
 
@@ -25,43 +37,81 @@ export default defineConfig({
 
   // ── Plugins ──
   plugins: [
-    structureTool(),
+    // ── Structure Builder: panel organizado en 2 grupos ──
+    structureTool({
+      structure: (S) => {
+        return S.list()
+          .title("Panel de Control")
+          .items([
+            // ── Grupo 1: Contenido de Tienda ──
+            S.listItem()
+              .title("Contenido de Tienda")
+              .icon(PackageIcon)
+              .id("tienda-group")
+              .child(
+                S.list()
+                  .title("Tienda")
+                  .items([
+                    ...S.documentTypeListItems().filter(
+                      (item) => item.getId() === "product",
+                    ),
+                  ]),
+              ),
+
+            // ── Grupo 2: Información Corporativa ──
+            S.listItem()
+              .title("Información Corporativa")
+              .icon(HomeIcon)
+              .id("corporativo-group")
+              .child(
+                S.list()
+                  .title("Empresa")
+                  .items([
+                    // Configuración del sitio (singleton — documento único)
+                    S.listItem()
+                      .title("Configuración del Sitio")
+                      .icon(CogIcon)
+                      .id("site-settings-editor")
+                      .child(
+                        S.document()
+                          .schemaType("siteSettings")
+                          .documentId("siteSettings")
+                          .title("Configuración"),
+                      ),
+                  ]),
+              ),
+          ]);
+      },
+    }),
+
+    // ── GROQ Query Debugger ──
     visionTool(),
+
+    // ── Presentation Tool (Live Preview / Draft Mode) ──
     presentationTool({
-      // ── URL de preview: desarrollo vs producción ──
       previewUrl: {
-        // En desarrollo usa localhost:3000, en producción la URL de Vercel
         initial:
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : "https://sematelmed.vercel.app",
-        // Ruta que activa Next.js Draft Mode
+            : SITE_URL,
         previewMode: {
           enable: "/api/draft-mode/enable",
         },
       },
-      // ── Mapeo de documentos a rutas de preview ──
       resolve: {
         locations: {
           product: defineLocations({
             type: "product",
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: "Tienda",
-                  href: "/tienda",
-                },
-              ],
+            resolve: () => ({
+              locations: [{ title: "Tienda", href: "/tienda" }],
             }),
           }),
           siteSettings: defineLocations({
             type: "siteSettings",
             resolve: () => ({
               locations: [
-                {
-                  title: "Inicio",
-                  href: "/",
-                },
+                { title: "Inicio", href: "/" },
+                { title: "Nosotros", href: "/nosotros" },
               ],
             }),
           }),
@@ -75,10 +125,17 @@ export default defineConfig({
     types: schemaTypes,
   },
 
-  // ── Tema del Studio ──
+  // ── Document settings ──
+  document: {
+    unsavedChanges: {
+      warning: "Tienes cambios sin guardar. ¿Seguro que quieres salir?",
+    },
+  },
+
+  // ── Tema del Studio (branding dinámico) ──
   theme: {
-    "--brand-primary": "#4726BF",
-    "--brand-accent": "#FF4D00",
-    "--brand-dark": "#202C40",
+    "--brand-primary": BRAND_COLORS.primary,
+    "--brand-accent": BRAND_COLORS.accent,
+    "--brand-dark": BRAND_COLORS.dark,
   } as React.CSSProperties,
 });
