@@ -1,7 +1,8 @@
 // ============================================================
-// FAST PAGE PRO — Configuración de Sanity Studio
+// FAST PAGE PRO — Configuración de Sanity Studio (Agencia Pro)
 // Studio embebido en Next.js App Router — ruta: /admin
-// Plugins: Structure + Presentation (Live Preview + Inline Editing)
+// Plugins: Structure + Presentation (solo 2 pestañas)
+// Sin Releases, sin Vision — interfaz limpia para el cliente
 // Reutilizable: lee COMPANY_NAME desde variable de entorno
 // ============================================================
 
@@ -35,9 +36,9 @@ export default defineConfig({
   // ── Studio embebido en /admin (no subdominio) ──
   basePath: "/admin",
 
-  // ── Plugins ──
+  // ── Plugins (solo 2 pestañas: Estructura + Presentación) ──
   plugins: [
-    // ── Structure Builder: panel organizado en 3 grupos ──
+    // ── Pestaña 1: Structure — panel organizado en 3 grupos ──
     structureTool({
       structure: (S) => {
         return S.list()
@@ -95,11 +96,13 @@ export default defineConfig({
       },
     }),
 
-    // ── Presentation Tool (Live Preview + Inline Editing) ──
-    // Muestra la web completa inmediatamente y permite editar inline
+    // ── Pestaña 2: Presentation — web a pantalla completa ──
+    // Muestra toda la web inmediatamente. El panel de documentos
+    // SOLO aparece cuando el usuario selecciona un documento.
+    // Sin Releases, sin Vision — interfaz limpia.
     presentationTool({
       previewUrl: {
-        // URL que se carga al abrir el panel (toda la web visible de inmediato)
+        // URL que se carga al abrir el panel
         initial:
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"

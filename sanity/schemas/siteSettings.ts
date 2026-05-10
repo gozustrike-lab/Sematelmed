@@ -56,13 +56,13 @@ export default defineType({
       title: "Misión",
       fieldset: "missionVision",
       description:
-        "Describe el propósito y la propuesta de valor de la empresa. Máximo 500 caracteres.",
+        "Describe el propósito y la propuesta de valor de la empresa. Máximo 300 caracteres para no romper el diseño.",
       type: "text",
       rows: 3,
       validation: (Rule) =>
         Rule.required()
-          .max(500)
-          .error("La misión es obligatoria (máximo 500 caracteres)."),
+          .max(300)
+          .error("La misión es obligatoria (máximo 300 caracteres)."),
     }),
 
     defineField({
@@ -70,13 +70,13 @@ export default defineType({
       title: "Visión",
       fieldset: "missionVision",
       description:
-        "Describe hacia dónde se proyecta la empresa a futuro. Máximo 500 caracteres.",
+        "Describe hacia dónde se proyecta la empresa a futuro. Máximo 300 caracteres para no romper el diseño.",
       type: "text",
       rows: 3,
       validation: (Rule) =>
         Rule.required()
-          .max(500)
-          .error("La visión es obligatoria (máximo 500 caracteres)."),
+          .max(300)
+          .error("La visión es obligatoria (máximo 300 caracteres).")
     }),
 
     // ── Información de Contacto ──

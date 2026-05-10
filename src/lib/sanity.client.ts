@@ -1,19 +1,40 @@
 // ============================================================
 // FAST PAGE PRO — Cliente de Sanity + Utilidades
 // Cliente principal para fetch de datos publicados (CDN)
-// Cliente stega para Visual Editing (source maps en datos)
+// Con stega habilitado para inyectar source maps en los datos
+// cuando Draft Mode está activo (Visual Editing inline).
+//
+// STEGA es VITAL para que el clic inline funcione:
+// - Sin stega: los datos llegan "limpios" sin metadatos
+// - Con stega: los datos llevan source maps que indican al overlay
+//   qué texto pertenece a qué campo de Sanity (editable o no)
+//
+// REGLA FAST PAGE PRO:
+// El crédito Footer NO pasa por este cliente. Es un componente
+// estático sin etiquetas de stega — inamovible por diseño.
 // ============================================================
 
 import { createClient } from "@sanity/client";
 import { createImageUrlBuilder } from "@sanity/image-url";
 
-// ── Cliente principal de Sanity (CDN para contenido publicado) ──
-// No necesita token — usa la CDN pública de Sanity
+// ── Cliente principal de Sanity (CDN + stega) ──
+// stega.studioUrl indica dónde está el Studio embebido.
+// Cuando Draft Mode está activo, stega inyecta source maps
+// en los datos retornados para que el overlay VisualEditing
+// pueda identificar qué campos son editables inline.
 export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2025-01-01",
   useCdn: true,
+  // ── STEGA: source maps para Visual Editing ──
+  // Habilitado siempre. En producción sin Draft Mode,
+  // stega no inyecta nada (solo lo hace cuando detecta
+  // el cookie de preview). No afecta rendimiento.
+  stega: {
+    enabled: true,
+    studioUrl: "/admin",
+  },
 });
 
 // ── Builder de URLs de imagen ──
@@ -77,6 +98,8 @@ export interface PortableTextBlock {
 /**
  * Extrae texto plano de un bloque Portable Text de Sanity.
  * Útil para previews en cards (line-clamp).
+ * IMPORTANTE: plainText LIMPIA las etiquetas stega del texto.
+ * Si necesitas preservar stega, renderiza con PortableText de @portabletext/react.
  */
 export function plainText(blocks: PortableTextBlock[] | undefined | null): string {
   if (!blocks || !Array.isArray(blocks)) return "";
