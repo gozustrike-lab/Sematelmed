@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FluidBackground } from "@/components/FluidBackground";
-import { VisualEditingLoader } from "@/sanity/visual-editing-loader";
+import { SanityLive } from "@/sanity/live";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -118,9 +118,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Toaster />
-        {/* VisualEditingLoader: habilita Live Preview + Draft Mode + Inline Editing */}
-        {/* Cargado solo en el cliente (ssr: false) para evitar error de hydration */}
-        <VisualEditingLoader />
+        {/* SanityLive: habilita Live Preview + Draft Mode + Inline Editing */}
+        <SanityLive />
       </body>
     </html>
   );
