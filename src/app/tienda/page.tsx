@@ -1,13 +1,13 @@
 // ============================================================
 // SEMATELMED — Tienda (Server Component)
-// Fetch directo a Sanity con fallback a datos estáticos
+// Fetch a Sanity con stega para Visual Editing inline
+// Estrategia: sanityFetch (stega + drafts) → sanityClient (CDN) → fallback estático
 // ISR: revalidación automática cada 60 segundos
-// Live Preview: sanityFetch para Draft Mode cuando token existe
-// Inline Editing: VisualEditing overlay con source maps
 // ============================================================
 
 import { Suspense } from "react";
 import { sanityClient, type SanityProduct } from "@/lib/sanity.client";
+import { sanityFetch } from "@/sanity/live";
 import { ALL_PRODUCTS_QUERY } from "@/lib/sanity.queries";
 import { PRODUCTS, type Product } from "@/constants/data";
 import { TiendaContent } from "./tienda-content";
@@ -57,51 +57,36 @@ function fallbackToSanityFormat(products: Product[]): SanityProduct[] {
 
 // ── Fetch de productos desde Sanity ──
 // Estrategia de triple capa:
-// 1. Intenta sanityFetch (Live Preview / Draft Mode) si el token existe
-// 2. Sino, usa sanityClient.fetch directo (CDN, no necesita token)
+// 1. sanityFetch (compartido de live.ts) — tiene stega + Live Preview
+//    Cuando Draft Mode está activo, inyecta source maps en los datos
+//    para que el overlay VisualEditing identifique campos editables inline
+// 2. sanityClient.fetch directo (CDN, no necesita token)
 // 3. Si todo falla, fallback a datos estáticos locales
 async function getProducts(): Promise<{
   products: SanityProduct[];
   source: "sanity" | "fallback";
 }> {
-  // ── Capa 1: sanityFetch (Live Preview con drafts + source maps para inline editing) ──
-  if (process.env.SANITY_API_READ_TOKEN) {
-    try {
-      const { defineLive } = await import("next-sanity/live");
-      const { createClient } = await import("next-sanity");
+  // ── Capa 1: sanityFetch (stega + Live Preview + Inline Editing) ──
+  // Usa el defineLive compartido de live.ts que tiene:
+  // - stega: { enabled: true, studioUrl: "/admin" }
+  // - serverToken para drafts
+  // - browserToken para WebSocket real-time
+  try {
+    const { data } = await sanityFetch<SanityProduct[]>({
+      query: ALL_PRODUCTS_QUERY,
+    });
 
-      const liveClient = createClient({
-        projectId:
-          process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb",
-        dataset:
-          process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-        apiVersion: "2024-01-01",
-        useCdn: false,
-        perspective: "published",
-      });
-
-      const { sanityFetch } = defineLive({
-        client: liveClient,
-        serverToken: process.env.SANITY_API_READ_TOKEN,
-      });
-
-      // sanityFetch retorna datos con source maps para VisualEditing
-      const { data } = await sanityFetch<SanityProduct[]>({
-        query: ALL_PRODUCTS_QUERY,
-      });
-
-      if (data && data.length > 0) {
-        console.log(
-          `[Fast Page Pro] ✅ ${data.length} productos cargados via sanityFetch (Live Preview + Inline Editing)`,
-        );
-        return { products: data, source: "sanity" };
-      }
-    } catch (liveError) {
-      console.warn(
-        "[Fast Page Pro] sanityFetch falló, intentando fetch directo...",
-        liveError instanceof Error ? liveError.message : liveError,
+    if (data && data.length > 0) {
+      console.log(
+        `[Fast Page Pro] ✅ ${data.length} productos cargados via sanityFetch (Live Preview + Inline Editing)`,
       );
+      return { products: data, source: "sanity" };
     }
+  } catch (liveError) {
+    console.warn(
+      "[Fast Page Pro] sanityFetch falló, intentando fetch directo...",
+      liveError instanceof Error ? liveError.message : liveError,
+    );
   }
 
   // ── Capa 2: fetch directo con sanityClient (CDN, publicado) ──

@@ -36,6 +36,11 @@ export default defineConfig({
   // ── Studio embebido en /admin (no subdominio) ──
   basePath: "/admin",
 
+  // ── Desactivar Releases (feature integrado de Sanity v3) ──
+  releases: {
+    enabled: false,
+  },
+
   // ── Plugins (solo 2 pestañas: Estructura + Presentación) ──
   plugins: [
     // ── Pestaña 1: Structure — panel organizado en 3 grupos ──
@@ -101,6 +106,11 @@ export default defineConfig({
     // SOLO aparece cuando el usuario selecciona un documento.
     // Sin Releases, sin Vision — interfaz limpia.
     presentationTool({
+      // Desactiva el panel lateral de documentos por defecto.
+      // Solo se muestra cuando el usuario selecciona un documento.
+      document: {
+        actions: [],
+      },
       previewUrl: {
         // URL que se carga al abrir el panel
         initial:
