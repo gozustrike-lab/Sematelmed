@@ -6,15 +6,13 @@
 // ============================================================
 
 import { Suspense } from "react";
-import { sanityClient, type SanityProduct } from "@/lib/sanity.client";
+import { sanityClient, type SanityProduct, type SanityCategory } from "@/lib/sanity.client";
 import { sanityFetch } from "@/sanity/live";
-import { ALL_PRODUCTS_QUERY } from "@/lib/sanity.queries";
+import { ALL_PRODUCTS_QUERY, ALL_CATEGORIES_QUERY } from "@/lib/sanity.queries";
 import { PRODUCTS, type Product } from "@/constants/data";
 import { TiendaContent } from "./tienda-content";
 
 // ── ISR: revalida cada 60 segundos ──
-// Cuando el usuario publique en Sanity, la página se actualiza
-// automáticamente en el siguiente request (máximo 60s de espera)
 export const revalidate = 60;
 
 // ── Loader skeleton ──
@@ -38,7 +36,14 @@ function fallbackToSanityFormat(products: Product[]): SanityProduct[] {
     name: p.name,
     slug: { current: p.id, _type: "slug" },
     image: null as unknown as SanityProduct["image"],
-    category: p.category,
+    gallery: [],
+    category: {
+      _id: p.category,
+      name: CATEGORY_LABELS_MAP[p.category] || p.category,
+      slug: p.category,
+      color: CATEGORY_COLOR_MAP[p.category] || "gray",
+      icon: CATEGORY_ICON_MAP[p.category] || "package",
+    },
     description: [
       {
         _type: "block",
@@ -50,37 +55,54 @@ function fallbackToSanityFormat(products: Product[]): SanityProduct[] {
     price: p.price,
     specs: p.specs,
     stock: 99,
+    badge: "" as const,
     featured: p.featured,
     order: i,
   }));
 }
 
-// ── Fetch de productos desde Sanity ──
-// Estrategia de triple capa:
-// 1. sanityFetch (compartido de live.ts) — tiene stega + Live Preview
-//    Cuando Draft Mode está activo, inyecta source maps en los datos
-//    para que el overlay VisualEditing identifique campos editables inline
-// 2. sanityClient.fetch directo (CDN, no necesita token)
-// 3. Si todo falla, fallback a datos estáticos locales
-async function getProducts(): Promise<{
+const CATEGORY_LABELS_MAP: Record<string, string> = {
+  computo: "Cómputo",
+  telecomunicaciones: "Telecomunicaciones",
+  "equipos-medicos": "Equipos Médicos",
+  "energia-solar": "Energía Solar",
+};
+
+const CATEGORY_COLOR_MAP: Record<string, string> = {
+  computo: "blue",
+  telecomunicaciones: "purple",
+  "equipos-medicos": "red",
+  "energia-solar": "amber",
+};
+
+const CATEGORY_ICON_MAP: Record<string, string> = {
+  computo: "monitor",
+  telecomunicaciones: "wifi",
+  "equipos-medicos": "heart-pulse",
+  "energia-solar": "sun",
+};
+
+// ── Fetch de productos y categorías desde Sanity ──
+async function getData(): Promise<{
   products: SanityProduct[];
+  categories: SanityCategory[];
   source: "sanity" | "fallback";
 }> {
   // ── Capa 1: sanityFetch (stega + Live Preview + Inline Editing) ──
-  // Usa el defineLive compartido de live.ts que tiene:
-  // - stega: { enabled: true, studioUrl: "/admin" }
-  // - serverToken para drafts
-  // - browserToken para WebSocket real-time
   try {
-    const { data } = await sanityFetch<SanityProduct[]>({
-      query: ALL_PRODUCTS_QUERY,
-    });
+    const [productsResult, categoriesResult] = await Promise.all([
+      sanityFetch<SanityProduct[]>({ query: ALL_PRODUCTS_QUERY }),
+      sanityFetch<SanityCategory[]>({ query: ALL_CATEGORIES_QUERY }),
+    ]);
 
-    if (data && data.length > 0) {
+    const products = productsResult.data || [];
+    const categories = categoriesResult.data || [];
+
+    if (products.length > 0) {
       console.log(
-        `[Fast Page Pro] ✅ ${data.length} productos cargados via sanityFetch (Live Preview + Inline Editing)`,
+        `[Fast Page Pro] ✅ ${products.length} productos + ${categories.length} categorías via sanityFetch`,
       );
-      return { products: data, source: "sanity" };
+      return { products, categories, source: "sanity" };
     }
   } catch (liveError) {
     console.warn(
@@ -89,17 +111,22 @@ async function getProducts(): Promise<{
     );
   }
 
-  // ── Capa 2: fetch directo con sanityClient (CDN, publicado) ──
+  // ── Capa 2: fetch directo con sanityClient (CDN) ──
   try {
-    const sanityProducts = await sanityClient.fetch<SanityProduct[]>(
-      ALL_PRODUCTS_QUERY,
-    );
+    const [sanityProducts, sanityCategories] = await Promise.all([
+      sanityClient.fetch<SanityProduct[]>(ALL_PRODUCTS_QUERY),
+      sanityClient.fetch<SanityCategory[]>(ALL_CATEGORIES_QUERY),
+    ]);
 
     if (sanityProducts && sanityProducts.length > 0) {
       console.log(
-        `[Fast Page Pro] ✅ ${sanityProducts.length} productos cargados via sanityClient (CDN)`,
+        `[Fast Page Pro] ✅ ${sanityProducts.length} productos via sanityClient (CDN)`,
       );
-      return { products: sanityProducts, source: "sanity" };
+      return {
+        products: sanityProducts,
+        categories: sanityCategories || [],
+        source: "sanity",
+      };
     }
   } catch (cdnError) {
     console.warn(
@@ -109,22 +136,25 @@ async function getProducts(): Promise<{
   }
 
   // ── Capa 3: fallback a datos estáticos ──
-  console.log(
-    "[Fast Page Pro] ⚠️ Sanity no tiene datos. Usando catálogo precargado.",
-  );
+  console.log("[Fast Page Pro] ⚠️ Usando catálogo precargado.");
   return {
     products: fallbackToSanityFormat(PRODUCTS),
+    categories: [],
     source: "fallback",
   };
 }
 
 // ── Server Component (async) ──
 export default async function TiendaPage() {
-  const { products, source } = await getProducts();
+  const { products, categories, source } = await getData();
 
   return (
     <Suspense fallback={<TiendaLoader />}>
-      <TiendaContent products={products} source={source} />
+      <TiendaContent
+        products={products}
+        categories={categories}
+        source={source}
+      />
     </Suspense>
   );
 }

@@ -47,23 +47,44 @@ export function urlFor(source: Parameters<typeof builder.image>[0]) {
 
 // ── Tipos de respuesta ──
 
+/** Categoría expandida (reference resuelta) */
+export interface SanityCategory {
+  _id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  color?: string;
+  icon?: string;
+  order?: number;
+}
+
+/** Imagen de Sanity con asset expandido */
+export interface SanityImage {
+  asset?: { _ref: string; _type: string; _id?: string; url?: string };
+  alt?: string;
+  caption?: string;
+  hotspot?: { x: number; y: number; height: number; width: number };
+  crop?: { top: number; bottom: number; left: number; right: number };
+}
+
+/** Badge promocional */
+export type ProductBadge = "" | "Nuevo" | "Oferta" | "Destacado" | "Últimas unidades" | "Más vendido";
+
+/** Producto con categoría expandida, galería y badge */
 export interface SanityProduct {
   _id: string;
   _createdAt: string;
   _updatedAt: string;
   name: string;
   slug: { current: string; _type: string };
-  image: {
-    asset?: { _ref: string; _type: string; _id?: string; url?: string };
-    alt?: string;
-    hotspot?: { x: number; y: number; height: number; width: number };
-    crop?: { top: number; bottom: number; left: number; right: number };
-  } | null;
-  category: string;
+  image: SanityImage | null;
+  gallery: SanityImage[];
+  category: SanityCategory | null;
   description: PortableTextBlock[];
   price: string;
   specs?: string[];
   stock: number;
+  badge: ProductBadge;
   featured: boolean;
   order: number;
 }
@@ -112,4 +133,23 @@ export function plainText(blocks: PortableTextBlock[] | undefined | null): strin
     })
     .join("\n")
     .trim();
+}
+
+// ── Helpers de categoría ──
+
+/** Obtiene el nombre legible de la categoría */
+export function getCategoryName(product: SanityProduct): string {
+  return product.category?.name || "Sin categoría";
+}
+
+/** Obtiene el color de la categoría para estilos */
+export function getCategoryColorClass(color?: string): string {
+  switch (color) {
+    case "blue": return "bg-blue-50 text-blue-700 border-blue-200";
+    case "purple": return "bg-purple-50 text-purple-700 border-purple-200";
+    case "red": return "bg-red-50 text-red-700 border-red-200";
+    case "amber": return "bg-amber-50 text-amber-700 border-amber-200";
+    case "green": return "bg-green-50 text-green-700 border-green-200";
+    default: return "bg-gray-50 text-gray-700 border-gray-200";
+  }
 }

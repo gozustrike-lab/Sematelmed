@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import Image from "next/image";
 import {
   MessageCircle,
@@ -12,22 +12,28 @@ import {
   HeartPulse,
   Sun,
   Package,
+  Tag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { SectionTransition } from "@/components/SectionTransition";
+import { ProductModal } from "@/components/ProductModal";
 import {
-  CATEGORY_LABELS,
-  getWhatsAppURL,
-  type ProductCategory,
-} from "@/constants/data";
+  ProductGridSkeleton,
+  CategoryFilterSkeleton,
+  SearchBarSkeleton,
+} from "@/components/ProductSkeletons";
 import {
   type SanityProduct,
+  type SanityCategory,
   plainText,
   urlFor,
+  getCategoryName,
+  getCategoryColorClass,
 } from "@/lib/sanity.client";
+import { getWhatsAppURL, CATEGORY_LABELS, type ProductCategory } from "@/constants/data";
 
 // ── Icon mapper ──
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -35,55 +41,25 @@ const ICON_MAP: Record<string, React.ElementType> = {
   wifi: Wifi,
   "heart-pulse": HeartPulse,
   sun: Sun,
+  package: Package,
+  tag: Tag,
 };
 
-function getCategoryIcon(category: string): React.ElementType {
-  return ICON_MAP[
-    category === "computo"
-      ? "monitor"
-      : category === "telecomunicaciones"
-        ? "wifi"
-        : category === "equipos-medicos"
-          ? "heart-pulse"
-          : "sun"
-  ] || Package;
+function getCategoryIcon(icon?: string): React.ElementType {
+  return (icon && ICON_MAP[icon]) || Package;
 }
 
-function getCategoryColor(category: string): string {
-  switch (category) {
-    case "computo":
-      return "bg-blue-50 text-blue-700 border-blue-200";
-    case "telecomunicaciones":
-      return "bg-purple-50 text-purple-700 border-purple-200";
-    case "equipos-medicos":
-      return "bg-red-50 text-red-700 border-red-200";
-    case "energia-solar":
-      return "bg-amber-50 text-amber-700 border-amber-200";
-    default:
-      return "bg-gray-50 text-gray-700 border-gray-200";
+// ── Badge color map ──
+function getBadgeStyle(badge: string): string {
+  switch (badge) {
+    case "Nuevo": return "bg-blue-500 text-white border-0";
+    case "Oferta": return "bg-red-500 text-white border-0";
+    case "Destacado": return "bg-amber-500 text-white border-0";
+    case "Últimas unidades": return "bg-orange-500 text-white border-0";
+    case "Más vendido": return "bg-green-600 text-white border-0";
+    default: return "";
   }
 }
-
-// ── All categories + "Todos" ──
-const ALL_CATEGORIES: {
-  key: ProductCategory | "all";
-  label: string;
-  icon: React.ElementType;
-}[] = [
-  { key: "all", label: "Todos", icon: Package },
-  { key: "computo", label: CATEGORY_LABELS.computo, icon: Monitor },
-  {
-    key: "telecomunicaciones",
-    label: CATEGORY_LABELS.telecomunicaciones,
-    icon: Wifi,
-  },
-  {
-    key: "equipos-medicos",
-    label: CATEGORY_LABELS["equipos-medicos"],
-    icon: HeartPulse,
-  },
-  { key: "energia-solar", label: CATEGORY_LABELS["energia-solar"], icon: Sun },
-];
 
 // ── Animation variants ──
 const fadeUp = {
@@ -91,41 +67,96 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.05, duration: 0.4, ease: "easeOut" },
+    transition: { delay: i * 0.04, duration: 0.4, ease: "easeOut" },
   }),
 };
 
 const stagger = {
-  visible: { transition: { staggerChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.04 } },
 };
+
+// ── Category filter item type ──
+interface CategoryFilter {
+  key: string; // "all" or category._id
+  label: string;
+  icon: React.ElementType;
+  slug?: string;
+}
 
 // ── Props ──
 interface TiendaContentProps {
   products: SanityProduct[];
+  categories?: SanityCategory[];
   source: "sanity" | "fallback";
+  loading?: boolean;
 }
 
-export function TiendaContent({ products, source }: TiendaContentProps) {
-  const [activeCategory, setActiveCategory] = useState<
-    ProductCategory | "all"
-  >("all");
+export function TiendaContent({
+  products,
+  categories = [],
+  source,
+  loading = false,
+}: TiendaContentProps) {
+  const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState<SanityProduct | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(loading);
 
-  // ── Conteo por categoría ──
+  // Simulate loading state for skeleton demo
+  useEffect(() => {
+    if (loading) {
+      setIsLoading(true);
+      const timer = setTimeout(() => setIsLoading(false), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
+  // ── Build category filter list ──
+  const categoryFilters: CategoryFilter[] = useMemo(() => {
+    // If we have dynamic categories from Sanity, use them
+    if (categories.length > 0) {
+      return [
+        { key: "all", label: "Todos", icon: Package },
+        ...categories.map((cat) => ({
+          key: cat._id,
+          label: cat.name,
+          icon: getCategoryIcon(cat.icon),
+          slug: cat.slug,
+        })),
+      ];
+    }
+    // Fallback: hardcoded categories from constants
+    return [
+      { key: "all", label: "Todos", icon: Package },
+      { key: "computo", label: CATEGORY_LABELS.computo, icon: Monitor },
+      { key: "telecomunicaciones", label: CATEGORY_LABELS.telecomunicaciones, icon: Wifi },
+      { key: "equipos-medicos", label: CATEGORY_LABELS["equipos-medicos"], icon: HeartPulse },
+      { key: "energia-solar", label: CATEGORY_LABELS["energia-solar"], icon: Sun },
+    ];
+  }, [categories]);
+
+  // ── Category count ──
   const categoryCount = useMemo(() => {
     const counts: Record<string, number> = { all: products.length };
     products.forEach((p) => {
-      counts[p.category] = (counts[p.category] || 0) + 1;
+      // Dynamic categories: use category._id as key
+      const key = p.category?._id || p.category || "uncategorized";
+      counts[key] = (counts[key] || 0) + 1;
     });
     return counts;
   }, [products]);
 
-  // ── Productos filtrados (client-side) ──
+  // ── Filtered products ──
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
+      // Category filter
+      const productCategoryKey = p.category?._id || p.category || "";
       const matchesCategory =
-        activeCategory === "all" || p.category === activeCategory;
+        activeCategory === "all" || productCategoryKey === activeCategory;
+
+      // Search filter
       const plainDesc = plainText(p.description).toLowerCase();
       const matchesSearch =
         searchQuery === "" ||
@@ -134,9 +165,22 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
         (p.specs || []).some((s) =>
           s.toLowerCase().includes(searchQuery.toLowerCase()),
         );
+
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery, products]);
+
+  // ── Open Modal ──
+  const openModal = (product: SanityProduct) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "";
+  };
 
   return (
     <>
@@ -181,115 +225,146 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
         </div>
       </section>
 
-      {/* Transición: Header (oscuro) → Products (claro) */}
       <SectionTransition variant="dark-to-light" height={120} />
 
       {/* ── Filters + Products ── */}
       <section className="py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search + Filter toggle */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Buscar productos..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12 rounded-xl border-white/40 focus:border-brand-blue focus:ring-brand-blue/20 text-sm bg-white/70 backdrop-blur-md"
-              />
-            </div>
-            <Button
-              variant="outline"
-              onClick={() => setShowFilters(!showFilters)}
-              className="h-12 px-5 border-border/60 rounded-xl text-sm font-semibold hover:bg-brand-blue/5 hover:border-brand-blue/30 transition-all duration-200"
-            >
-              <SlidersHorizontal className="w-4 h-4 mr-2" />
-              {showFilters ? "Ocultar filtros" : "Mostrar filtros"}
-            </Button>
-          </div>
-
-          {/* Category pills (mobile toggle) */}
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mb-8 overflow-hidden"
+          {isLoading ? (
+            <SearchBarSkeleton />
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Buscar productos por nombre, descripción o especificaciones..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 h-12 rounded-xl border-white/40 focus:border-brand-blue focus:ring-brand-blue/20 text-sm bg-white/70 backdrop-blur-md"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-brand-dark transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                )}
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => setShowFilters(!showFilters)}
+                className="h-12 px-5 border-border/60 rounded-xl text-sm font-semibold hover:bg-brand-blue/5 hover:border-brand-blue/30 transition-all duration-200 sm:hidden"
               >
-                <div className="flex flex-wrap gap-2">
-                  {ALL_CATEGORIES.map((cat) => {
+                <SlidersHorizontal className="w-4 h-4 mr-2" />
+                {showFilters ? "Ocultar" : "Filtros"}
+              </Button>
+            </div>
+          )}
+
+          {/* Category pills */}
+          {isLoading ? (
+            <CategoryFilterSkeleton count={categoryFilters.length} />
+          ) : (
+            <>
+              {/* Mobile: toggle */}
+              <AnimatePresence>
+                {showFilters && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="mb-8 overflow-hidden sm:hidden"
+                  >
+                    <LayoutGroup>
+                      <div className="flex flex-wrap gap-2">
+                        {categoryFilters.map((cat) => {
+                          const isActive = activeCategory === cat.key;
+                          const Icon = cat.icon;
+                          return (
+                            <motion.button
+                              key={cat.key}
+                              layout
+                              onClick={() => setActiveCategory(cat.key)}
+                              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                                isActive
+                                  ? "bg-brand-blue text-white shadow-lg shadow-brand-blue/25"
+                                  : "bg-white/70 backdrop-blur-md text-brand-dark border border-white/40 hover:border-brand-blue/30 hover:bg-white/80"
+                              }`}
+                            >
+                              <Icon className="w-4 h-4" />
+                              {cat.label}
+                              <span className="ml-1 text-xs opacity-70">
+                                ({categoryCount[cat.key] || 0})
+                              </span>
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </LayoutGroup>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Desktop: always visible */}
+              <LayoutGroup>
+                <div className="hidden sm:flex flex-wrap gap-2 mb-8">
+                  {categoryFilters.map((cat) => {
                     const isActive = activeCategory === cat.key;
                     const Icon = cat.icon;
                     return (
-                      <button
+                      <motion.button
                         key={cat.key}
+                        layout
                         onClick={() => setActiveCategory(cat.key)}
                         className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                           isActive
                             ? "bg-brand-blue text-white shadow-lg shadow-brand-blue/25"
-                            : "bg-white/70 backdrop-blur-md text-brand-dark border border-white/40 hover:border-brand-blue/30 hover:bg-white/80"
+                            : "bg-white text-brand-dark border border-border/60 hover:border-brand-blue/30 hover:bg-brand-blue/5"
                         }`}
                       >
                         <Icon className="w-4 h-4" />
                         {cat.label}
-                        <span className="ml-1 text-xs opacity-70">
+                        <span className="text-xs opacity-70">
                           ({categoryCount[cat.key] || 0})
                         </span>
-                      </button>
+                      </motion.button>
                     );
                   })}
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Always show category pills on desktop */}
-          <div className="hidden sm:flex flex-wrap gap-2 mb-8">
-            {ALL_CATEGORIES.map((cat) => {
-              const isActive = activeCategory === cat.key;
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.key}
-                  onClick={() => setActiveCategory(cat.key)}
-                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                    isActive
-                      ? "bg-brand-blue text-white shadow-lg shadow-brand-blue/25"
-                      : "bg-white text-brand-dark border border-border/60 hover:border-brand-blue/30 hover:bg-brand-blue/5"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
+              </LayoutGroup>
+            </>
+          )}
 
           {/* Results count */}
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-sm text-muted-foreground">
-              {filteredProducts.length} producto
-              {filteredProducts.length !== 1 && "s"} encontrado
-              {filteredProducts.length !== 1 && "s"}
-            </p>
-            {(searchQuery || activeCategory !== "all") && (
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  setActiveCategory("all");
-                }}
-                className="text-sm font-semibold text-brand-blue hover:text-brand-dark transition-colors duration-200"
-              >
-                Limpiar filtros
-              </button>
-            )}
-          </div>
+          {!isLoading && (
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-muted-foreground">
+                {filteredProducts.length} producto
+                {filteredProducts.length !== 1 && "s"} encontrado
+                {filteredProducts.length !== 1 && "s"}
+              </p>
+              {(searchQuery || activeCategory !== "all") && (
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setActiveCategory("all");
+                  }}
+                  className="text-sm font-semibold text-brand-blue hover:text-brand-dark transition-colors duration-200"
+                >
+                  Limpiar filtros
+                </button>
+              )}
+            </div>
+          )}
 
           {/* ── Product Grid ── */}
-          {filteredProducts.length > 0 ? (
+          {isLoading ? (
+            <ProductGridSkeleton count={8} />
+          ) : filteredProducts.length > 0 ? (
             <motion.div
               initial="hidden"
               animate="visible"
@@ -298,17 +373,11 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
             >
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map((product, i) => {
-                  const Icon = getCategoryIcon(product.category);
-                  // Construir URL de imagen desde Sanity asset
-                  // product.image puede venir con asset expandido (asset->) o como referencia
-                  const imageUrl =
-                    product.image && product.image.asset
-                      ? urlFor(product.image)
-                          .width(400)
-                          .height(300)
-                          .fit("crop")
-                          .url()
-                      : null;
+                  const Icon = getCategoryIcon(product.category?.icon);
+                  const imageUrl = product.image
+                    ? urlFor(product.image).width(400).height(300).fit("crop").url()
+                    : null;
+                  const allImages = [product.image, ...(product.gallery || [])].filter(Boolean);
 
                   return (
                     <motion.div
@@ -319,10 +388,13 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.3, layout: { duration: 0.3 } }}
                     >
-                      <Card className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden flex flex-col">
-                        {/* Product image (from Sanity) */}
+                      <Card
+                        className="group h-full border border-white/40 hover:border-brand-blue/30 shadow-sm hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.02] bg-white/75 backdrop-blur-xl rounded-2xl overflow-hidden flex flex-col cursor-pointer"
+                        onClick={() => openModal(product)}
+                      >
+                        {/* Product image */}
                         {imageUrl ? (
                           <div className="relative w-full h-44 overflow-hidden">
                             <Image
@@ -333,33 +405,50 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                            {product.featured && (
+
+                            {/* Badge */}
+                            {product.badge && (
+                              <Badge className={`absolute top-3 left-3 text-[10px] font-bold shadow-lg ${getBadgeStyle(product.badge)}`}>
+                                {product.badge}
+                              </Badge>
+                            )}
+
+                            {/* Featured */}
+                            {!product.badge && product.featured && (
                               <Badge className="absolute top-3 right-3 bg-brand-orange text-white border-0 text-[10px] font-bold shadow-lg">
                                 ⭐ Destacado
                               </Badge>
                             )}
+
+                            {/* Out of stock */}
                             {product.stock === 0 && (
-                              <Badge className="absolute top-3 left-3 bg-red-500 text-white border-0 text-[10px] font-bold shadow-lg">
+                              <Badge className="absolute top-3 right-3 bg-red-500 text-white border-0 text-[10px] font-bold shadow-lg">
                                 Agotado
                               </Badge>
                             )}
+
+                            {/* Gallery indicator */}
+                            {allImages.length > 1 && (
+                              <div className="absolute bottom-3 right-3 bg-black/30 backdrop-blur-sm rounded-lg px-2 py-1 flex items-center gap-1">
+                                <svg className="w-3 h-3 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6M4 6l2-2h12l2 2" /></svg>
+                                <span className="text-[10px] text-white/70 font-medium">{allImages.length}</span>
+                              </div>
+                            )}
                           </div>
                         ) : (
-                          /* Fallback: colored bar if no image */
                           <div className="h-1.5 bg-[#4726BF] group-hover:bg-brand-orange transition-all duration-500" />
                         )}
 
                         <CardContent className="p-5 flex flex-col flex-1">
                           <div className="flex items-start justify-between gap-2 mb-3">
                             <Badge
-                              className={`text-xs font-medium shrink-0 ${getCategoryColor(product.category)}`}
+                              className={`text-xs font-medium shrink-0 ${getCategoryColorClass(product.category?.color)}`}
                             >
-                              {CATEGORY_LABELS[product.category] ||
-                                product.category}
+                              {getCategoryName(product)}
                             </Badge>
                           </div>
 
-                          {/* Product icon (fallback when no image) */}
+                          {/* Icon fallback */}
                           {!imageUrl && (
                             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-3 group-hover:bg-[#4726BF] transition-all duration-500">
                               <Icon className="w-6 h-6 text-brand-blue group-hover:text-white transition-colors duration-500" />
@@ -397,6 +486,7 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
                                 href={getWhatsAppURL("producto", product.name)}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                               >
                                 <Button
                                   size="sm"
@@ -447,8 +537,14 @@ export function TiendaContent({ products, source }: TiendaContentProps) {
         </div>
       </section>
 
-      {/* Transición: Products (claro) → Footer (oscuro) */}
       <SectionTransition variant="light-to-dark" height={120} />
+
+      {/* ── Product Modal ── */}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </>
   );
 }

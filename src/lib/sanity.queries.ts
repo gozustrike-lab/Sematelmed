@@ -1,55 +1,74 @@
 // ============================================================
 // SEMATELMED — GROQ Queries Centralizadas
 // Todas las consultas a Sanity en un solo archivo
+// Categoría: reference con join -> expand
+// Galería: gallery[] con asset-> expandido
 // ============================================================
 
+// ── Categorías ──
+
+/** Todas las categorías, ordenadas por campo `order` */
+export const ALL_CATEGORIES_QUERY = `
+  *[_type == "category"] | order(order asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    description,
+    color,
+    icon,
+    order
+  }
+`;
+
 // ── Productos ──
+
+/** Fragmento reutilizable de producto con categoría expandida */
+const PRODUCT_FIELDS = `
+  _id,
+  _createdAt,
+  _updatedAt,
+  name,
+  "slug": slug.current,
+  image {
+    asset->,
+    alt,
+    hotspot,
+    crop
+  },
+  gallery[] {
+    asset->,
+    alt,
+    caption,
+    hotspot,
+    crop
+  },
+  "category": category->{
+    _id,
+    name,
+    "slug": slug.current,
+    color,
+    icon
+  },
+  description,
+  price,
+  specs,
+  stock,
+  badge,
+  featured,
+  order
+`;
 
 /** Todos los productos publicados, ordenados por campo `order` */
 export const ALL_PRODUCTS_QUERY = `
   *[_type == "product"] | order(order asc) {
-    _id,
-    _createdAt,
-    _updatedAt,
-    name,
-    "slug": slug.current,
-    image {
-      asset->,
-      alt,
-      hotspot,
-      crop
-    },
-    category,
-    description,
-    price,
-    specs,
-    stock,
-    featured,
-    order
+    ${PRODUCT_FIELDS}
   }
 `;
 
 /** Solo productos destacados (para home page) */
 export const FEATURED_PRODUCTS_QUERY = `
   *[_type == "product" && featured == true] | order(order asc) {
-    _id,
-    _createdAt,
-    _updatedAt,
-    name,
-    "slug": slug.current,
-    image {
-      asset->,
-      alt,
-      hotspot,
-      crop
-    },
-    category,
-    description,
-    price,
-    specs,
-    stock,
-    featured,
-    order
+    ${PRODUCT_FIELDS}
   }[0..7]
 `;
 
@@ -57,50 +76,16 @@ export const FEATURED_PRODUCTS_QUERY = `
 export function productBySlugQuery(slug: string) {
   return `
     *[_type == "product" && slug.current == "${slug}"][0] {
-      _id,
-      _createdAt,
-      _updatedAt,
-      name,
-      "slug": slug.current,
-      image {
-        asset->,
-        alt,
-        hotspot,
-        crop
-      },
-      category,
-      description,
-      price,
-      specs,
-      stock,
-      featured,
-      order
+      ${PRODUCT_FIELDS}
     }
   `;
 }
 
-/** Productos por categoría */
-export function productsByCategoryQuery(category: string) {
+/** Productos por categoría slug */
+export function productsByCategoryQuery(categorySlug: string) {
   return `
-    *[_type == "product" && category == "${category}"] | order(order asc) {
-      _id,
-      _createdAt,
-      _updatedAt,
-      name,
-      "slug": slug.current,
-      image {
-        asset->,
-        alt,
-        hotspot,
-        crop
-      },
-      category,
-      description,
-      price,
-      specs,
-      stock,
-      featured,
-      order
+    *[_type == "product" && category->slug.current == "${categorySlug}"] | order(order asc) {
+      ${PRODUCT_FIELDS}
     }
   `;
 }

@@ -15,6 +15,7 @@ import {
   HomeIcon,
   CogIcon,
   BookIcon,
+  TagIcon,
 } from "@sanity/icons";
 import { schemaTypes } from "./sanity/schema";
 import {
@@ -58,6 +59,17 @@ export default defineConfig({
                 S.list()
                   .title("Tienda")
                   .items([
+                    // Categorías (gestionar primero)
+                    S.listItem()
+                      .title("Categorías")
+                      .icon(TagIcon)
+                      .id("categories-list")
+                      .child(
+                        S.documentTypeList("category")
+                          .title("Categorías")
+                          .defaultOrdering([{ field: "order", direction: "asc" }]),
+                      ),
+                    // Productos
                     ...S.documentTypeListItems().filter(
                       (item) => item.getId() === "product",
                     ),
@@ -126,6 +138,14 @@ export default defineConfig({
         locations: {
           product: defineLocations({
             type: "product",
+            resolve: () => ({
+              locations: [
+                { title: "Tienda", href: "/tienda" },
+              ],
+            }),
+          }),
+          category: defineLocations({
+            type: "category",
             resolve: () => ({
               locations: [
                 { title: "Tienda", href: "/tienda" },
