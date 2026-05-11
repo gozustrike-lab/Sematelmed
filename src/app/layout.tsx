@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { FluidBackground } from "@/components/FluidBackground";
 import { SanityLive } from "@/sanity/live";
 import { VisualEditing } from "@/components/VisualEditing";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -136,6 +137,8 @@ export default async function RootLayout({
         <SanityLive />
         {/* VisualEditing: overlay de edición inline (SOLO en Draft Mode) */}
         {draft.isEnabled && <VisualEditing />}
+        {/* WhatsApp Widget: botón flotante independiente del CMS (Fast Page Pro) */}
+        <WhatsAppWidget />
       </body>
     </html>
   );
