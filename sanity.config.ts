@@ -173,8 +173,21 @@ export default defineConfig({
 
   // ── Document settings ──
   document: {
+    // Auto-guardado: Sanity guarda cambios automáticamente
+    // (incluyendo imágenes subidas) sin recargar la página.
+    // El usuario solo necesita hacer clic en "Publish" para publicar.
     unsavedChanges: {
       warning: "Tienes cambios sin guardar. ¿Seguro que quieres salir?",
+    },
+  },
+
+  // ── Form builder: auto-save habilitado ──
+  // Sanity Studio v3 guarda drafts automáticamente.
+  // Las imágenes se suben al asset store y se vinculan al documento
+  // sin necesidad de recargar la página ni navegar a otra pestaña.
+  form: {
+    image: {
+      directUploads: true,
     },
   },
 

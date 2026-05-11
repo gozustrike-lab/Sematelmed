@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 
@@ -12,6 +13,9 @@ const INITIAL_MESSAGE =
 const BUBBLE_TEXT = "¡Hola! 👋 ¿Consultas sobre soporte técnico o equipos?";
 const BUBBLE_DELAY_MS = 5000; // 5 segundos
 const STORAGE_KEY = "fpp-wa-bubble-closed"; // persistencia por sesión
+
+// Rutas donde NO debe aparecer el widget
+const HIDDEN_PATHS = ["/admin"];
 
 // ── Animation Variants ──
 
@@ -71,12 +75,20 @@ const buttonVariants = {
 // ── Component ──
 
 export function WhatsAppWidget() {
+  const pathname = usePathname();
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleClosed, setBubbleClosed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Ocultar widget en rutas del panel admin
+  const isAdmin = HIDDEN_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(p + "/"),
+  );
+
   // Check session storage on mount (client-only)
   useEffect(() => {
+    if (isAdmin) return;
+
     try {
       const closed = sessionStorage.getItem(STORAGE_KEY);
       if (closed) {
@@ -93,7 +105,24 @@ export function WhatsAppWidget() {
     }, BUBBLE_DELAY_MS);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isAdmin]);
+
+  // Re-show bubble if user navigates away from admin (reset on route change)
+  useEffect(() => {
+    if (!isAdmin) {
+      try {
+        const closed = sessionStorage.getItem(STORAGE_KEY);
+        if (!closed && !showBubble) {
+          const timer = setTimeout(() => setShowBubble(true), BUBBLE_DELAY_MS);
+          return () => clearTimeout(timer);
+        }
+      } catch {
+        // Ignore
+      }
+    } else {
+      setShowBubble(false);
+    }
+  }, [pathname, isAdmin, showBubble]);
 
   const closeBubble = useCallback(() => {
     setShowBubble(false);
@@ -106,6 +135,9 @@ export function WhatsAppWidget() {
   }, []);
 
   const waURL = `https://wa.me/${PHONE}?text=${encodeURIComponent(INITIAL_MESSAGE)}`;
+
+  // No renderizar nada en el panel admin
+  if (isAdmin) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-[90] flex items-end gap-3">
