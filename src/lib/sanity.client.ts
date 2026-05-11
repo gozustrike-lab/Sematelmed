@@ -4,10 +4,10 @@
 // Con stega habilitado para inyectar source maps en los datos
 // cuando Draft Mode está activo (Visual Editing inline).
 //
-// STEGA es VITAL para que el clic inline funcione:
-// - Sin stega: los datos llegan "limpios" sin metadatos
-// - Con stega: los datos llevan source maps que indican al overlay
-//   qué texto pertenece a qué campo de Sanity (editable o no)
+// BACKWARD COMPATIBLE:
+// - category puede ser SanityCategory (reference) o string (viejo)
+// - image puede ser null, objeto sin asset, o objeto con asset
+// - Todas las funciones helper manejan estos casos gracefulmente
 //
 // REGLA FAST PAGE PRO:
 // El crédito Footer NO pasa por este cliente. Es un componente
@@ -18,19 +18,11 @@ import { createClient } from "@sanity/client";
 import { createImageUrlBuilder } from "@sanity/image-url";
 
 // ── Cliente principal de Sanity (CDN + stega) ──
-// stega.studioUrl indica dónde está el Studio embebido.
-// Cuando Draft Mode está activo, stega inyecta source maps
-// en los datos retornados para que el overlay VisualEditing
-// pueda identificar qué campos son editables inline.
 export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "95d9zjqb",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2025-01-01",
   useCdn: true,
-  // ── STEGA: source maps para Visual Editing ──
-  // Habilitado siempre. En producción sin Draft Mode,
-  // stega no inyecta nada (solo lo hace cuando detecta
-  // el cookie de preview). No afecta rendimiento.
   stega: {
     enabled: true,
     studioUrl: "/admin",
@@ -38,12 +30,34 @@ export const sanityClient = createClient({
 });
 
 // ── Builder de URLs de imagen ──
-// Uso: urlFor(product.image).width(400).height(300).fit('crop').url()
 const builder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: Parameters<typeof builder.image>[0]) {
   return builder.image(source);
 }
+
+// ── Backward Compatibility: Category Fallbacks ──
+
+const CATEGORY_LABELS_MAP: Record<string, string> = {
+  computo: "Cómputo",
+  telecomunicaciones: "Telecomunicaciones",
+  "equipos-medicos": "Equipos Médicos",
+  "energia-solar": "Energía Solar",
+};
+
+const CATEGORY_COLOR_MAP: Record<string, string> = {
+  computo: "blue",
+  telecomunicaciones: "purple",
+  "equipos-medicos": "red",
+  "energia-solar": "amber",
+};
+
+const CATEGORY_ICON_MAP: Record<string, string> = {
+  computo: "monitor",
+  telecomunicaciones: "wifi",
+  "equipos-medicos": "heart-pulse",
+  "energia-solar": "sun",
+};
 
 // ── Tipos de respuesta ──
 
@@ -70,7 +84,7 @@ export interface SanityImage {
 /** Badge promocional */
 export type ProductBadge = "" | "Nuevo" | "Oferta" | "Destacado" | "Últimas unidades" | "Más vendido";
 
-/** Producto con categoría expandida, galería y badge */
+/** Producto — category puede ser SanityCategory (nuevo) o string (viejo) */
 export interface SanityProduct {
   _id: string;
   _createdAt: string;
@@ -80,6 +94,7 @@ export interface SanityProduct {
   image: SanityImage | null;
   gallery: SanityImage[];
   category: SanityCategory | null;
+  categoryRaw?: string; // string viejo (backward compat)
   description: PortableTextBlock[];
   price: string;
   specs?: string[];
@@ -116,12 +131,7 @@ export interface PortableTextBlock {
   level?: number;
 }
 
-/**
- * Extrae texto plano de un bloque Portable Text de Sanity.
- * Útil para previews en cards (line-clamp).
- * IMPORTANTE: plainText LIMPIA las etiquetas stega del texto.
- * Si necesitas preservar stega, renderiza con PortableText de @portabletext/react.
- */
+/** Extrae texto plano de un bloque Portable Text de Sanity. */
 export function plainText(blocks: PortableTextBlock[] | undefined | null): string {
   if (!blocks || !Array.isArray(blocks)) return "";
   return blocks
@@ -135,14 +145,48 @@ export function plainText(blocks: PortableTextBlock[] | undefined | null): strin
     .trim();
 }
 
-// ── Helpers de categoría ──
+// ── Helpers de categoría (BACKWARD COMPATIBLE) ──
 
-/** Obtiene el nombre legible de la categoría */
+/**
+ * Obtiene el nombre legible de la categoría.
+ * Funciona con reference (nuevo) y string (viejo).
+ */
 export function getCategoryName(product: SanityProduct): string {
-  return product.category?.name || "Sin categoría";
+  // Nuevo formato: reference expandida
+  if (product.category && typeof product.category === "object" && product.category.name) {
+    return product.category.name;
+  }
+  // Viejo formato: string
+  if (product.categoryRaw && typeof product.categoryRaw === "string") {
+    return CATEGORY_LABELS_MAP[product.categoryRaw] || product.categoryRaw;
+  }
+  // Category como string directo (sin categoryRaw)
+  if (product.category && typeof product.category === "string") {
+    return CATEGORY_LABELS_MAP[product.category] || product.category;
+  }
+  return "Sin categoría";
 }
 
-/** Obtiene el color de la categoría para estilos */
+/**
+ * Obtiene el ID de categoría para filtrado.
+ * Funciona con reference (nuevo) y string (viejo).
+ */
+export function getCategoryId(product: SanityProduct): string {
+  if (product.category && typeof product.category === "object" && product.category._id) {
+    return product.category._id;
+  }
+  if (product.categoryRaw && typeof product.categoryRaw === "string") {
+    return product.categoryRaw;
+  }
+  if (product.category && typeof product.category === "string") {
+    return product.category;
+  }
+  return "uncategorized";
+}
+
+/**
+ * Obtiene el color de la categoría para estilos.
+ */
 export function getCategoryColorClass(color?: string): string {
   switch (color) {
     case "blue": return "bg-blue-50 text-blue-700 border-blue-200";
@@ -151,5 +195,45 @@ export function getCategoryColorClass(color?: string): string {
     case "amber": return "bg-amber-50 text-amber-700 border-amber-200";
     case "green": return "bg-green-50 text-green-700 border-green-200";
     default: return "bg-gray-50 text-gray-700 border-gray-200";
+  }
+}
+
+/**
+ * Obtiene el color de categoría de un producto (BACKWARD COMPATIBLE).
+ */
+export function getProductCategoryColor(product: SanityProduct): string {
+  if (product.category && typeof product.category === "object" && product.category.color) {
+    return product.category.color;
+  }
+  // Fallback para strings viejos
+  const rawId = product.categoryRaw || (typeof product.category === "string" ? product.category : "");
+  return CATEGORY_COLOR_MAP[rawId] || "gray";
+}
+
+/**
+ * Obtiene el icono de categoría de un producto (BACKWARD COMPATIBLE).
+ */
+export function getProductCategoryIcon(product: SanityProduct): string {
+  if (product.category && typeof product.category === "object" && product.category.icon) {
+    return product.category.icon;
+  }
+  const rawId = product.categoryRaw || (typeof product.category === "string" ? product.category : "");
+  return CATEGORY_ICON_MAP[rawId] || "package";
+}
+
+/**
+ * Construye URL de imagen de forma segura.
+ * Retorna null si la imagen no tiene asset válido.
+ */
+export function getProductImageUrl(
+  image: SanityImage | null | undefined,
+  width: number = 400,
+  height: number = 300,
+): string | null {
+  if (!image || !image.asset) return null;
+  try {
+    return urlFor(image).width(width).height(height).fit("crop").url();
+  } catch {
+    return null;
   }
 }

@@ -16,9 +16,10 @@ import { Badge } from "@/components/ui/badge";
 import {
   type SanityProduct,
   plainText,
-  urlFor,
   getCategoryName,
   getCategoryColorClass,
+  getProductCategoryColor,
+  getProductImageUrl,
 } from "@/lib/sanity.client";
 import { getWhatsAppURL } from "@/constants/data";
 
@@ -113,11 +114,12 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Build all images: main image first, then gallery
+  // Only include images with valid assets (no null, no missing asset)
   const allImages = product
     ? [
         product.image,
         ...(product.gallery || []),
-      ].filter(Boolean) as Array<NonNullable<SanityProduct["image"]>>
+      ].filter((img): img is NonNullable<SanityProduct["image"]> => !!img && !!img.asset)
     : [];
 
   const goToPrev = useCallback(() => {
@@ -145,9 +147,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
   if (!product) return null;
 
-  const imageUrl = product.image
-    ? urlFor(product.image).width(800).height(600).fit("crop").url()
-    : null;
+  const imageUrl = getProductImageUrl(product.image, 800, 600);
 
   return (
     <AnimatePresence>
@@ -202,13 +202,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                           className="absolute inset-0"
                         >
                           <ZoomableImage
-                            src={
-                              urlFor(allImages[currentSlide])
-                                .width(800)
-                                .height(600)
-                                .fit("crop")
-                                .url()
-                            }
+                            src={getProductImageUrl(allImages[currentSlide], 800, 600) || ""}
                             alt={
                               allImages[currentSlide].caption ||
                               product.name
@@ -280,7 +274,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                 {/* Category + Badge */}
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <Badge
-                    className={`text-xs font-medium ${getCategoryColorClass(product.category?.color)}`}
+                    className={`text-xs font-medium ${getCategoryColorClass(getProductCategoryColor(product))}`}
                   >
                     {getCategoryName(product)}
                   </Badge>

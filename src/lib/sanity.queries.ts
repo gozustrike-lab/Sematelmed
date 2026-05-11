@@ -1,7 +1,7 @@
 // ============================================================
 // SEMATELMED — GROQ Queries Centralizadas
 // Todas las consultas a Sanity en un solo archivo
-// Categoría: reference con join -> expand
+// Categoría: reference con join -> expand (backward compatible con strings)
 // Galería: gallery[] con asset-> expandido
 // ============================================================
 
@@ -22,7 +22,12 @@ export const ALL_CATEGORIES_QUERY = `
 
 // ── Productos ──
 
-/** Fragmento reutilizable de producto con categoría expandida */
+/** Fragmento reutilizable de producto con categoría expandida
+ *  BACKWARD COMPATIBLE: coalesce() maneja tanto:
+ *  - Products NUEVOS con category como reference (category-> expande el documento)
+ *  - Products VIEJOS con category como string ("computo", "telecomunicaciones", etc.)
+ *  Para strings viejos, category retorna null y el frontend usa fallback.
+ */
 const PRODUCT_FIELDS = `
   _id,
   _createdAt,
@@ -42,13 +47,19 @@ const PRODUCT_FIELDS = `
     hotspot,
     crop
   },
-  "category": category->{
-    _id,
-    name,
-    "slug": slug.current,
-    color,
-    icon
-  },
+  "category": coalesce(
+    category->{
+      _id,
+      name,
+      "slug": slug.current,
+      color,
+      icon
+    },
+    // Fallback para category como string (productos viejos)
+    // Retorna null → el frontend lo maneja con CATEGORY_LABELS_MAP
+    null
+  ),
+  "categoryRaw": category,
   description,
   price,
   specs,

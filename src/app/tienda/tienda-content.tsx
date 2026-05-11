@@ -29,9 +29,12 @@ import {
   type SanityProduct,
   type SanityCategory,
   plainText,
-  urlFor,
   getCategoryName,
   getCategoryColorClass,
+  getCategoryId,
+  getProductCategoryColor,
+  getProductCategoryIcon,
+  getProductImageUrl,
 } from "@/lib/sanity.client";
 import { getWhatsAppURL, CATEGORY_LABELS, type ProductCategory } from "@/constants/data";
 
@@ -141,8 +144,7 @@ export function TiendaContent({
   const categoryCount = useMemo(() => {
     const counts: Record<string, number> = { all: products.length };
     products.forEach((p) => {
-      // Dynamic categories: use category._id as key
-      const key = p.category?._id || p.category || "uncategorized";
+      const key = getCategoryId(p);
       counts[key] = (counts[key] || 0) + 1;
     });
     return counts;
@@ -152,7 +154,7 @@ export function TiendaContent({
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       // Category filter
-      const productCategoryKey = p.category?._id || p.category || "";
+      const productCategoryKey = getCategoryId(p);
       const matchesCategory =
         activeCategory === "all" || productCategoryKey === activeCategory;
 
@@ -373,11 +375,9 @@ export function TiendaContent({
             >
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map((product, i) => {
-                  const Icon = getCategoryIcon(product.category?.icon);
-                  const imageUrl = product.image
-                    ? urlFor(product.image).width(400).height(300).fit("crop").url()
-                    : null;
-                  const allImages = [product.image, ...(product.gallery || [])].filter(Boolean);
+                  const Icon = getCategoryIcon(getProductCategoryIcon(product));
+                  const imageUrl = getProductImageUrl(product.image);
+                  const allImages = [product.image, ...(product.gallery || [])].filter((img) => img && img.asset);
 
                   return (
                     <motion.div
@@ -442,7 +442,7 @@ export function TiendaContent({
                         <CardContent className="p-5 flex flex-col flex-1">
                           <div className="flex items-start justify-between gap-2 mb-3">
                             <Badge
-                              className={`text-xs font-medium shrink-0 ${getCategoryColorClass(product.category?.color)}`}
+                              className={`text-xs font-medium shrink-0 ${getCategoryColorClass(getProductCategoryColor(product))}`}
                             >
                               {getCategoryName(product)}
                             </Badge>
