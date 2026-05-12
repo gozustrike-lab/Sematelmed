@@ -74,10 +74,13 @@ export function Navbar() {
     setMobileOpen(false);
   };
 
-  // ── Clases dinámicas: transparente vs sólida (#202C40) ──
+  // ── Clases dinámicas: transparente vs degradado corporativo ──
   const headerBg = scrolled
-    ? "bg-[#202C40]/95 backdrop-blur-md shadow-lg shadow-black/20 border-b border-white/5"
-    : "bg-transparent";
+    ? "shadow-lg shadow-black/20 border-b border-white/10"
+    : "";
+  const headerGradient = scrolled
+    ? "bg-gradient-to-r from-[#4A2CB3] via-[#1D8A99] to-[#1DBD6B]"
+    : "bg-gradient-to-r from-[#4A2CB3]/80 via-[#1D8A99]/80 to-[#1DBD6B]/80 backdrop-blur-md";
 
   const logoFilter = scrolled
     ? "brightness-0 invert drop-shadow-sm"
@@ -96,12 +99,12 @@ export function Navbar() {
     : "text-white hover:text-white/80 hover:bg-white/10";
 
   const whatsappBtnStyle = scrolled
-    ? "bg-brand-orange hover:bg-brand-orange-dark text-white font-semibold shadow-lg shadow-brand-orange/25 hover:shadow-brand-orange/40 transition-all duration-300 hover:-translate-y-0.5"
-    : "bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-semibold border border-white/20 shadow-lg transition-all duration-300 hover:-translate-y-0.5";
+    ? "bg-white text-[#4A2CB3] font-semibold shadow-lg shadow-black/10 border-2 border-white/80 hover:bg-white/90 transition-all duration-300 hover:-translate-y-0.5"
+    : "bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-semibold border-2 border-white/40 shadow-lg transition-all duration-300 hover:-translate-y-0.5";
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerBg}`}
+      className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerGradient} ${headerBg}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 md:h-24">
@@ -166,26 +169,26 @@ export function Navbar() {
 
               <SheetContent
                 side="right"
-                className="w-[300px] sm:w-[340px] bg-white p-0 [&>button]:hidden"
+                className="w-[300px] sm:w-[340px] bg-gradient-to-b from-[#4A2CB3] via-[#1D8A99] to-[#1DBD6B] p-0 [&>button]:hidden"
               >
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
 
                 <div className="flex flex-col h-full">
                   {/* ── Header: Logo + Botón Cerrar ── */}
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-brand-blue/10 shrink-0">
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-white/15 shrink-0">
                     <Link href="/" onClick={handleLinkClick}>
                       <Image
                         src="/logo-nav.png"
                         alt="Sematelmed"
                         width={130}
                         height={48}
-                        className="h-11 w-auto object-contain"
+                        className="h-11 w-auto object-contain brightness-0 invert"
                       />
                     </Link>
                     {/* ÚNICO botón de cierre */}
                     <button
                       onClick={() => setMobileOpen(false)}
-                      className="w-10 h-10 rounded-full bg-brand-dark/5 hover:bg-brand-dark/10 flex items-center justify-center text-brand-dark hover:text-brand-blue transition-all duration-200"
+                      className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white hover:text-white transition-all duration-200"
                       aria-label="Cerrar menú"
                     >
                       <X className="w-5 h-5" />
@@ -209,8 +212,8 @@ export function Navbar() {
                               onClick={handleLinkClick}
                               className={`relative flex items-center gap-3 px-4 py-3.5 rounded-xl text-[15px] font-semibold transition-all duration-200 ${
                                 isActive
-                                  ? "text-white bg-brand-blue shadow-lg shadow-brand-blue/20"
-                                  : "text-brand-dark hover:bg-brand-blue/5 hover:text-brand-blue"
+                                  ? "text-white bg-white/20 shadow-lg shadow-white/10"
+                                  : "text-white/80 hover:bg-white/10 hover:text-white"
                               }`}
                             >
                               {/* Indicador lateral activo */}
@@ -228,7 +231,7 @@ export function Navbar() {
                   {/* ── Zona de Acción: empujada al fondo ── */}
                   <div className="mt-auto shrink-0">
                     {/* Separador */}
-                    <div className="mx-5 border-t border-brand-blue/10" />
+                    <div className="mx-5 border-t border-white/15" />
 
                     {/* CTA Buttons — gap-4 entre botones */}
                     <div className="mt-5 px-5 flex flex-col gap-4">
@@ -248,7 +251,7 @@ export function Navbar() {
                       <a href="tel:+51976983333" onClick={handleLinkClick}>
                         <Button
                           variant="outline"
-                          className="w-full border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5 hover:border-brand-orange/50 font-semibold transition-all duration-300 h-12 rounded-xl text-sm"
+                          className="w-full border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold transition-all duration-300 h-12 rounded-xl text-sm"
                         >
                           <Phone className="w-4 h-4 mr-2.5" />
                           Llamar al {COMPANY.phone}
@@ -258,10 +261,10 @@ export function Navbar() {
 
                     {/* Footer del menú */}
                     <div className="px-5 pt-5 pb-6">
-                      <p className="text-xs text-muted-foreground leading-relaxed text-center">
+                      <p className="text-xs text-white/50 leading-relaxed text-center">
                         {COMPANY.address}
                       </p>
-                      <p className="text-[11px] text-muted-foreground/60 text-center mt-2">
+                      <p className="text-[11px] text-white/30 text-center mt-2">
                         {COMPANY.slogan}
                       </p>
                     </div>
