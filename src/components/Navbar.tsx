@@ -82,10 +82,6 @@ export function Navbar() {
     ? "bg-gradient-to-r from-[#4A2CB3] via-[#1D8A99] to-[#1DBD6B]"
     : "bg-gradient-to-r from-[#4A2CB3]/80 via-[#1D8A99]/80 to-[#1DBD6B]/80 backdrop-blur-md";
 
-  const logoFilter = scrolled
-    ? "brightness-0 invert drop-shadow-sm"
-    : "brightness-0 invert drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]";
-
   const navLinkBase = "relative px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300";
   const navLinkStyle = scrolled
     ? "text-white/80 hover:text-white hover:bg-white/10"
@@ -111,11 +107,11 @@ export function Navbar() {
           {/* ── Logo — blanco sobre Hero oscuro, normal cuando sólida ── */}
           <Link href="/" className="flex items-center gap-2 group shrink-0" onClick={handleLinkClick}>
             <Image
-              src="/logo-nav.png"
+              src="/logo-white.png"
               alt="Sematelmed — Siempre a la vanguardia"
-              width={200}
-              height={75}
-              className={`h-14 md:h-[4.5rem] w-auto object-contain transition-all duration-500 group-hover:scale-110 ${logoFilter}`}
+              width={280}
+              height={125}
+              className={`h-14 md:h-[4.5rem] w-auto object-contain transition-all duration-500 group-hover:scale-110`}
               priority
             />
           </Link>
@@ -178,11 +174,11 @@ export function Navbar() {
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/15 shrink-0">
                     <Link href="/" onClick={handleLinkClick}>
                       <Image
-                        src="/logo-nav.png"
+                        src="/logo-white.png"
                         alt="Sematelmed"
-                        width={130}
-                        height={48}
-                        className="h-11 w-auto object-contain brightness-0 invert"
+                        width={200}
+                        height={89}
+                        className="h-10 w-auto object-contain"
                       />
                     </Link>
                     {/* ÚNICO botón de cierre */}
