@@ -93,8 +93,8 @@ export const metadata: Metadata = {
     images: ["https://sematelmed.vercel.app/og-image-sematelmed.jpg"],
   },
   other: {
-    "theme-color": "#4726BF",
-    "msapplication-TileColor": "#4726BF",
+    "theme-color": "#1dbd6b",
+    "msapplication-TileColor": "#1dbd6b",
   },
 };
 

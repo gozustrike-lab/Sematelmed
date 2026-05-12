@@ -31,7 +31,7 @@ export const SITE_URL =
 
 // ── Colores de marca Fast Page Pro ──
 export const BRAND_COLORS = {
-  primary: "#4726BF",
+  primary: "#1dbd6b",
   accent: "#FF4D00",
   dark: "#202C40",
 } as const;

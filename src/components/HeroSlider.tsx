@@ -183,7 +183,7 @@ export function HeroSlider() {
           ═══════════════════════════════════════════════════════════ */}
       <div className="absolute inset-0 z-[1]">
         <div className="absolute inset-0 bg-gradient-to-r from-[#202C40]/75 via-[#202C40]/45 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#202C40]/60 via-transparent to-[#4726BF]/5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#202C40]/60 via-transparent to-[#1dbd6b]/5" />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════

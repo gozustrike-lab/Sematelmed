@@ -94,9 +94,9 @@ function MissionVisionSection() {
           {/* Mission */}
           <motion.div variants={fadeUp} custom={0}>
             <Card className="h-full border border-white/30 shadow-lg shadow-brand-blue/5 bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:scale-[1.01]">
-              <div className="h-2 bg-[#4726BF]" />
+              <div className="h-2 bg-[#1dbd6b]" />
               <CardContent className="p-8 md:p-10">
-                <div className="w-14 h-14 rounded-2xl bg-[#4726BF] flex items-center justify-center mb-6 shadow-lg shadow-brand-blue/20">
+                <div className="w-14 h-14 rounded-2xl bg-[#1dbd6b] flex items-center justify-center mb-6 shadow-lg shadow-brand-blue/20">
                   <Target className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-extrabold text-brand-dark mb-4">

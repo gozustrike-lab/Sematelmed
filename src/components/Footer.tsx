@@ -40,7 +40,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#4726BF] flex items-center justify-center transition-colors duration-200"
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#1dbd6b] flex items-center justify-center transition-colors duration-200"
               >
                 <Facebook className="w-4 h-4" />
               </a>
@@ -92,7 +92,7 @@ export function Footer() {
                       href="/tienda"
                       className="text-sm text-white/60 hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group"
                     >
-                      <Icon className="w-4 h-4 text-white/30 group-hover:text-[#4726BF] transition-colors duration-200" />
+                      <Icon className="w-4 h-4 text-white/30 group-hover:text-[#1dbd6b] transition-colors duration-200" />
                       {s.title}
                     </Link>
                   </li>
@@ -108,11 +108,11 @@ export function Footer() {
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#4726BF] mt-0.5 shrink-0" />
+                <MapPin className="w-5 h-5 text-[#1dbd6b] mt-0.5 shrink-0" />
                 <span className="text-sm text-white/60">{COMPANY.address}</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#4726BF] shrink-0" />
+                <Phone className="w-5 h-5 text-[#1dbd6b] shrink-0" />
                 <a
                   href="tel:+51976983333"
                   className="text-sm text-white/60 hover:text-white transition-colors duration-200 font-medium"
@@ -121,7 +121,7 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#4726BF] shrink-0" />
+                <Mail className="w-5 h-5 text-[#1dbd6b] shrink-0" />
                 <a
                   href={`mailto:${COMPANY.email}`}
                   className="text-sm text-white/60 hover:text-white transition-colors duration-200"

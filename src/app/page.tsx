@@ -106,7 +106,7 @@ function ServicesSection() {
               <motion.div key={service.id} variants={fadeUp} custom={i}>
                 <Card className="group h-full border border-white/40 shadow-sm hover:shadow-xl hover:shadow-brand-blue/15 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] bg-white/70 backdrop-blur-xl rounded-2xl overflow-hidden">
                   <CardContent className="p-6 md:p-8">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-5 group-hover:bg-[#4726BF] transition-all duration-500">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-5 group-hover:bg-[#1dbd6b] transition-all duration-500">
                       <Icon className="w-7 h-7 text-brand-blue group-hover:text-white transition-colors duration-500" />
                     </div>
                     <h3 className="text-xl font-extrabold text-brand-dark mb-2">
@@ -295,7 +295,7 @@ function ValuesSection() {
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   <div className="relative">
-                    <div className="w-14 h-14 rounded-2xl bg-[#4726BF] flex items-center justify-center mb-5 shadow-lg shadow-brand-blue/20 group-hover:shadow-brand-blue/40 transition-all duration-500">
+                    <div className="w-14 h-14 rounded-2xl bg-[#1dbd6b] flex items-center justify-center mb-5 shadow-lg shadow-brand-blue/20 group-hover:shadow-brand-blue/40 transition-all duration-500">
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-xl font-extrabold text-brand-dark mb-3">

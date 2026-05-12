@@ -11,8 +11,8 @@
   --font-mono: var(--font-geist-mono);
 
   /* ── Sematelmed Brand Colors ── */
-  --color-brand-blue: #4726BF;
-  --color-brand-blue-light: #5C3FCC;
+  --color-brand-blue: #1dbd6b;
+  --color-brand-blue-light: #2ed882;
   --color-brand-orange: #FF4D00;
   --color-brand-orange-light: #FF7033;
   --color-brand-orange-dark: #CC3D00;
@@ -64,31 +64,31 @@
   --card-foreground: #202C40;
   --popover: oklch(1 0 0);
   --popover-foreground: #202C40;
-  --primary: #4726BF;
+  --primary: #1dbd6b;
   --primary-foreground: #ffffff;
-  --secondary: #F0ECFA;
-  --secondary-foreground: #4726BF;
-  --muted: #F5F3FA;
+  --secondary: #E6F9EF;
+  --secondary-foreground: #1dbd6b;
+  --muted: #F0FAF5;
   --muted-foreground: #64748B;
   --accent: #FFF0EB;
   --accent-foreground: #FF4D00;
   --destructive: oklch(0.577 0.245 27.325);
   --border: #E2E0E9;
   --input: #E2E0E9;
-  --ring: #4726BF;
-  --chart-1: #4726BF;
+  --ring: #1dbd6b;
+  --chart-1: #1dbd6b;
   --chart-2: #FF4D00;
   --chart-3: #202C40;
-  --chart-4: #6B4FE0;
+  --chart-4: #178f51;
   --chart-5: #FF7033;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: #202C40;
-  --sidebar-primary: #4726BF;
+  --sidebar-primary: #1dbd6b;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #F0ECFA;
-  --sidebar-accent-foreground: #4726BF;
+  --sidebar-accent: #E6F9EF;
+  --sidebar-accent-foreground: #1dbd6b;
   --sidebar-border: #E2E0E9;
-  --sidebar-ring: #4726BF;
+  --sidebar-ring: #1dbd6b;
 }
 
 .dark {
@@ -98,7 +98,7 @@
   --card-foreground: #F1F0F5;
   --popover: #2A3A54;
   --popover-foreground: #F1F0F5;
-  --primary: #6B4FE0;
+  --primary: #2ed882;
   --primary-foreground: #ffffff;
   --secondary: #2A3A54;
   --secondary-foreground: #F1F0F5;
@@ -109,20 +109,20 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: #344668;
   --input: #344668;
-  --ring: #6B4FE0;
-  --chart-1: #6B4FE0;
+  --ring: #2ed882;
+  --chart-1: #2ed882;
   --chart-2: #FF7033;
   --chart-3: #F1F0F5;
-  --chart-4: #4726BF;
+  --chart-4: #1dbd6b;
   --chart-5: #FF4D00;
   --sidebar: #2A3A54;
   --sidebar-foreground: #F1F0F5;
-  --sidebar-primary: #6B4FE0;
+  --sidebar-primary: #2ed882;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #344668;
   --sidebar-accent-foreground: #F1F0F5;
   --sidebar-border: #344668;
-  --sidebar-ring: #6B4FE0;
+  --sidebar-ring: #2ed882;
 }
 
 @layer base {
@@ -156,8 +156,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(71, 38, 191, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(71, 38, 191, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(29, 189, 107, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(29, 189, 107, 0.6); }
 }
 
 .animate-float {
@@ -218,12 +218,12 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5F3FA;
+  background: #F0FAF5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #4726BF;
+  background: #1dbd6b;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #5C3FCC;
+  background: #2ed882;
 }

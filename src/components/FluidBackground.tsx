@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 /**
  * FluidBackground — Fondo dinámico vanguardista.
  * Mesh gradients animados + textura de puntos con parallax al scroll.
- * Colores de marca: Azul #4726BF + toque Naranja #FF4D00 a opacidad baja.
+ * Colores de marca: Verde #1dbd6b + toque Naranja #FF4D00 a opacidad baja.
  */
 export function FluidBackground() {
   const [scrollY, setScrollY] = useState(0);
@@ -149,7 +149,7 @@ export function FluidBackground() {
         style={{
           opacity: 0.03,
           backgroundImage:
-            "radial-gradient(circle, #4726BF 0.7px, transparent 0.7px)",
+            "radial-gradient(circle, #1dbd6b 0.7px, transparent 0.7px)",
           backgroundSize: "26px 26px",
           transform: `translateY(${p * -50}px)`,
           transition: "transform 0.1s linear",

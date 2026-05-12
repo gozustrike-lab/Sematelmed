@@ -436,7 +436,7 @@ export function TiendaContent({
                             )}
                           </div>
                         ) : (
-                          <div className="h-1.5 bg-[#4726BF] group-hover:bg-brand-orange transition-all duration-500" />
+                          <div className="h-1.5 bg-[#1dbd6b] group-hover:bg-brand-orange transition-all duration-500" />
                         )}
 
                         <CardContent className="p-5 flex flex-col flex-1">
@@ -450,7 +450,7 @@ export function TiendaContent({
 
                           {/* Icon fallback */}
                           {!imageUrl && (
-                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-3 group-hover:bg-[#4726BF] transition-all duration-500">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-blue/10 to-brand-blue/5 flex items-center justify-center mb-3 group-hover:bg-[#1dbd6b] transition-all duration-500">
                               <Icon className="w-6 h-6 text-brand-blue group-hover:text-white transition-colors duration-500" />
                             </div>
                           )}
