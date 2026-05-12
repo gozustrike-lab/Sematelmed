@@ -104,15 +104,15 @@ export function Navbar() {
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerBg}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-20 md:h-24">
           {/* ── Logo — blanco sobre Hero oscuro, normal cuando sólida ── */}
           <Link href="/" className="flex items-center gap-2 group shrink-0" onClick={handleLinkClick}>
             <Image
               src="/logo-nav.png"
               alt="Sematelmed — Siempre a la vanguardia"
-              width={160}
-              height={60}
-              className={`h-10 md:h-12 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${logoFilter}`}
+              width={200}
+              height={75}
+              className={`h-14 md:h-[4.5rem] w-auto object-contain transition-all duration-500 group-hover:scale-110 ${logoFilter}`}
               priority
             />
           </Link>
@@ -179,7 +179,7 @@ export function Navbar() {
                         alt="Sematelmed"
                         width={130}
                         height={48}
-                        className="h-9 w-auto object-contain"
+                        className="h-11 w-auto object-contain"
                       />
                     </Link>
                     {/* ÚNICO botón de cierre */}
