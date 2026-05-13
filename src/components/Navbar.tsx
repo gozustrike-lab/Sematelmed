@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { COMPANY, getWhatsAppURL } from "@/constants/data";
+import { Logo } from "@/components/ui/Logo";
 
 const NAV_LINKS = [
   { href: "/", label: "Inicio" },
@@ -61,16 +62,8 @@ export function Navbar() {
     <header className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerGradient} ${headerBg}`} style={{ marginBottom: '-1px' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* ── Logo Corporativo — Enlace a raíz ── */}
-          <Link href="/" onClick={handleLinkClick} aria-label="Sematelmed Inicio" className="flex items-center shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/logo-sematelmed.svg"
-              alt="Sematelmed Logo"
-              className="nav-logo h-[45px] md:h-[55px] w-auto object-contain block transition-all duration-300"
-              draggable={false}
-            />
-          </Link>
+          {/* ── Logo Corporativo — Componente global reutilizable ── */}
+          <Logo variant="navbar" onClick={handleLinkClick} />
 
           {/* ── Desktop Navigation ── */}
           <nav className="hidden md:flex items-center gap-1">
@@ -100,10 +93,7 @@ export function Navbar() {
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/15 shrink-0">
-                    <Link href="/" onClick={handleLinkClick} aria-label="Sematelmed">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/assets/logo-sematelmed.svg" alt="Sematelmed Logo" className="nav-logo h-8 w-auto object-contain block" draggable={false} />
-                    </Link>
+                    <Logo variant="mobile" onClick={handleLinkClick} />
                     <button onClick={() => setMobileOpen(false)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white hover:text-white transition-all duration-200" aria-label="Cerrar menú">
                       <X className="w-5 h-5" />
                     </button>

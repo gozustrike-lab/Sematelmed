@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Phone, MapPin, Mail, Facebook, ExternalLink, MessageCircle, Monitor, Wifi, HeartPulse, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { COMPANY, SERVICES, getWhatsAppURL } from "@/constants/data";
+import { Logo } from "@/components/ui/Logo";
 
 // ── Iconos por servicio ──
 const SERVICE_ICONS: Record<string, React.ElementType> = {
@@ -19,15 +19,7 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* ── Columna 1: Marca + Logo ── */}
           <div>
-            <Link href="/" className="inline-flex items-center mb-4">
-              <Image
-                src="/logo-sematelmed.png"
-                alt="Sematelmed — Siempre a la vanguardia"
-                width={180}
-                height={68}
-                className="h-14 w-auto object-contain brightness-0 invert opacity-90"
-              />
-            </Link>
+            <Logo variant="footer" />
             <p className="text-sm text-white/60 leading-relaxed mt-2">
               Compromiso y vanguardia al servicio de Ilo. Más de una década llevando
               tecnología de calidad a hogares, consultorios y empresas del sur del Perú.
