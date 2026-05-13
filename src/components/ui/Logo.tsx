@@ -17,28 +17,28 @@ interface LogoProps {
 // ── Mapa de tamaños por variante ──
 const VARIANT_SIZES = {
   navbar: {
-    icon: "h-[45px] md:h-[55px] w-auto",
+    icon: "h-[42px] md:h-[54px] w-auto pb-[2px]",
     text: "text-[26px] md:text-[30px]",
     tagline: "text-[9px] md:text-[10.5px]",
     gap: "gap-2.5 md:gap-3",
     taglineTracking: "tracking-[0.18em] md:tracking-[0.22em]",
   },
   mobile: {
-    icon: "h-8 w-auto",
+    icon: "h-8 w-auto pb-[1px]",
     text: "text-[22px]",
     tagline: "text-[8px]",
     gap: "gap-2",
     taglineTracking: "tracking-[0.15em]",
   },
   footer: {
-    icon: "h-10 md:h-12 w-auto",
+    icon: "h-10 md:h-12 w-auto pb-[2px]",
     text: "text-[24px] md:text-[26px]",
     tagline: "text-[9px] md:text-[10px]",
     gap: "gap-2.5",
     taglineTracking: "tracking-[0.2em] md:tracking-[0.22em]",
   },
   compact: {
-    icon: "h-8 w-auto",
+    icon: "h-8 w-auto pb-[1px]",
     text: "text-[20px]",
     tagline: "text-[7.5px]",
     gap: "gap-2",
@@ -66,7 +66,7 @@ export function Logo({
         src="/assets/isotipo-camaleon.svg"
         alt=""
         aria-hidden="true"
-        className={`${sizes.icon} object-contain block`}
+        className={`${sizes.icon} object-contain block flex-shrink-0`}
         draggable={false}
       />
 

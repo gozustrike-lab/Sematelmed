@@ -191,7 +191,7 @@ export function HeroSlider() {
           pt-24 md:pt-28: espacio para la Navbar fija transparente
           ═══════════════════════════════════════════════════════════ */}
       <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 md:pt-28 pb-32 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 md:pt-28 pb-20 md:pb-32 text-center">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={page}

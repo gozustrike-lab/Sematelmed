@@ -59,7 +59,7 @@ const stagger = {
 // ── SERVICES ──
 function ServicesSection() {
   return (
-    <section id="seccion-servicios" className="py-20 md:py-28">
+    <section id="seccion-servicios" className="py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -146,7 +146,7 @@ function FeaturedProductsSection() {
   const featured = PRODUCTS.filter((p) => p.featured).slice(0, 4);
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -247,7 +247,7 @@ function FeaturedProductsSection() {
 // ── VALUES ──
 function ValuesSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -318,7 +318,7 @@ function ValuesSection() {
 // ── CTA SECTION ──
 function CTASection() {
   return (
-    <section className="py-20 md:py-28 bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark relative overflow-hidden">
+    <section className="py-10 md:py-28 bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-10 right-20 w-64 h-64 bg-brand-blue rounded-full blur-[120px]" />
@@ -395,16 +395,16 @@ export default function HomePage() {
     <>
       <HeroSlider />
       {/* Transición: Hero (oscuro) → Services (claro) */}
-      <SectionTransition variant="dark-to-light" height={140} />
+      <SectionTransition variant="dark-to-light" height={80} />
       <ServicesSection />
       {/* Fusión suave entre secciones claras */}
-      <SectionTransition variant="soft-merge" height={80} />
+      <SectionTransition variant="soft-merge" height={40} />
       <FeaturedProductsSection />
       {/* Fusión suave entre secciones claras */}
-      <SectionTransition variant="soft-merge" height={80} />
+      <SectionTransition variant="soft-merge" height={40} />
       <ValuesSection />
       {/* Transición: Values (claro) → CTA (oscuro) */}
-      <SectionTransition variant="light-to-dark" height={140} />
+      <SectionTransition variant="light-to-dark" height={80} />
       <CTASection />
     </>
   );

@@ -18,7 +18,7 @@ export const revalidate = 60;
 // ── Loader skeleton ──
 function TiendaLoader() {
   return (
-    <div className="flex items-center justify-center py-32">
+    <div className="flex items-center justify-center py-16 md:py-32">
       <div className="flex flex-col items-center gap-4">
         <div className="w-10 h-10 border-4 border-brand-blue/20 border-t-brand-blue rounded-full animate-spin" />
         <p className="text-sm text-muted-foreground">Cargando productos...</p>
