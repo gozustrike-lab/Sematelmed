@@ -61,21 +61,31 @@ export function Navbar() {
     <header className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerGradient} ${headerBg}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" className="flex items-center shrink-0" style={{ maxWidth: '260px' }} onClick={handleLinkClick} aria-label="Sematelmed">
+          {/* ── Logo Corporativo — Enlace a raíz ── */}
+          <Link href="/" onClick={handleLinkClick} aria-label="Sematelmed Inicio" className="flex items-center shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo-sematelmed.svg" alt="Sematelmed Logo" width={260} height={40}
-              className="h-10 md:h-[60px] w-auto object-contain transition-all duration-300 group-hover:scale-105"
-              style={{ maxWidth: '100%', height: 'auto' }} draggable={false} />
+            <img
+              src="/assets/logo-sematelmed.svg"
+              alt="Sematelmed Logo"
+              className="nav-logo h-[45px] md:h-[55px] w-auto object-contain block transition-all duration-300"
+              draggable={false}
+            />
           </Link>
+
+          {/* ── Desktop Navigation ── */}
           <nav className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
-              return (<Link key={link.href} href={link.href} className={`${navLinkBase} ${isActive ? navLinkActive : navLinkStyle}`}>
-                {link.label}
-                {isActive && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-brand-orange transition-colors duration-300" />}
-              </Link>);
+              return (
+                <Link key={link.href} href={link.href} className={`${navLinkBase} ${isActive ? navLinkActive : navLinkStyle}`}>
+                  {link.label}
+                  {isActive && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-brand-orange transition-colors duration-300" />}
+                </Link>
+              );
             })}
           </nav>
+
+          {/* ── CTA Desktop + Mobile Menu ── */}
           <div className="flex items-center gap-3">
             <a href={getWhatsAppURL("general")} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2">
               <Button className={whatsappBtnStyle}><MessageCircle className="w-4 h-4" />Contáctanos</Button>
@@ -92,7 +102,7 @@ export function Navbar() {
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/15 shrink-0">
                     <Link href="/" onClick={handleLinkClick} aria-label="Sematelmed">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/images/logo-sematelmed.svg" alt="Sematelmed Logo" width={200} height={31} className="h-8 w-auto object-contain" draggable={false} />
+                      <img src="/assets/logo-sematelmed.svg" alt="Sematelmed Logo" className="nav-logo h-8 w-auto object-contain block" draggable={false} />
                     </Link>
                     <button onClick={() => setMobileOpen(false)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white hover:text-white transition-all duration-200" aria-label="Cerrar menú">
                       <X className="w-5 h-5" />
