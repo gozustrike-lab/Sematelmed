@@ -44,7 +44,7 @@ export function Navbar() {
 
   const handleLinkClick = () => { setMobileOpen(false); };
 
-  const headerBg = scrolled ? "shadow-lg shadow-black/20 border-b border-white/10" : "";
+  const headerBg = scrolled ? "shadow-lg shadow-black/20" : "";
   const headerGradient = scrolled
     ? "bg-gradient-to-r from-[#4A2CB3] via-[#1D8A99] to-[#1DBD6B]"
     : "bg-gradient-to-r from-[#4A2CB3]/80 via-[#1D8A99]/80 to-[#1DBD6B]/80 backdrop-blur-md";
@@ -58,7 +58,7 @@ export function Navbar() {
     : "bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-semibold border-2 border-white/40 shadow-lg transition-all duration-300 hover:-translate-y-0.5";
 
   return (
-    <header className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerGradient} ${headerBg}`}>
+    <header className={`fixed top-0 z-50 w-full transition-all duration-500 ${headerGradient} ${headerBg}`} style={{ marginBottom: '-1px' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* ── Logo Corporativo — Enlace a raíz ── */}
@@ -96,7 +96,7 @@ export function Navbar() {
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[340px] bg-gradient-to-b from-[#4A2CB3] via-[#1D8A99] to-[#1DBD6B] p-0 [&>button]:hidden">
+              <SheetContent side="right" className="w-[300px] sm:w-[340px] bg-gradient-to-b from-[#4A2CB3] via-[#1D8A99] to-[#1DBD6B] p-0 [&>button]:hidden border-l-0 shadow-2xl">
                 <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/15 shrink-0">
@@ -129,8 +129,8 @@ export function Navbar() {
                         </Button>
                       </a>
                       <a href="tel:+51976983333" onClick={handleLinkClick}>
-                        <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold transition-all duration-300 h-12 rounded-xl text-sm">
-                          <Phone className="w-4 h-4 mr-2.5" />Llamar al {COMPANY.phone}
+                        <Button variant="outline" className="w-full bg-transparent border-2 border-white/40 text-white hover:bg-white/10 hover:border-white/60 hover:text-white font-semibold transition-all duration-300 h-12 rounded-xl text-sm">
+                          <Phone className="w-4 h-4 mr-2.5" />Llamar a Sematelmed
                         </Button>
                       </a>
                     </div>
