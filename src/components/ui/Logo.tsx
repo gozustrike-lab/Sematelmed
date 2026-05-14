@@ -72,7 +72,7 @@ export function Logo({
           Sematelmed
         </span>
         <span
-          className={`${sizes.tagline} font-semibold text-slate-300 tracking-widest uppercase mt-1 leading-none`}
+          className={`${sizes.tagline} font-semibold text-slate-300 tracking-wider uppercase mt-1 leading-none block whitespace-nowrap`}
           aria-label="Siempre a la vanguardia"
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >
