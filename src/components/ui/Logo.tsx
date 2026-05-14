@@ -17,15 +17,15 @@ interface LogoProps {
 // ── Mapa de tamaños por variante ──
 const VARIANT_SIZES = {
   navbar: {
-    icon: "h-10 md:h-12 w-auto",
-    text: "text-xl md:text-2xl",
-    tagline: "text-[8px] md:text-[9px]",
+    icon: "h-9 md:h-10 w-auto",
+    text: "text-lg md:text-xl",
+    tagline: "text-[7px] md:text-[8px]",
     gap: "gap-1.5 md:gap-2",
   },
   mobile: {
-    icon: "h-8 w-auto",
-    text: "text-lg",
-    tagline: "text-[7px]",
+    icon: "h-7 w-auto",
+    text: "text-base",
+    tagline: "text-[6.5px]",
     gap: "gap-1.5",
   },
   footer: {
