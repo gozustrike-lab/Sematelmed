@@ -17,32 +17,28 @@ interface LogoProps {
 // ── Mapa de tamaños por variante ──
 const VARIANT_SIZES = {
   navbar: {
-    icon: "h-[42px] md:h-[54px] w-auto",
-    text: "text-[26px] md:text-[30px]",
-    tagline: "text-[9px] md:text-[10.5px]",
-    taglineTracking: "tracking-[0.22em] md:tracking-[0.26em]",
-    gap: "gap-2.5 md:gap-3",
+    icon: "h-10 md:h-12 w-auto",
+    text: "text-xl md:text-2xl",
+    tagline: "text-[10px] md:text-[11px]",
+    gap: "gap-3",
   },
   mobile: {
     icon: "h-8 w-auto",
-    text: "text-[22px]",
-    tagline: "text-[8px]",
-    taglineTracking: "tracking-[0.2em]",
-    gap: "gap-2",
+    text: "text-lg",
+    tagline: "text-[9px]",
+    gap: "gap-2.5",
   },
   footer: {
     icon: "h-10 md:h-12 w-auto",
-    text: "text-[24px] md:text-[26px]",
-    tagline: "text-[9px] md:text-[10px]",
-    taglineTracking: "tracking-[0.24em] md:tracking-[0.26em]",
-    gap: "gap-2.5",
+    text: "text-xl md:text-2xl",
+    tagline: "text-[10px] md:text-[11px]",
+    gap: "gap-3",
   },
   compact: {
     icon: "h-8 w-auto",
-    text: "text-[20px]",
-    tagline: "text-[7.5px]",
-    taglineTracking: "tracking-[0.2em]",
-    gap: "gap-2",
+    text: "text-base",
+    tagline: "text-[9px]",
+    gap: "gap-2.5",
   },
 } as const;
 
@@ -56,30 +52,27 @@ export function Logo({
   const sizes = VARIANT_SIZES[variant];
 
   const logoContent = (
-    <div className={`flex items-center shrink-0 ${sizes.gap} ${className}`}>
-      {/* ── Isotipo: Camaleón estilizado ── */}
+    /* CONTENEDOR PADRE: Alinea el icono y el texto en el mismo eje horizontal */
+    <div className={`flex items-center ${sizes.gap} ${className}`}>
+      {/* IMAGEN: Mantiene su proporción sin deformarse */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/assets/isotipo-camaleon.svg"
-        alt=""
-        aria-hidden="true"
-        className={`${sizes.icon} object-contain block flex-shrink-0`}
+        className={`${sizes.icon} object-contain shrink-0`}
+        alt="Sematelmed Logo"
         draggable={false}
       />
 
-      {/* ── Bloque de texto: Nombre + Eslogan ── */}
-      <div className="flex flex-col w-full min-w-0">
-        {/* Nombre "Sematelmed" — tipografía bold nativa */}
+      {/* TEXTO: Fuerza la alineación estricta hacia la izquierda */}
+      <div className="flex flex-col items-start justify-center">
         <span
-          className={`${sizes.text} font-bold leading-none text-white whitespace-nowrap`}
+          className={`${sizes.text} font-bold text-white tracking-wide leading-none`}
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >
           Sematelmed
         </span>
-
-        {/* Eslogan — texto nativo con letter-spacing uniforme */}
         <span
-          className={`${sizes.tagline} font-semibold leading-none text-white/70 uppercase whitespace-nowrap ${sizes.taglineTracking} mt-[3px]`}
+          className={`${sizes.tagline} font-semibold text-slate-300 tracking-widest uppercase mt-1 leading-none`}
           aria-label="Siempre a la vanguardia"
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >
