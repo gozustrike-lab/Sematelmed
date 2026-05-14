@@ -19,25 +19,25 @@ const VARIANT_SIZES = {
   navbar: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
-    tagline: "text-[10px] md:text-[11px]",
+    tagline: "text-[8.5px] md:text-[9.5px]",
     gap: "gap-3",
   },
   mobile: {
     icon: "h-8 w-auto",
     text: "text-lg",
-    tagline: "text-[9px]",
+    tagline: "text-[7.5px]",
     gap: "gap-2.5",
   },
   footer: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
-    tagline: "text-[10px] md:text-[11px]",
+    tagline: "text-[8.5px] md:text-[9.5px]",
     gap: "gap-3",
   },
   compact: {
     icon: "h-8 w-auto",
     text: "text-base",
-    tagline: "text-[9px]",
+    tagline: "text-[7.5px]",
     gap: "gap-2.5",
   },
 } as const;
@@ -69,9 +69,9 @@ export function Logo({
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >Sematelmed</span>
         <span
-          className={`${sizes.tagline} font-semibold text-slate-300 tracking-wider uppercase mt-1 leading-none block whitespace-nowrap`}
+          className={`${sizes.tagline} font-medium text-white/60 uppercase mt-[3px] leading-none block whitespace-nowrap`}
           aria-label="Siempre a la vanguardia"
-          style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
+          style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif", letterSpacing: '0.08em' }}
         >SIEMPRE A LA VANGUARDIA</span>
       </div>
     </div>
