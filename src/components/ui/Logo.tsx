@@ -17,32 +17,32 @@ interface LogoProps {
 // ── Mapa de tamaños por variante ──
 const VARIANT_SIZES = {
   navbar: {
-    icon: "h-[42px] md:h-[54px] w-auto pb-[2px]",
+    icon: "h-[42px] md:h-[54px] w-auto",
     text: "text-[26px] md:text-[30px]",
     tagline: "text-[9px] md:text-[10.5px]",
+    taglineTracking: "tracking-[0.22em] md:tracking-[0.26em]",
     gap: "gap-2.5 md:gap-3",
-    taglineTracking: "tracking-[0.18em] md:tracking-[0.22em]",
   },
   mobile: {
-    icon: "h-8 w-auto pb-[1px]",
+    icon: "h-8 w-auto",
     text: "text-[22px]",
     tagline: "text-[8px]",
+    taglineTracking: "tracking-[0.2em]",
     gap: "gap-2",
-    taglineTracking: "tracking-[0.15em]",
   },
   footer: {
-    icon: "h-10 md:h-12 w-auto pb-[2px]",
+    icon: "h-10 md:h-12 w-auto",
     text: "text-[24px] md:text-[26px]",
     tagline: "text-[9px] md:text-[10px]",
+    taglineTracking: "tracking-[0.24em] md:tracking-[0.26em]",
     gap: "gap-2.5",
-    taglineTracking: "tracking-[0.2em] md:tracking-[0.22em]",
   },
   compact: {
-    icon: "h-8 w-auto pb-[1px]",
+    icon: "h-8 w-auto",
     text: "text-[20px]",
     tagline: "text-[7.5px]",
+    taglineTracking: "tracking-[0.2em]",
     gap: "gap-2",
-    taglineTracking: "tracking-[0.15em]",
   },
 } as const;
 
@@ -54,9 +54,6 @@ export function Logo({
   onClick,
 }: LogoProps) {
   const sizes = VARIANT_SIZES[variant];
-
-  // Texto del eslogan separado en caracteres para distribución uniforme
-  const taglineChars = "SIEMPRE A LA VANGUARDIA".split("");
 
   const logoContent = (
     <div className={`flex items-center shrink-0 ${sizes.gap} ${className}`}>
@@ -80,21 +77,13 @@ export function Logo({
           Sematelmed
         </span>
 
-        {/* Eslogan — caracteres distribuidos uniformemente para alinear bordes */}
+        {/* Eslogan — texto nativo con letter-spacing uniforme */}
         <span
-          className={`${sizes.tagline} font-medium leading-none text-white/65 uppercase w-full flex justify-between ${sizes.taglineTracking} mt-0.5`}
+          className={`${sizes.tagline} font-semibold leading-none text-white/70 uppercase whitespace-nowrap ${sizes.taglineTracking} mt-[3px]`}
           aria-label="Siempre a la vanguardia"
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >
-          {taglineChars.map((char, i) => (
-            <span
-              key={i}
-              className="inline-block"
-              style={{ width: `${100 / taglineChars.length}%`, textAlign: "center" }}
-            >
-              {char}
-            </span>
-          ))}
+          SIEMPRE A LA VANGUARDIA
         </span>
       </div>
     </div>
