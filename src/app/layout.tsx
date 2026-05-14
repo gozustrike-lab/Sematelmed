@@ -130,7 +130,7 @@ export default async function RootLayout({
       >
         <FluidBackground />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 overflow-x-hidden">{children}</main>
         <Footer />
         <Toaster />
         {/* SanityLive: revalidación en tiempo real (siempre activo) */}

@@ -141,7 +141,7 @@ export function WhatsAppWidget() {
 
   return (
     <div className="fixed bottom-6 right-6 z-[90] flex items-end gap-3">
-      {/* ── Bubble Tooltip ── */}
+      {/* ── Bubble Tooltip (positioned LEFT of button to prevent right-edge cutoff) ── */}
       <AnimatePresence>
         {showBubble && (
           <motion.div
@@ -149,10 +149,10 @@ export function WhatsAppWidget() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative max-w-[260px]"
+            className="relative mr-1"
           >
             {/* Bubble content */}
-            <div className="relative bg-white rounded-2xl rounded-br-sm shadow-xl shadow-black/10 border border-gray-100 px-4 py-3">
+            <div className="relative bg-white rounded-2xl rounded-br-sm shadow-xl shadow-black/10 border border-gray-100 px-4 py-3 max-w-[240px]">
               <p className="text-sm text-gray-700 leading-snug font-medium">
                 {BUBBLE_TEXT}
               </p>
@@ -165,8 +165,8 @@ export function WhatsAppWidget() {
               </button>
             </div>
 
-            {/* Bubble arrow */}
-            <div className="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45" />
+            {/* Bubble arrow — points right towards button */}
+            <div className="absolute -right-1.5 bottom-3 w-3 h-3 bg-white border-r border-t border-gray-100 rotate-45" />
           </motion.div>
         )}
       </AnimatePresence>

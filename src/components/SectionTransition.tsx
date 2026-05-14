@@ -140,12 +140,13 @@ export function SectionTransition({
         fill="none"
         preserveAspectRatio="none"
         className="absolute inset-0 w-full h-full"
+        style={{ width: '100%', overflow: 'hidden' }}
         initial={{ opacity: 0.8 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         {/* Fondo sólido de la sección destino */}
-        <rect width="1440" height={height} fill={svgBg} />
+        <rect x="0" y="0" width="1440" height={height} fill={svgBg} />
         {/* Curva orgánica */}
         <path d={svgPath} fill={svgFill} />
       </motion.svg>
