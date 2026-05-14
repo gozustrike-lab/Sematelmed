@@ -19,25 +19,25 @@ const VARIANT_SIZES = {
   navbar: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
-    tagline: "text-[7px] md:text-[8px]",
+    tagline: "text-[8px] md:text-[9px]",
     gap: "gap-3",
   },
   mobile: {
     icon: "h-8 w-auto",
     text: "text-lg",
-    tagline: "text-[6px]",
+    tagline: "text-[7px]",
     gap: "gap-2.5",
   },
   footer: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
-    tagline: "text-[7px] md:text-[8px]",
+    tagline: "text-[8px] md:text-[9px]",
     gap: "gap-3",
   },
   compact: {
     icon: "h-8 w-auto",
     text: "text-base",
-    tagline: "text-[6px]",
+    tagline: "text-[7px]",
     gap: "gap-2.5",
   },
 } as const;
@@ -61,16 +61,18 @@ export function Logo({
         alt="Sematelmed Logo"
         draggable={false}
       />
-      {/* TEXTO: Alineación estricta izquierda, sin desbordar */}
-      <div className="flex flex-col items-start justify-center" style={{ textAlign: "left", paddingLeft: 0, marginLeft: 0 }}>
+      {/* TEXTO: Ambos bordes alineados exactamente */}
+      <div className="inline-flex flex-col items-start">
         <span
           className={`${sizes.text} font-bold text-white tracking-wide leading-none`}
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >Sematelmed</span>
+        {/* Eslogan: w-full = mismo ancho que Sematelmed, palabras distribuidas de borde a borde */}
         <span
-          className={`${sizes.tagline} font-medium text-white/60 uppercase leading-none block whitespace-nowrap`}
-          style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif", letterSpacing: "0.06em", marginTop: "2px" }}
-        >SIEMPRE A LA VANGUARDIA</span>
+          className={`${sizes.tagline} font-medium text-white/60 uppercase leading-none w-full flex justify-between`}
+          style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif", marginTop: "2px" }}
+          aria-label="Siempre a la vanguardia"
+        ><span>SIEMPRE</span><span>A</span><span>LA</span><span>VANGUARDIA</span></span>
       </div>
     </div>
   );
