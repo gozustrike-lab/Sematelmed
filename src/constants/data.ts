@@ -75,13 +75,13 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     id: "computo",
-    title: "Cóputo",
+    title: "Cómputo",
     shortDescription:
       "Equipos de escritorio, laptops, servidores y accesorios para hogares y empresas.",
     icon: "monitor",
     features: [
       "Laptops y notebooks",
-      "PCs de escritorio y workstations",
+      "PC de escritorio y workstations",
       "Servidores y almacenamiento",
       "Impresoras y periféricos",
       "Repuestos y mantenimiento",
