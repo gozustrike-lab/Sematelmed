@@ -20,25 +20,25 @@ const VARIANT_SIZES = {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
     tagline: "text-[8px] md:text-[9px]",
-    gap: "gap-3",
+    gap: "gap-1.5 md:gap-2",
   },
   mobile: {
     icon: "h-8 w-auto",
     text: "text-lg",
     tagline: "text-[7px]",
-    gap: "gap-2.5",
+    gap: "gap-1.5",
   },
   footer: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
     tagline: "text-[8px] md:text-[9px]",
-    gap: "gap-3",
+    gap: "gap-1.5 md:gap-2",
   },
   compact: {
     icon: "h-8 w-auto",
     text: "text-base",
     tagline: "text-[7px]",
-    gap: "gap-2.5",
+    gap: "gap-1.5",
   },
 } as const;
 
