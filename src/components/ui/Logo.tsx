@@ -62,22 +62,17 @@ export function Logo({
         alt="Sematelmed Logo"
         draggable={false}
       />
-
       {/* TEXTO: Fuerza la alineación estricta hacia la izquierda */}
-      <div className="flex flex-col items-start justify-center">
+      <div className="flex flex-col items-start justify-center" style={{ textAlign: 'left' }}>
         <span
           className={`${sizes.text} font-bold text-white tracking-wide leading-none`}
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
-        >
-          Sematelmed
-        </span>
+        >Sematelmed</span>
         <span
           className={`${sizes.tagline} font-semibold text-slate-300 tracking-wider uppercase mt-1 leading-none block whitespace-nowrap`}
           aria-label="Siempre a la vanguardia"
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
-        >
-          SIEMPRE A LA VANGUARDIA
-        </span>
+        >SIEMPRE A LA VANGUARDIA</span>
       </div>
     </div>
   );
