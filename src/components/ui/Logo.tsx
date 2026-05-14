@@ -19,25 +19,25 @@ const VARIANT_SIZES = {
   navbar: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
-    tagline: "text-[8.5px] md:text-[9.5px]",
+    tagline: "text-[7px] md:text-[8px]",
     gap: "gap-3",
   },
   mobile: {
     icon: "h-8 w-auto",
     text: "text-lg",
-    tagline: "text-[7.5px]",
+    tagline: "text-[6px]",
     gap: "gap-2.5",
   },
   footer: {
     icon: "h-10 md:h-12 w-auto",
     text: "text-xl md:text-2xl",
-    tagline: "text-[8.5px] md:text-[9.5px]",
+    tagline: "text-[7px] md:text-[8px]",
     gap: "gap-3",
   },
   compact: {
     icon: "h-8 w-auto",
     text: "text-base",
-    tagline: "text-[7.5px]",
+    tagline: "text-[6px]",
     gap: "gap-2.5",
   },
 } as const;
@@ -52,7 +52,6 @@ export function Logo({
   const sizes = VARIANT_SIZES[variant];
 
   const logoContent = (
-    /* CONTENEDOR PADRE: Alinea el icono y el texto en el mismo eje horizontal */
     <div className={`flex items-center ${sizes.gap} ${className}`}>
       {/* IMAGEN: Mantiene su proporción sin deformarse */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -62,22 +61,20 @@ export function Logo({
         alt="Sematelmed Logo"
         draggable={false}
       />
-      {/* TEXTO: Fuerza la alineación estricta hacia la izquierda */}
-      <div className="flex flex-col items-start justify-center" style={{ textAlign: 'left' }}>
+      {/* TEXTO: Alineación estricta izquierda, sin desbordar */}
+      <div className="flex flex-col items-start justify-center" style={{ textAlign: "left", paddingLeft: 0, marginLeft: 0 }}>
         <span
           className={`${sizes.text} font-bold text-white tracking-wide leading-none`}
           style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }}
         >Sematelmed</span>
         <span
-          className={`${sizes.tagline} font-medium text-white/60 uppercase mt-[3px] leading-none block whitespace-nowrap`}
-          aria-label="Siempre a la vanguardia"
-          style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif", letterSpacing: '0.08em' }}
+          className={`${sizes.tagline} font-medium text-white/60 uppercase leading-none block whitespace-nowrap`}
+          style={{ fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif", letterSpacing: "0.06em", marginTop: "2px" }}
         >SIEMPRE A LA VANGUARDIA</span>
       </div>
     </div>
   );
 
-  // Si es clickeable, envolver en Link; si no, renderizar directamente
   if (clickable) {
     return (
       <Link
