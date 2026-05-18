@@ -105,16 +105,34 @@ export function TiendaContent({
   const [showFilters, setShowFilters] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<SanityProduct | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(loading);
+  // React 19 pattern: adjust isLoading state when loading prop changes during render
+  const [prevLoading, setPrevLoading] = useState(loading);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Simulate loading state for skeleton demo
+  if (prevLoading !== loading) {
+    setPrevLoading(loading);
+    setIsLoading(loading);
+  }
+
+  // Skeleton demo timer: show skeletons for at least 800ms (async setState in callback is safe)
   useEffect(() => {
-    if (loading) {
-      setIsLoading(true);
+    if (isLoading) {
       const timer = setTimeout(() => setIsLoading(false), 800);
       return () => clearTimeout(timer);
     }
-  }, [loading]);
+  }, [isLoading]);
+
+  // Sync body overflow with modal state (proper DOM side effect via useEffect)
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isModalOpen]);
 
   // ── Build category filter list ──
   const categoryFilters: CategoryFilter[] = useMemo(() => {
@@ -176,12 +194,10 @@ export function TiendaContent({
   const openModal = (product: SanityProduct) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
-    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    document.body.style.overflow = "";
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
@@ -77,22 +77,23 @@ const buttonVariants = {
 export function WhatsAppWidget() {
   const pathname = usePathname();
   const [showBubble, setShowBubble] = useState(false);
-  const [bubbleClosed, setBubbleClosed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  // Use ref for bubbleClosed to avoid setState in effect (React 19 best practice)
+  const bubbleClosedRef = useRef(false);
 
   // Ocultar widget en rutas del panel admin
   const isAdmin = HIDDEN_PATHS.some(
     (p) => pathname === p || pathname.startsWith(p + "/"),
   );
 
-  // Check session storage on mount (client-only)
+  // Check session storage on mount and show bubble after delay
   useEffect(() => {
     if (isAdmin) return;
 
     try {
       const closed = sessionStorage.getItem(STORAGE_KEY);
       if (closed) {
-        setBubbleClosed(true);
+        bubbleClosedRef.current = true;
         return;
       }
     } catch {
@@ -107,26 +108,29 @@ export function WhatsAppWidget() {
     return () => clearTimeout(timer);
   }, [isAdmin]);
 
-  // Re-show bubble if user navigates away from admin (reset on route change)
+  // Re-show bubble after route change if not admin and not previously closed
   useEffect(() => {
-    if (!isAdmin) {
-      try {
-        const closed = sessionStorage.getItem(STORAGE_KEY);
-        if (!closed && !showBubble) {
-          const timer = setTimeout(() => setShowBubble(true), BUBBLE_DELAY_MS);
-          return () => clearTimeout(timer);
-        }
-      } catch {
-        // Ignore
+    if (isAdmin) return;
+    if (bubbleClosedRef.current) return;
+    if (showBubble) return;
+
+    try {
+      const closed = sessionStorage.getItem(STORAGE_KEY);
+      if (closed) {
+        bubbleClosedRef.current = true;
+        return;
       }
-    } else {
-      setShowBubble(false);
+    } catch {
+      // Ignore
     }
+
+    const timer = setTimeout(() => setShowBubble(true), BUBBLE_DELAY_MS);
+    return () => clearTimeout(timer);
   }, [pathname, isAdmin, showBubble]);
 
   const closeBubble = useCallback(() => {
     setShowBubble(false);
-    setBubbleClosed(true);
+    bubbleClosedRef.current = true;
     try {
       sessionStorage.setItem(STORAGE_KEY, "true");
     } catch {

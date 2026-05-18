@@ -54,7 +54,6 @@ export function Logo({
   const logoContent = (
     <div className={`flex items-center ${sizes.gap} ${className}`}>
       {/* IMAGEN: Mantiene su proporción sin deformarse */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/assets/isotipo-camaleon.svg"
         className={`${sizes.icon} object-contain shrink-0`}
