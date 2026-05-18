@@ -1,5 +1,6 @@
 "use client";
 
+import { lazy, Suspense } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -18,7 +19,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { HeroSlider } from "@/components/HeroSlider";
 import { SectionTransition } from "@/components/SectionTransition";
 import {
   COMPANY,
@@ -29,6 +29,11 @@ import {
   SOCIAL_LINKS,
   getWhatsAppURL,
 } from "@/constants/data";
+
+// ── Lazy-load HeroSlider (heavy framer-motion + Unsplash images, not critical for initial HTML) ──
+const HeroSlider = lazy(() =>
+  import("@/components/HeroSlider").then((mod) => ({ default: mod.HeroSlider })),
+);
 
 // ── Icon mapper ──
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -393,7 +398,19 @@ function CTASection() {
 export default function HomePage() {
   return (
     <>
-      <HeroSlider />
+      {/* Hero Slider (lazy-loaded for performance) */}
+      <Suspense
+        fallback={
+          <section className="relative w-full h-[100dvh] bg-[#202C40]">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#202C40]/75 via-[#202C40]/45 to-transparent" />
+            <div className="relative z-10 flex items-center justify-center h-full">
+              <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+            </div>
+          </section>
+        }
+      >
+        <HeroSlider />
+      </Suspense>
       {/* Transición: Hero (oscuro) → Services (claro) */}
       <SectionTransition variant="dark-to-light" height={80} />
       <ServicesSection />

@@ -24,6 +24,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Optimize imports for large packages — reduces server bundle size significantly
+  experimental: {
+    optimizePackageImports: [
+      "framer-motion",
+      "lucide-react",
+      "@radix-ui/react-icons",
+      "date-fns",
+      "recharts",
+    ],
+  },
 };
 
 export default nextConfig;

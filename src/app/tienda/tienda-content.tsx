@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import Image from "next/image";
 import {
@@ -19,7 +19,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { SectionTransition } from "@/components/SectionTransition";
-import { ProductModal } from "@/components/ProductModal";
 import {
   ProductGridSkeleton,
   CategoryFilterSkeleton,
@@ -86,6 +85,11 @@ interface CategoryFilter {
   slug?: string;
 }
 
+// ── Lazy-load ProductModal (only needed on click, heavy framer-motion) ──
+const ProductModal = lazy(() =>
+  import("@/components/ProductModal").then((mod) => ({ default: mod.ProductModal })),
+);
+
 // ── Props ──
 interface TiendaContentProps {
   products: SanityProduct[];
@@ -134,7 +138,6 @@ export function TiendaContent({
     };
   }, [isModalOpen]);
 
-  // ── Build category filter list ──
   const categoryFilters: CategoryFilter[] = useMemo(() => {
     // If we have dynamic categories from Sanity, use them
     if (categories.length > 0) {
@@ -555,12 +558,14 @@ export function TiendaContent({
 
       <SectionTransition variant="light-to-dark" height={80} />
 
-      {/* ── Product Modal ── */}
-      <ProductModal
-        product={selectedProduct}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      />
+      {/* ── Product Modal (lazy-loaded, only fetched when opened) ── */}
+      <Suspense fallback={null}>
+        <ProductModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      </Suspense>
     </>
   );
 }

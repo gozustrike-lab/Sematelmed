@@ -5,10 +5,10 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FluidBackground } from "@/components/FluidBackground";
+import { FluidBackground, WhatsAppWidget } from "@/components/LazyLayoutComponents";
 import { SanityLive } from "@/sanity/live";
 import { VisualEditing } from "@/components/VisualEditing";
-import { WhatsAppWidget } from "@/components/WhatsAppWidget";
+
 
 const poppins = Poppins({
   variable: "--font-poppins",
