@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FluidBackground, WhatsAppWidget } from "@/components/LazyLayoutComponents";
+import { ContentProtection } from "@/components/ContentProtection";
 import { SanityLive } from "@/sanity/live";
 import { VisualEditing } from "@/components/VisualEditing";
 
@@ -137,6 +138,8 @@ export default async function RootLayout({
         <SanityLive />
         {/* VisualEditing: overlay de edición inline (SOLO en Draft Mode) */}
         {draft.isEnabled && <VisualEditing />}
+        {/* ContentProtection: bloquea clic derecho, dev tools, copia y arrastre de imágenes */}
+        <ContentProtection />
         {/* WhatsApp Widget: botón flotante independiente del CMS (Fast Page Pro) */}
         <WhatsAppWidget />
       </body>
