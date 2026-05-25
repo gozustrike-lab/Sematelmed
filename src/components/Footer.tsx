@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Phone, MapPin, Mail, Facebook, ExternalLink, MessageCircle, Monitor, Wifi, HeartPulse, Sun } from "lucide-react";
+import { Phone, MapPin, Mail, Facebook, MessageCircle, Monitor, Wifi, HeartPulse, Sun } from "lucide-react";
+import { SOCIAL_LINKS } from "@/constants/data";
 import { Button } from "@/components/ui/button";
 import { COMPANY, SERVICES, getWhatsAppURL } from "@/constants/data";
 import { Logo } from "@/components/ui/Logo";
@@ -28,25 +29,38 @@ export function Footer() {
             {/* Redes sociales */}
             <div className="flex gap-3 mt-5">
               <a
-                href="https://facebook.com/sematelmed"
+                href={SOCIAL_LINKS.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#1dbd6b] flex items-center justify-center transition-colors duration-200"
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#1877F2] flex items-center justify-center transition-colors duration-200"
               >
                 <Facebook className="w-4 h-4" />
               </a>
               <a
-                href="https://tiktok.com/@sematelmed"
+                href={SOCIAL_LINKS.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
-                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF4D00] flex items-center justify-center transition-colors duration-200"
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#ff0050] flex items-center justify-center transition-colors duration-200"
               >
-                <ExternalLink className="w-4 h-4" />
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.7a8.16 8.16 0 0 0 4.77 1.52V6.79a4.85 4.85 0 0 1-1.01-.1z"/>
+                </svg>
               </a>
               <a
-                href={getWhatsAppURL("general")}
+                href={SOCIAL_LINKS.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF0000] flex items-center justify-center transition-colors duration-200"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.504A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.504 9.376.504 9.376.504s7.505 0 9.377-.504a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+              <a
+                href={SOCIAL_LINKS.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"

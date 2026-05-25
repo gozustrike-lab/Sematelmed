@@ -397,5 +397,6 @@ export function getWhatsAppURL(
 export const SOCIAL_LINKS = {
   facebook: "https://facebook.com/sematelmed",
   tiktok: "https://tiktok.com/@sematelmed",
+  youtube: "https://youtube.com/@sematelmed",
   whatsapp: getWhatsAppURL("general"),
 } as const;
