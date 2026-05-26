@@ -117,7 +117,7 @@ function ServicesSection() {
                     <h3 className="text-xl font-extrabold text-brand-dark mb-2">
                       {service.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+                    <p className="text-sm text-muted-foreground mb-5 leading-relaxed text-justify">
                       {service.shortDescription}
                     </p>
                     <ul className="space-y-2">
@@ -199,7 +199,7 @@ function FeaturedProductsSection() {
                   <h3 className="text-base font-bold text-brand-dark mb-2 line-clamp-2 min-h-[2.5rem]">
                     {product.name}
                   </h3>
-                  <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
+                  <p className="text-xs text-muted-foreground mb-4 line-clamp-2 text-justify">
                     {product.description}
                   </p>
                   <div className="flex items-center justify-between mt-auto">
@@ -306,7 +306,7 @@ function ValuesSection() {
                     <h3 className="text-xl font-extrabold text-brand-dark mb-3">
                       {value.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm text-muted-foreground leading-relaxed text-justify">
                       {value.description}
                     </p>
                   </div>

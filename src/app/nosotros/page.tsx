@@ -102,7 +102,7 @@ function MissionVisionSection() {
                 <h2 className="text-2xl md:text-3xl font-extrabold text-brand-dark mb-4">
                   Nuestra Misión
                 </h2>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                <p className="text-muted-foreground leading-relaxed text-sm md:text-base text-justify">
                   {MISSION}
                 </p>
               </CardContent>
@@ -120,7 +120,7 @@ function MissionVisionSection() {
                 <h2 className="text-2xl md:text-3xl font-extrabold text-brand-dark mb-4">
                   Nuestra Visión
                 </h2>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                <p className="text-muted-foreground leading-relaxed text-sm md:text-base text-justify">
                   {VISION}
                 </p>
               </CardContent>
@@ -200,7 +200,7 @@ function HistorySection() {
                     <h3 className="text-lg font-extrabold text-brand-dark mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm text-muted-foreground leading-relaxed text-justify">
                       {item.text}
                     </p>
                   </CardContent>
@@ -248,7 +248,7 @@ function ValuesRecapSection() {
                 <CheckCircle2 className="w-5 h-5 text-brand-blue shrink-0 mt-0.5" />
                 <div>
                   <h3 className="text-sm font-bold text-brand-dark mb-1">{value.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{value.description}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed text-justify">{value.description}</p>
                 </div>
               </div>
             </motion.div>

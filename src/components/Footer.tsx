@@ -21,7 +21,7 @@ export function Footer() {
           {/* ── Columna 1: Marca + Logo ── */}
           <div>
             <Logo variant="footer" />
-            <p className="text-sm text-white/60 leading-relaxed mt-2">
+            <p className="text-sm text-white/60 leading-relaxed mt-2 text-justify">
               Compromiso y vanguardia al servicio de Ilo. Más de una década llevando
               tecnología de calidad a hogares, consultorios y empresas del sur del Perú.
             </p>

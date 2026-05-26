@@ -312,9 +312,11 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                   <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
                     Descripción
                   </h4>
-                  <p className="text-sm text-brand-dark/80 leading-relaxed">
-                    {plainText(product.description)}
-                  </p>
+                  <div className="product-description">
+                    <p className="text-sm text-brand-dark/80 leading-relaxed text-justify">
+                      {plainText(product.description)}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Specs */}

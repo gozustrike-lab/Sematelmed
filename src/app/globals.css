@@ -246,6 +246,29 @@
   .animate-mesh-orb-4 { animation: none; }
 }
 
+/* ── Text-justify automático para contenido CMS y descripciones de productos ── */
+.cms-content p,
+.product-description p,
+.wysiwyg-content p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/*
+  Clase utilitaria global: agregarla a cualquier contenedor que renderice
+  texto dinámico del CMS, catálogo de productos o bloques de contenido
+  administrable para que sus párrafos se autojustifiquen.
+*/
+.text-justify-auto p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.text-justify-auto {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 /* ── Scrollbar personalizado ── */
 ::-webkit-scrollbar {
   width: 6px;

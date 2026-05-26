@@ -477,7 +477,7 @@ export function TiendaContent({
                           <h3 className="text-base font-bold text-brand-dark mb-2 line-clamp-2 min-h-[2.5rem]">
                             {product.name}
                           </h3>
-                          <p className="text-xs text-muted-foreground mb-4 line-clamp-2 flex-1">
+                          <p className="text-xs text-muted-foreground mb-4 line-clamp-2 flex-1 text-justify">
                             {plainText(product.description)}
                           </p>
 
