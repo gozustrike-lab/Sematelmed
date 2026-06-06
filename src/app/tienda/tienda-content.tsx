@@ -206,7 +206,7 @@ export function TiendaContent({
   return (
     <>
       {/* ── Header (oscuro) ── */}
-      <section className="relative bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark pt-20 md:pt-28 pb-12 md:pb-24 overflow-hidden">
+      <section id="tienda-header" data-scroll-spy className="relative bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark pt-20 md:pt-28 pb-12 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 right-20 w-64 h-64 bg-brand-blue rounded-full blur-[120px]" />
           <div className="absolute bottom-10 left-20 w-80 h-80 bg-brand-orange rounded-full blur-[150px]" />
@@ -249,7 +249,7 @@ export function TiendaContent({
       <SectionTransition variant="dark-to-light" height={80} />
 
       {/* ── Filters + Products ── */}
-      <section className="py-12 md:py-16">
+      <section id="catalogo-productos" data-scroll-spy className="py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search + Filter toggle */}
           {isLoading ? (

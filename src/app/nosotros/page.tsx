@@ -43,7 +43,7 @@ const stagger = {
 // ── HEADER ──
 function PageHeader() {
   return (
-    <section className="relative bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark pt-20 md:pt-28 pb-12 md:pb-24 overflow-hidden">
+    <section id="nosotros-header" data-scroll-spy className="relative bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark pt-20 md:pt-28 pb-12 md:pb-24 overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-10 right-20 w-64 h-64 bg-brand-blue rounded-full blur-[120px]" />
         <div className="absolute bottom-10 left-20 w-80 h-80 bg-brand-orange rounded-full blur-[150px]" />
@@ -82,7 +82,7 @@ function PageHeader() {
 // ── MISSION & VISION ──
 function MissionVisionSection() {
   return (
-    <section className="py-10 md:py-24">
+    <section id="mision-vision" data-scroll-spy className="py-10 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -135,7 +135,7 @@ function MissionVisionSection() {
 // ── HISTORY TIMELINE ──
 function HistorySection() {
   return (
-    <section className="py-10 md:py-24">
+    <section id="historia" data-scroll-spy className="py-10 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -217,7 +217,7 @@ function HistorySection() {
 // ── VALUES RECAP ──
 function ValuesRecapSection() {
   return (
-    <section className="py-10 md:py-24">
+    <section id="nuestros-valores-nosotros" data-scroll-spy className="py-10 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -262,7 +262,7 @@ function ValuesRecapSection() {
 // ── CONTACT ──
 function ContactSection() {
   return (
-    <section className="py-10 md:py-24 bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark relative overflow-hidden">
+    <section id="contacto-nosotros" data-scroll-spy className="py-10 md:py-24 bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-10 right-20 w-64 h-64 bg-brand-blue rounded-full blur-[120px]" />
         <div className="absolute bottom-10 left-20 w-80 h-80 bg-brand-orange rounded-full blur-[150px]" />

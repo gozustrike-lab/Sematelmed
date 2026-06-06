@@ -269,6 +269,11 @@
   text-justify: inter-word;
 }
 
+/* ── Scroll Spy: offset for fixed navbar when scrolling to hash targets ── */
+[data-scroll-spy] {
+  scroll-margin-top: 80px;
+}
+
 /* ── Scrollbar personalizado ── */
 ::-webkit-scrollbar {
   width: 6px;

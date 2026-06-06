@@ -148,6 +148,8 @@ export function HeroSlider() {
 
   return (
     <section
+      id="hero"
+      data-scroll-spy
       className="relative w-full h-[100dvh] overflow-hidden select-none"
       style={{ isolation: "isolate" }}
     >

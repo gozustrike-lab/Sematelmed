@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FluidBackground, WhatsAppWidget } from "@/components/LazyLayoutComponents";
+import { ScrollSpyProvider } from "@/components/ScrollSpyProvider";
 import { ContentProtection } from "@/components/ContentProtection";
 import { SanityLive } from "@/sanity/live";
 import { VisualEditing } from "@/components/VisualEditing";
@@ -131,7 +132,7 @@ export default async function RootLayout({
       >
         <FluidBackground />
         <Navbar />
-        <main className="flex-1 overflow-x-hidden">{children}</main>
+        <main className="flex-1 overflow-x-hidden"><ScrollSpyProvider>{children}</ScrollSpyProvider></main>
         <Footer />
         <Toaster />
         {/* SanityLive: revalidación en tiempo real (siempre activo) */}

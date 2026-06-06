@@ -64,7 +64,7 @@ const stagger = {
 // ── SERVICES ──
 function ServicesSection() {
   return (
-    <section id="seccion-servicios" className="py-10 md:py-28">
+    <section id="seccion-servicios" data-scroll-spy className="py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -151,7 +151,7 @@ function FeaturedProductsSection() {
   const featured = PRODUCTS.filter((p) => p.featured).slice(0, 4);
 
   return (
-    <section className="py-10 md:py-28">
+    <section id="productos-destacados" data-scroll-spy className="py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -252,7 +252,7 @@ function FeaturedProductsSection() {
 // ── VALUES ──
 function ValuesSection() {
   return (
-    <section className="py-10 md:py-28">
+    <section id="nuestros-valores" data-scroll-spy className="py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -323,7 +323,7 @@ function ValuesSection() {
 // ── CTA SECTION ──
 function CTASection() {
   return (
-    <section className="py-10 md:py-28 bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark relative overflow-hidden">
+    <section id="contacto-cta" data-scroll-spy className="py-10 md:py-28 bg-gradient-to-br from-brand-dark via-brand-dark-light to-brand-dark relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-10 right-20 w-64 h-64 bg-brand-blue rounded-full blur-[120px]" />
@@ -401,7 +401,7 @@ export default function HomePage() {
       {/* Hero Slider (lazy-loaded for performance) */}
       <Suspense
         fallback={
-          <section className="relative w-full h-[100dvh] bg-[#202C40]">
+          <section id="hero" data-scroll-spy className="relative w-full h-[100dvh] bg-[#202C40]">
             <div className="absolute inset-0 bg-gradient-to-r from-[#202C40]/75 via-[#202C40]/45 to-transparent" />
             <div className="relative z-10 flex items-center justify-center h-full">
               <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
